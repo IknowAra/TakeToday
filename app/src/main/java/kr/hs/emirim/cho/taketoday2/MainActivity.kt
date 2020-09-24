@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent=Intent(this, Setting::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
                 startActivity(intent)
             }
+            R.id.ask-> {
+                intent=Intent(this, Ask::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+                startActivity(intent)
+            }
         }
         //drawer_layout.closeDrawers()
         return false
