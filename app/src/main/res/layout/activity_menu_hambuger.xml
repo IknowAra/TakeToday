@@ -43,6 +43,15 @@
             android:textSize="20dp"
             android:text="설정"/>
 
+        <TextView
+            android:id="@+id/ask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:textSize="20dp"
+            android:text="문의하기"/>
+
     </LinearLayout>
 
 </LinearLayout>
