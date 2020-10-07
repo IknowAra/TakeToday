@@ -20,10 +20,13 @@
             android:orientation="vertical">
 
             <Button
-                android:layout_width="100dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="10dp"
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/icon_back"
                 android:layout_marginTop="10dp"></Button>
+
 
             <TextView
                 android:id="@+id/text1"
