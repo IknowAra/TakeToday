@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Gallery
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.GravityCompat
@@ -20,6 +21,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         btn_open.setOnClickListener{
             drawer_layout.openDrawer(GravityCompat.END)
         }
+
+        btn_sky.setOnClickListener{
+            val intent=Intent(this, galleryActivity::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+            startActivity(intent)
+        }
+
         naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
     }
 

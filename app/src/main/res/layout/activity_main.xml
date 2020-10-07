@@ -76,7 +76,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="220dp"
-                    android:id="@+id/button_4"
+                    android:id="@+id/btn_sky"
                     android:layout_weight="1"
                     android:text="하늘" />
             </LinearLayout>
