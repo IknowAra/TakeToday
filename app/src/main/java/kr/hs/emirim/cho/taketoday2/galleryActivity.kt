@@ -36,12 +36,12 @@ class galleryActivity : AppCompatActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setView(dialogView,0,0,0,0)
         alertDialog.show()
-        val windowParam = WindowManager.LayoutParams()
-        windowParam.copyFrom(alertDialog.window!!.attributes)
-        windowParam.width = WindowManager.LayoutParams.WRAP_CONTENT
-        windowParam.height = WindowManager.LayoutParams.WRAP_CONTENT
-        windowParam.gravity = Gravity.CENTER
-        alertDialog.window!!.attributes = windowParam
+//        val windowParam = WindowManager.LayoutParams()
+//        windowParam.copyFrom(alertDialog.window!!.attributes)
+//        windowParam.width =
+//        windowParam.height = WindowManager.LayoutParams.WRAP_CONTENT
+//        windowParam.gravity = Gravity.CENTER
+//        alertDialog.window!!.attributes = windowParam
 
 
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
