@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "654169808080-tnq1i59rjfmmn4judrbj5v72utfm1d3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.hs.emirim.cho.taketoday2",
+            "certificate_hash": "74b55e31456d37c7947474d4917c07c4dd543061"
+          }
+        },
+        {
           "client_id": "654169808080-4gdsujj2lrei6r3u36k815ro543vov6a.apps.googleusercontent.com",
           "client_type": 3
         }

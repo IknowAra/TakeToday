@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Popup_post"></activity>
-        <activity android:name=".Dialog" />
+
         <activity android:name=".galleryActivity" />
         <activity android:name=".Ask" />
         <activity android:name=".Category" />
         <activity android:name=".Setting" />
         <activity android:name=".Finished" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
