@@ -38,7 +38,7 @@
         android:textSize="20dp"/>
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/set_image"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_marginLeft="20dp"
