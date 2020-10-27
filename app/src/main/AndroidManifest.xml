@@ -33,7 +33,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="kr.hs.emirim.cho.taketoday2.provider"
+            android:authorities="kr.hs.emirim.cho.taketoday2.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
