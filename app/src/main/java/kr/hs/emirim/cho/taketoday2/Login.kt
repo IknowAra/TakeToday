@@ -2,67 +2,67 @@ package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuthMultiFactorException
-
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class Login : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private var inputEmail: String = ""
-    private var inputPass: String = ""
+
+    var db: FirebaseFirestore? = null
+    private var mAuth: FirebaseAuth? = null
+    private var currentUser: FirebaseUser? = null
+    private var user_email: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        auth = FirebaseAuth.getInstance()
-        inputEmail = email.text.toString()
-        inputPass = pass.text.toString()
-        val btn_login = findViewById<View>(R.id.signUp) as Button
-
-        btn_login.setOnClickListener{
-            auth.signInWithEmailAndPassword(inputEmail, inputPass)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-//                        Log.d(TAG, "signInWithEmail:success")
-//                        val user = userdata.currentUser
-//                        updateUI(user)
-                            val intent= Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            // If sign in fails, display a message to the user.
-//                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
-//                        updateUI(null)
-                            // ...
-                        }
-
-                        // ...
-                    }
+        mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val user= mAuth!!.currentUser
+        user?.let{
+            user_email = user.email
         }
 
+        login_btn.setOnClickListener(View.OnClickListener {
+            val loginEmail: String = login_email.getText().toString()
+            val loginPass: String = login_password.getText().toString()
+            if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
+                login_progress.setVisibility(View.VISIBLE)
+                mAuth!!.signInWithEmailAndPassword(loginEmail, loginPass)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "로그인 성공 :"+ user_email,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                        } else {
+                            val errorMessage = task.exception!!.message
+                            Toast.makeText(
+                                this,
+                                "error : $errorMessage",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        login_progress.setVisibility(View.INVISIBLE)
+                    }
+            }
+        })
 
-
-
-
-    }
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        updateUI(currentUser)
+        login_reg.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    SignUp::class.java
+                )
+            )
+        })
     }
 }
-
