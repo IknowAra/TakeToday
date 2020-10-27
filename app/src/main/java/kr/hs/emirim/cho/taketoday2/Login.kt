@@ -25,7 +25,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-//        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
         inputEmail = email.text.toString()
         inputPass = pass.text.toString()
         val btn_login = findViewById<View>(R.id.signUp) as Button

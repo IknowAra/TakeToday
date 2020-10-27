@@ -1,6 +1,7 @@
 package kr.hs.emirim.cho.taketoday2
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_gallery.*
+import kotlinx.android.synthetic.main.activity_popup_post.*
 
 class galleryActivity : AppCompatActivity() {
 
@@ -28,9 +30,14 @@ class galleryActivity : AppCompatActivity() {
             var dialog=Popup_post()
 
             dialog.show(supportFragmentManager, "customDialog")
-
+            image.setOnClickListener {
+                val intent= Intent(this, Upload::class.java)
+                startActivity(intent)
+            }
 //            onResume();
         }
+
+
     }
 
 //    private fun showPopup(){
