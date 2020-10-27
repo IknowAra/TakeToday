@@ -21,6 +21,7 @@
         <activity android:name=".Category" />
         <activity android:name=".Setting" />
         <activity android:name=".Finished" />
+        <activity android:name=".Upload"/>
         <activity android:name=".Login"/>
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -32,7 +33,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="kr.hs.emirim.cho.taketoday2.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
