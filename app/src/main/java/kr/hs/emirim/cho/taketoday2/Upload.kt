@@ -14,28 +14,46 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_popup_post.*
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.File
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.jar.Manifest
 
 
 class Upload : AppCompatActivity() {
     val REQUEST_GALLERY_TAKE = 2
     val REQUEST_IMAGE_CAPTURE = 1
-    lateinit var currentPhotoPath : String
+    private var currentPhotoPath : String=""
     val REQUEST_IMAGE_PICK = 10
+    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var storageReference: StorageReference
+    private var user_id:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
+
+        mAuth = FirebaseAuth.getInstance()
+        val user= mAuth.currentUser
+        storageReference=FirebaseStorage.getInstance().reference
 
         imageUp.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -45,9 +63,45 @@ class Upload : AppCompatActivity() {
             builder.setNegativeButton("카메라로 찍기",{dialog: DialogInterface?, which: Int -> if(checkPersmission()){ dispatchTakePictureIntent() }else{ requestPermission() } })
             builder.setPositiveButton("사진 업로드하기",{dialog: DialogInterface?, which: Int -> if(checkPersmission()){ openGalleryForImage() }else{ requestPermission() } })
             builder.show()
+        }
 
+        setup_btn.setOnClickListener {
+            Toast.makeText(this, "file : "+File(currentPhotoPath), Toast.LENGTH_LONG).show()
+
+            var contents:String=setup_content.text.toString()
+            if(!TextUtils.isEmpty(contents) && currentPhotoPath!=null){
+                user?.let {
+                    user_id=user.uid
+                }
+                var image_path=storageReference.child("images").child(user_id+".jpg")
+                val file = Uri.fromFile(File(currentPhotoPath))
+                image_path.putFile(file).addOnCompleteListener {
+                    task ->
+                    if(task.isSuccessful){
+                        val downloadUri=task.result
+                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+                    }else{
+                        var error: Exception? =task.exception
+                        Toast.makeText(this, "Error : "+error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
     }
+
+//    private fun setUpPermission() {
+//        val permission=ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+//
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+//            if(permission!=PackageManager.PERMISSION_GRANTED){
+//                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+//                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+//            }else{
+//                Toast.makeText(this, "You already have permission", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
+
     //권한 요청
     private fun requestPermission() {
         ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE, CAMERA),
@@ -152,7 +206,5 @@ class Upload : AppCompatActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
     }
-
-
 
 }
