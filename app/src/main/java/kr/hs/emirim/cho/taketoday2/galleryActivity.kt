@@ -26,14 +26,16 @@ class galleryActivity : AppCompatActivity() {
             finish();
         }
 
+        todays.setOnClickListener {
+            val intent= Intent(this, Upload::class.java)
+            startActivity(intent)
+        }
+        
         btn_1.setOnClickListener{
             var dialog=Popup_post()
 
             dialog.show(supportFragmentManager, "customDialog")
-            image.setOnClickListener {
-                val intent= Intent(this, Upload::class.java)
-                startActivity(intent)
-            }
+
 //            onResume();
         }
 

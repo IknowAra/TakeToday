@@ -10,9 +10,10 @@
         android:id="@+id/btn_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
+
         android:layout_marginTop="10dp"
-        android:layout_marginRight="170dp"
-        android:background="@drawable/icon_back"/>
+
+        android:background="@drawable/icon_back"></Button>
 
     <TextView
         android:layout_width="match_parent"
@@ -24,8 +25,10 @@
         android:autoSizeTextType="uniform"
         />
     <ImageView
+        android:id="@+id/imageUp"
         android:layout_width="250dp"
         android:layout_height="250dp"
+        android:scaleType="centerCrop"
         android:background="@drawable/ic_launcher_background"/>
 
     <EditText
