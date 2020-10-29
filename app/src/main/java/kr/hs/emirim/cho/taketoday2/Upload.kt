@@ -2,12 +2,14 @@ package kr.hs.emirim.cho.taketoday2
 
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.R.attr
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -17,28 +19,20 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.activity_popup_post.*
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.jar.Manifest
-import kotlin.collections.HashMap
 
 
 class Upload : AppCompatActivity() {
@@ -53,6 +47,7 @@ class Upload : AppCompatActivity() {
     private lateinit var storageReference: StorageReference
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var user_id:String
+    private var tempFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -217,7 +212,31 @@ class Upload : AppCompatActivity() {
             }
             2 -> {
                 if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_GALLERY_TAKE){
-                    imageUp.setImageURI(data?.data) // handle chosen image
+                    //imageUp.setImageURI(data?.data) // handle chosen image
+                    val photoUri = data!!.data
+                    var cursor: Cursor? = null
+
+                    try{
+                        val proj =
+                            arrayOf(MediaStore.Images.Media.DATA)
+
+                        assert(photoUri != null)
+                        cursor = contentResolver.query(photoUri!!, proj, null, null, null)
+
+                        assert(cursor != null)
+                        val column_index =
+                            cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+
+                        cursor.moveToFirst()
+
+                        tempFile = File(cursor.getString(column_index))
+                    }finally{
+                        if (cursor != null) {
+                            cursor.close();
+                        }
+                    }
+                    //setImage();
+
                 }
 
             }
@@ -228,6 +247,12 @@ class Upload : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
+    }
+
+    private fun setImage() {
+        val options: BitmapFactory.Options = BitmapFactory.Options()
+        val originalBm: Bitmap = BitmapFactory.decodeFile(tempFile!!.absolutePath, options)
+        imageUp.setImageBitmap(originalBm)
     }
 
 }
