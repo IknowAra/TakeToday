@@ -25,6 +25,8 @@ import androidx.core.content.FileProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -36,24 +38,28 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.jar.Manifest
+import kotlin.collections.HashMap
 
 
 class Upload : AppCompatActivity() {
     val REQUEST_GALLERY_TAKE = 2
     val REQUEST_IMAGE_CAPTURE = 1
+    private var photoURI: Uri=Uri.EMPTY
     private var currentPhotoPath : String=""
     val REQUEST_IMAGE_PICK = 10
-    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
-    private var user_id:String = ""
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var user_id:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
 
         mAuth = FirebaseAuth.getInstance()
-        val user= mAuth.currentUser
         storageReference=FirebaseStorage.getInstance().reference
+        firebaseFirestore= FirebaseFirestore.getInstance()
+        user_id= mAuth.currentUser!!.uid
 
         imageUp.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -66,20 +72,31 @@ class Upload : AppCompatActivity() {
         }
 
         setup_btn.setOnClickListener {
-            Toast.makeText(this, "file : "+File(currentPhotoPath), Toast.LENGTH_LONG).show()
-
+            Toast.makeText(this, "file : "+photoURI, Toast.LENGTH_LONG).show()
             var contents:String=setup_content.text.toString()
-            if(!TextUtils.isEmpty(contents) && currentPhotoPath!=null){
-                user?.let {
-                    user_id=user.uid
-                }
-                var image_path=storageReference.child("images").child(user_id+".jpg")
-                val file = Uri.fromFile(File(currentPhotoPath))
-                image_path.putFile(file).addOnCompleteListener {
+            if(!TextUtils.isEmpty(contents) && photoURI!=null){
+                var randomName:String=FieldValue.serverTimestamp().toString()
+                var image_path: StorageReference=storageReference.child("images").child(randomName+".jpg")
+                image_path.putFile(photoURI).addOnCompleteListener {
                     task ->
                     if(task.isSuccessful){
-                        val downloadUri=task.result
-                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+                        val downloadUri:String=task.result.toString()
+                        val postMap= hashMapOf<String, String>()
+                        postMap.put("image_url", downloadUri)
+                        postMap.put("content",contents)
+                        postMap.put("user_id",user_id)
+                        postMap.put("timestamp", FieldValue.serverTimestamp().toString())
+
+                        firebaseFirestore.collection("Posts").add(postMap).addOnCompleteListener {
+                            task ->
+                            if(task.isSuccessful){
+                                Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+                                //startActivity(Intent(this, galleryActivity::class.java))
+                            }else{
+
+                            }
+                        }
+
                     }else{
                         var error: Exception? =task.exception
                         Toast.makeText(this, "Error : "+error, Toast.LENGTH_LONG).show()
@@ -143,7 +160,7 @@ class Upload : AppCompatActivity() {
 
                 // 그림파일을 성공적으로 만들었다면 onActivityForResult로 보내기
                 photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
+                    photoURI= FileProvider.getUriForFile(
                             this, "kr.hs.emirim.cho.taketoday2.fileprovider", it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -206,5 +223,9 @@ class Upload : AppCompatActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
     }
+
+}
+
+private fun <K, V> Map<K, V>.put(key: K, value: K) {
 
 }
