@@ -46,6 +46,8 @@ class Upload : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
     private var photoURI: Uri=Uri.EMPTY
     private var currentPhotoPath : String=""
+    private var timeStamp: String=""
+    private var hashTagTitle: String=""
     val REQUEST_IMAGE_PICK = 10
     private lateinit var mAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
@@ -73,6 +75,8 @@ class Upload : AppCompatActivity() {
 
         setup_btn.setOnClickListener {
             Toast.makeText(this, "file : "+photoURI, Toast.LENGTH_LONG).show()
+            LodingDialog(this).show()
+            var hashTagTitle:String=hashTag.text.toString()
             var contents:String=setup_content.text.toString()
             if(!TextUtils.isEmpty(contents) && photoURI!=null){
                 var randomName:String=FieldValue.serverTimestamp().toString()
@@ -85,15 +89,17 @@ class Upload : AppCompatActivity() {
                         postMap.put("image_url", downloadUri)
                         postMap.put("content",contents)
                         postMap.put("user_id",user_id)
-                        postMap.put("timestamp", FieldValue.serverTimestamp().toString())
+                        postMap.put("hashTag",hashTagTitle)
+                        postMap.put("timestamp", timeStamp)
 
                         firebaseFirestore.collection("Posts").add(postMap).addOnCompleteListener {
                             task ->
                             if(task.isSuccessful){
                                 Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-                                //startActivity(Intent(this, galleryActivity::class.java))
+                                startActivity(Intent(this, galleryActivity::class.java))
+                                finish()
                             }else{
-
+                                Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
                             }
                         }
 
@@ -175,7 +181,7 @@ class Upload : AppCompatActivity() {
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        timeStamp= SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
