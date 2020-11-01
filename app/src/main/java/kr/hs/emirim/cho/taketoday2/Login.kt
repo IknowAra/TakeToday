@@ -17,7 +17,7 @@ class Login : AppCompatActivity() {
     var db: FirebaseFirestore? = null
     private var mAuth: FirebaseAuth? = null
     private var currentUser: FirebaseUser? = null
-    private var user_email: String? = null
+    private var user_email: String?=null
     private var user_id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class Login : AppCompatActivity() {
         currentUser= mAuth!!.currentUser
         val user = mAuth!!.currentUser
         user?.let {
-            user_email = user.email
+            user_email = user.email.toString()
         }
 
         login_btn.setOnClickListener(View.OnClickListener {
