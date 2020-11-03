@@ -48,10 +48,15 @@ class UserSetActivity : AppCompatActivity() {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val user = User(user_name, user_tele)
+
         val userMap: MutableMap<String, String> = HashMap()
         userMap["email"] = user_email.toString()
         userMap["name"] = user.getName()
         userMap["tele"] = user.getTele()
+        val arrMap: MutableMap<String, Array<String>> = HashMap()
+        arrMap["current"] = arrayOf()
+        arrMap["finish"] = arrayOf()
+
         Toast.makeText(this, user_id.toString(), Toast.LENGTH_SHORT).show()
         db.collection("Users").document(user_id.toString()).set(userMap)
             .addOnCompleteListener(OnCompleteListener<Void?> { task ->
@@ -69,5 +74,25 @@ class UserSetActivity : AppCompatActivity() {
                     Log.d("에러 : ", error!!)
                 }
             })
+        db.collection("Users").document(user_id.toString()).set(arrMap)
+                .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
+                                .show()
+                        startActivity(Intent(this, Login::class.java))
+                    } else {
+                        val error = task.exception!!.message
+                        Toast.makeText(
+                                this,
+                                "Firestore Error : $error",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("에러 : ", error!!)
+                    }
+                })
         }
+
+
+
+
 }
