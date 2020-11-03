@@ -19,6 +19,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,6 +33,9 @@ import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -49,6 +53,7 @@ class Upload : AppCompatActivity() {
     private lateinit var user_id: String
     private var tempFile: Uri? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
@@ -86,13 +91,16 @@ class Upload : AppCompatActivity() {
                 })
             builder.show()
         }
-
+        var current = LocalDateTime.now()
+        var formatter = DateTimeFormatter.ISO_DATE
         setup_btn.setOnClickListener {
             LodingDialog(this).show()
             hashTagTitle=Cate.hashtag
+
             var contents: String = setup_content.text.toString()
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
-                Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
+                timeStamp = current.format(formatter)
+                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -124,7 +132,9 @@ class Upload : AppCompatActivity() {
                     }
                 }
             } else if (!TextUtils.isEmpty(contents) && tempFile != null) {
-                Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
+                timeStamp = current.format(formatter)
+                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -308,6 +318,7 @@ class Upload : AppCompatActivity() {
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
+        //timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
     }
 
@@ -317,8 +328,5 @@ class Upload : AppCompatActivity() {
 //        imageUp.setImageBitmap(originalBm)
 //
 //    }
-
-}
-private fun <K, V> Map<K, V>.put(key: K, value: K) {
 
 }
