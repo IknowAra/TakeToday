@@ -1,5 +1,6 @@
 package kr.hs.emirim.cho.taketoday2
 
+import android.Manifest
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
@@ -11,6 +12,9 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.location.Address
+import android.location.Geocoder
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -29,6 +33,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.File
 import java.io.IOException
@@ -52,6 +57,7 @@ class Upload : AppCompatActivity() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var user_id: String
     private var tempFile: Uri? = null
+    private var locationManager : LocationManager? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +69,36 @@ class Upload : AppCompatActivity() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
         hashTag.text=Cate.hashtag
+
+        //위치
+        val geocoder = Geocoder(this)
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+        } else {
+            val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
+            var adre = list?.get(0)?.getAddressLine(0)
+            var arr = adre?.split(" ")
+            loca.text = ("" + (arr?.get(2)))
+        }
+
+        loca.setOnClickListener{
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            } else {
+                val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
+                var adre = list?.get(0)?.getAddressLine(0)
+                var arr = adre?.split(" ")
+                loca.text = ("" + (arr?.get(2)))
+            }
+        }
+        //위치
+
+
 
         btn_back.setOnClickListener{
             finish()
@@ -91,16 +127,15 @@ class Upload : AppCompatActivity() {
                 })
             builder.show()
         }
-        var current = LocalDateTime.now()
-        var formatter = DateTimeFormatter.ISO_DATE
+
         setup_btn.setOnClickListener {
             LodingDialog(this).show()
             hashTagTitle=Cate.hashtag
-
+            var ran = IntRange(1,hashTagTitle.length-1)
+            hashTagTitle = hashTagTitle.slice(ran)
             var contents: String = setup_content.text.toString()
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
-                timeStamp = current.format(formatter)
-                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -132,9 +167,7 @@ class Upload : AppCompatActivity() {
                     }
                 }
             } else if (!TextUtils.isEmpty(contents) && tempFile != null) {
-                //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
-                timeStamp = current.format(formatter)
-                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -318,7 +351,6 @@ class Upload : AppCompatActivity() {
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        //timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
     }
 
@@ -328,5 +360,8 @@ class Upload : AppCompatActivity() {
 //        imageUp.setImageBitmap(originalBm)
 //
 //    }
+
+}
+private fun <K, V> Map<K, V>.put(key: K, value: K) {
 
 }
