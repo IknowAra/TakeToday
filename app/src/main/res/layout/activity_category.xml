@@ -69,14 +69,14 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 1" />
+                        android:text="하늘" />
 
                     <Button
                         android:id="@+id/button3"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 2" />
+                        android:text="공부" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,14 +91,14 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 1" />
+                        android:text="코로나" />
 
                     <Button
                         android:id="@+id/button5"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 2" />
+                        android:text="음식" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -113,14 +113,14 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 1" />
+                        android:text="미션" />
 
                     <Button
                         android:id="@+id/button7"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 2" />
+                        android:text="책" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -135,14 +135,14 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 1" />
+                        android:text="나" />
 
                     <Button
                         android:id="@+id/button9"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="Button 2" />
+                        android:text="더 많은 주제" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
