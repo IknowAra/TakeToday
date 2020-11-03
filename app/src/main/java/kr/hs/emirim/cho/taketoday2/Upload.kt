@@ -61,6 +61,12 @@ class Upload : AppCompatActivity() {
         firebaseFirestore= FirebaseFirestore.getInstance()
         user_id= mAuth.currentUser!!.uid
 
+        btn_back.setOnClickListener{
+            val intent= Intent(this, galleryActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         imageUp.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("당신의 하루를 찍어주세요")

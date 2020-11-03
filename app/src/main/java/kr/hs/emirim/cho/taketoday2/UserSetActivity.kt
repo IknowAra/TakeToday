@@ -48,8 +48,7 @@ class UserSetActivity : AppCompatActivity() {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val user = User(user_name, user_tele)
-        val userMap: MutableMap<String, String> =
-            HashMap()
+        val userMap: MutableMap<String, String> = HashMap()
         userMap["email"] = user_email.toString()
         userMap["name"] = user.getName()
         userMap["tele"] = user.getTele()
