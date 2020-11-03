@@ -154,7 +154,7 @@ class Upload : AppCompatActivity() {
                         postMap.put("timestamp", timeStamp)
                         postMap.put("location", currentLoca)
 
-                        firebaseFirestore.collection("Posts").add(postMap)
+                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG)
@@ -189,7 +189,7 @@ class Upload : AppCompatActivity() {
                         postMap.put("timestamp", timeStamp)
                         postMap.put("location", currentLoca)
 
-                        firebaseFirestore.collection("Posts").add(postMap)
+                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(
