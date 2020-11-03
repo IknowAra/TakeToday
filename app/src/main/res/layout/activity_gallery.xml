@@ -46,12 +46,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/todays"
+            android:id="@+id/todays_tag"
             android:layout_width="match_parent"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_height="30dp"
-            android:text="오늘의 주제 : 달"
+            android:text="오늘의 주제 : "
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"/>
         <LinearLayout

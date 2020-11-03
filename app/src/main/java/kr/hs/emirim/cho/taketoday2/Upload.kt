@@ -57,6 +57,11 @@ class Upload : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
+        hashTag.text=Cate.hashtag
+
+        btn_back.setOnClickListener{
+            finish()
+        }
 
         imageUp.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -84,7 +89,7 @@ class Upload : AppCompatActivity() {
 
         setup_btn.setOnClickListener {
             LodingDialog(this).show()
-            var hashTagTitle: String = hashTag.text.toString()
+            hashTagTitle=Cate.hashtag
             var contents: String = setup_content.text.toString()
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
                 Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
