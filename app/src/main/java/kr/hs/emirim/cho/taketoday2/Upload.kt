@@ -181,6 +181,7 @@ class Upload : AppCompatActivity() {
                         postMap.put("user_id", user_id)
                         postMap.put("hashTag", hashTagTitle[])
                         postMap.put("timestamp", timeStamp)
+                        postMap.put("location", )
 
                         firebaseFirestore.collection("Posts").add(postMap)
                             .addOnCompleteListener { task ->
