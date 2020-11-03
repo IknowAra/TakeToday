@@ -51,6 +51,7 @@ class Upload : AppCompatActivity() {
     private var currentPhotoPath: String = ""
     private var timeStamp: String = ""
     private var hashTagTitle: String = ""
+    private var currentLoca: String = ""
     val REQUEST_IMAGE_PICK = 10
     private lateinit var mAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
@@ -76,12 +77,14 @@ class Upload : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            startActivity(Intent(this, Upload::class.java))
         } else {
             val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
             var adre = list?.get(0)?.getAddressLine(0)
             var arr = adre?.split(" ")
             loca.text = ("" + (arr?.get(2)))
+            currentLoca = ("" + (arr?.get(2)))
         }
 
         loca.setOnClickListener{
@@ -94,11 +97,10 @@ class Upload : AppCompatActivity() {
                 var adre = list?.get(0)?.getAddressLine(0)
                 var arr = adre?.split(" ")
                 loca.text = ("" + (arr?.get(2)))
+                currentLoca = ("" + (arr?.get(2)))
             }
         }
         //위치
-
-
 
         btn_back.setOnClickListener{
             finish()
@@ -127,7 +129,8 @@ class Upload : AppCompatActivity() {
                 })
             builder.show()
         }
-
+        var current = LocalDateTime.now()
+        var formatter = DateTimeFormatter.ISO_DATE
         setup_btn.setOnClickListener {
             LodingDialog(this).show()
             hashTagTitle=Cate.hashtag
@@ -135,7 +138,9 @@ class Upload : AppCompatActivity() {
             hashTagTitle = hashTagTitle.slice(ran)
             var contents: String = setup_content.text.toString()
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
-                Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
+                timeStamp = current.format(formatter)
+                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -148,6 +153,7 @@ class Upload : AppCompatActivity() {
                         postMap.put("user_id", user_id)
                         postMap.put("hashTag", hashTagTitle)
                         postMap.put("timestamp", timeStamp)
+                        postMap.put("location", currentLoca)
 
                         firebaseFirestore.collection("Posts").add(postMap)
                             .addOnCompleteListener { task ->
@@ -167,7 +173,9 @@ class Upload : AppCompatActivity() {
                     }
                 }
             } else if (!TextUtils.isEmpty(contents) && tempFile != null) {
-                Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
+                timeStamp = current.format(formatter)
+                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(randomName + ".jpg")
@@ -180,6 +188,7 @@ class Upload : AppCompatActivity() {
                         postMap.put("user_id", user_id)
                         postMap.put("hashTag", hashTagTitle)
                         postMap.put("timestamp", timeStamp)
+                        postMap.put("location", currentLoca)
 
                         firebaseFirestore.collection("Posts").add(postMap)
                             .addOnCompleteListener { task ->
