@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_setting.*
 
 class Setting : AppCompatActivity() {
@@ -15,6 +17,7 @@ class Setting : AppCompatActivity() {
     private var db: FirebaseFirestore? = null
     private var currentUser: FirebaseUser? = null
     private var user_id: String? = null
+    private lateinit var storage: StorageReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -22,6 +25,7 @@ class Setting : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         currentUser= mAuth!!.currentUser
+        storage = FirebaseStorage.getInstance().reference
 
         btn_login.setOnClickListener{
             mAuth?.signOut()
@@ -62,6 +66,8 @@ class Setting : AppCompatActivity() {
     private fun deleteAccount() {
         val docRef = db!!.collection("Users").document(user_id!!)
         val docRef2 = db!!.collection("Posts").document(user_id!!)
+        val desertRef = storage.child("images").child(user_id + ".jpg")
+
         val user = FirebaseAuth.getInstance().currentUser
         user?.delete()
             ?.addOnCompleteListener {
@@ -69,8 +75,12 @@ class Setting : AppCompatActivity() {
                     .addOnSuccessListener {
                         docRef2.delete()
                             .addOnSuccessListener {
-                                Toast.makeText(this, "계정&컬렉션 삭제 성공!", Toast.LENGTH_LONG).show()
-                                startActivity(Intent(this, Login::class.java))
+                                desertRef.delete().addOnSuccessListener {
+                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 성공!", Toast.LENGTH_LONG).show()
+                                    startActivity(Intent(this, Login::class.java))
+                                }.addOnFailureListener {
+                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 실패", Toast.LENGTH_LONG).show()
+                                    }
                             }
                             .addOnFailureListener{
                                 Toast.makeText(this, "Posts 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()

@@ -142,7 +142,7 @@ class Upload : AppCompatActivity() {
                 //Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
-                    storageReference.child("images").child(randomName + ".jpg")
+                    storageReference.child("images").child(user_id + ".jpg")
                 image_path.putFile(photoURI!!).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val downloadUri: String = task.result.toString()
@@ -177,7 +177,7 @@ class Upload : AppCompatActivity() {
                 //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
                 var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
-                    storageReference.child("images").child(randomName + ".jpg")
+                    storageReference.child("images").child(user_id + ".jpg")
                 image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val downloadUri: String = task.result.toString()
