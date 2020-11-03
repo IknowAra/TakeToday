@@ -135,8 +135,6 @@ class Upload : AppCompatActivity() {
         setup_btn.setOnClickListener {
             LodingDialog(this).show()
             hashTagTitle=Cate.hashtag
-            var ran = IntRange(1,hashTagTitle.length-1)
-            hashTagTitle = hashTagTitle.slice(ran)
             var contents: String = setup_content.text.toString()
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
                 timeStamp = current.format(formatter)
