@@ -11,13 +11,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_setting.*
 
 class Setting : AppCompatActivity() {
-    private val mAuth: FirebaseAuth? = null
-    private val db: FirebaseFirestore? = null
-    private val currentUser: FirebaseUser? = null
+    private var mAuth: FirebaseAuth? = null
+    private var db: FirebaseFirestore? = null
+    private var currentUser: FirebaseUser? = null
     private var user_id: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+
+        mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        currentUser= mAuth!!.currentUser
 
         btn_login.setOnClickListener{
             mAuth?.signOut()
@@ -48,6 +52,7 @@ class Setting : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        Toast.makeText(this, "email : "+currentUser?.email, Toast.LENGTH_LONG).show()
         if (currentUser != null) {
             user_id = currentUser!!.uid
         } else {

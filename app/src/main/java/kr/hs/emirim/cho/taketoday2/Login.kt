@@ -28,9 +28,9 @@ class Login : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         currentUser= mAuth!!.currentUser
         val user = mAuth!!.currentUser
-        user?.let {
-            user_email = user.email.toString()
-        }
+
+        user_email = user?.email
+
 
         login_btn.setOnClickListener(View.OnClickListener {
             val loginEmail: String = login_email.getText().toString()
