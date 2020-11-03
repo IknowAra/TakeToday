@@ -29,6 +29,14 @@
         android:scaleType="centerCrop"
         android:background="@drawable/ic_launcher_background"/>
 
+    <TextView
+        android:id="@+id/loca"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="위치정보"
+        android:gravity="center_horizontal"
+        android:autoSizeTextType="uniform"/>
+
     <EditText
         android:id="@+id/setup_content"
         android:layout_width="match_parent"
