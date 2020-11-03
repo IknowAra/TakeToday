@@ -30,7 +30,7 @@ class galleryActivity : AppCompatActivity() {
         array=Cate.sky
 
         fun <T> List<T>.random() : T {
-            val random = Random().nextInt((size))+1
+            val random = Random().nextInt((size))
             return get(random)
         }
 
