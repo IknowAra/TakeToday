@@ -69,7 +69,7 @@ class Upload : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
-        hashTag.text=Cate.hashtag
+        hashTag.text='#'+Cate.hashtag
 
         //위치
         val geocoder = Geocoder(this)
@@ -103,6 +103,7 @@ class Upload : AppCompatActivity() {
         //위치
 
         btn_back.setOnClickListener{
+            startActivity(Intent(this, galleryActivity::class.java))
             finish()
         }
 

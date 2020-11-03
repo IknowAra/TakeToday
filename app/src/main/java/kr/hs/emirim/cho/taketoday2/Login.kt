@@ -77,7 +77,7 @@ class Login : AppCompatActivity() {
             user_id = currentUser!!.uid
             sendToMain()
         } else {
-            Toast.makeText(this, "LoginActivity = > null", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "LoginActivity = > "+currentUser, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -47,8 +47,7 @@ class galleryActivity : AppCompatActivity() {
         }
 
         todays_tag.setOnClickListener {
-            val intent= Intent(this, Upload::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Upload::class.java))
         }
         
         btn_1.setOnClickListener {
