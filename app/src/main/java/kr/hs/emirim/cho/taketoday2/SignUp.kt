@@ -12,6 +12,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUp : AppCompatActivity() {
@@ -26,7 +27,7 @@ class SignUp : AppCompatActivity() {
     private var user_email: String? = null
 
 
-    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,42 +35,34 @@ class SignUp : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         current_user = mAuth.currentUser
+        user_id = current_user!!.uid
+        Log.d("addUser 지금 user: ", current_user.toString())
 
         btn_verify.setOnClickListener {
             userEmail = email.text.toString()
             userPass = password.text.toString()
             confirmPass = confirm_password.text.toString()
-//            user_name=userName.text.toString()
-//            user_tele=userTele.text.toString()
-//            user_email = current_user?.email
-            if (!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass) && !TextUtils.isEmpty(
-                    confirmPass
-                ) && !TextUtils.isEmpty(user_name) && !TextUtils.isEmpty(user_tele)
-            ) {
+            if (!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass) && !TextUtils.isEmpty(confirmPass)) {
                 if (userPass == confirmPass) {
                     reg_progress.visibility = View.VISIBLE
                     mAuth.createUserWithEmailAndPassword(userEmail, userPass)
                         .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
                             if (task.isSuccessful) {
-                                current_user?.sendEmailVerification()
-                                    ?.addOnCompleteListener { task ->
-                                        Toast.makeText(
-                                            this,
-                                            "회원가입 완료 이메일 인증을 확인해주세요",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                current_user!!.sendEmailVerification()
+                                    .addOnCompleteListener {
+                                        if(task.isSuccessful){
+                                            Toast.makeText(
+                                                this,
+                                                "회원가입 완료 이메일 인증을 확인해주세요",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            layout_setup.visibility = View.VISIBLE
+                                            btn_verify.visibility=View.VISIBLE
+                                            btn_sign.setOnClickListener{
+                                                addUser()
+                                            }
+                                        }
                                     }
-                                if (current_user!!.isEmailVerified) {
-                                    Toast.makeText(this, "인증됨", Toast.LENGTH_SHORT).show()
-                                    layout_setup.visibility = View.VISIBLE
-                                    addUser()
-                                } else {
-                                    Toast.makeText(
-                                        this,
-                                        "회원가입 완료 이메일 인증을 확인해주세요",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
                             } else {
                                 val errorMessage = task.exception!!.message
                                 Toast.makeText(
@@ -91,10 +84,14 @@ class SignUp : AppCompatActivity() {
         }
     }
     private fun addUser() {
+        Toast.makeText(this, "t시작", Toast.LENGTH_SHORT).show()
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val user = User(user_name, user_tele)
+        val user = User(user_name, user_tele, false)
         current_user = mAuth.currentUser
-        user_id = current_user?.uid
+        user_name=userName.text.toString()
+        user_tele=userTele.text.toString()
+        user_email = current_user!!.email
+        user_id = current_user!!.uid
 
         val userMap = hashMapOf(
             "email" to user_email.toString(),
@@ -104,14 +101,29 @@ class SignUp : AppCompatActivity() {
             "finish" to listOf<String>()
         )
 
-        Toast.makeText(this, "지금 이메일 : " + current_user!!.email, Toast.LENGTH_SHORT).show()
+        Log.d("addUser 지금 user: ", current_user.toString())
         db.collection("Users").document(user_id.toString()).set(userMap)
             .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                Toast.makeText(this, "들어옴", Toast.LENGTH_SHORT)
+                    .show()
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
-                        .show()
-                    startActivity(Intent(this, Login::class.java))
-                    finish()
+                    Log.d("current_user!!.isEmailVerified: ",
+                        current_user!!.isEmailVerified.toString() //왜 false냐
+                    )
+                    if(current_user!!.isEmailVerified){
+
+                        Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
+                            .show()
+                        startActivity(Intent(this, Login::class.java))
+                        finish()
+                    }else {
+                        Toast.makeText(
+                            this,
+                            "회원가입 완료 이메일 인증을 확인해주세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                 } else {
                     val error = task.exception!!.message
                     Toast.makeText(
