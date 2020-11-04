@@ -12,6 +12,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_gallery.*
@@ -20,6 +22,8 @@ import java.util.*
 
 class galleryActivity : AppCompatActivity() {
 
+    private var user_id: String? = null
+    private lateinit var mAuth: FirebaseAuth;
     var array=Array<String>(20, { ' '.toString() })
     var tag:String=""
 
@@ -27,25 +31,33 @@ class galleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
+        mAuth = FirebaseAuth.getInstance()
+        val user= mAuth.currentUser
+        user?.let{
+            user_id = user.uid
+        }
+
+        if (intent.hasExtra("name")) {
+            cate_title.setText(intent.getStringExtra("name"))
+        }
+
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        db.collection("Category").whereEqualTo("name",intent.getStringExtra("name")).get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                var a:List<String> = document.data.get(key = "arr") as List<String>
+                tag = a.random()
+                todays_tag.setText("오늘의 주제 : "+tag)
+            }
+
+        }
 
 
-        array=Cate.sky
 
         fun <T> List<T>.random() : T {
             val random = Random().nextInt((size))
             return get(random)
         }
 
-        tag=array.random()
-        Log.d("", tag)
-
-        todays_tag.setText("오늘의 주제 : "+tag)
-        if (intent.hasExtra("name")) {
-            cate_title.setText(intent.getStringExtra("name"))
-        }
-
-
-        Cate.hashtag=tag
 
         btn_back.setOnClickListener{
             finish();
