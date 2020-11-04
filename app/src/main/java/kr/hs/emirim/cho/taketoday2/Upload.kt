@@ -77,7 +77,7 @@ class Upload : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
-            startActivity(Intent(this, Upload::class.java))
+            //startActivity(Intent(this, Upload::class.java))
         } else {
             val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)

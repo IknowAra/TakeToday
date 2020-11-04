@@ -27,9 +27,9 @@ class Setting : AppCompatActivity() {
         currentUser= mAuth!!.currentUser
         storage = FirebaseStorage.getInstance().reference
 
-        btn_login.setOnClickListener{
+        btn_logout.setOnClickListener{
             mAuth?.signOut()
-            sendToLogin()
+            sendToLogout()
         }
 
         btn_remove.setOnClickListener {
@@ -95,7 +95,7 @@ class Setting : AppCompatActivity() {
             }
     }
 
-    private fun sendToLogin() {
+    private fun sendToLogout() {
         startActivity(Intent(this, Login::class.java))
     }
 }
