@@ -27,6 +27,8 @@ class galleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
+
+
         array=Cate.sky
 
         fun <T> List<T>.random() : T {
@@ -35,10 +37,13 @@ class galleryActivity : AppCompatActivity() {
         }
 
         tag=array.random()
-        Log.d("#*($*(#$#++++>>>>>>>>>>>>>>>>>", tag)
+        Log.d("", tag)
 
         todays_tag.setText("오늘의 주제 : "+tag)
-        cate_title.setText(array[0])
+        if (intent.hasExtra("name")) {
+            cate_title.setText(intent.getStringExtra("name"))
+        }
+
 
         Cate.hashtag=tag
 

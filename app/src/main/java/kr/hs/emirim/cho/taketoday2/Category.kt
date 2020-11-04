@@ -17,6 +17,8 @@ class Category : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth;
     private var user_id: String? = null
     private var count: Int = 0
+    private var result:Boolean = false
+    private var nowStr:String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,54 +37,67 @@ class Category : AppCompatActivity() {
 
 
         button5.setOnClickListener{
-
-            if(isin("CpQvOIxECiiUko2Ip45p")){
+            isin("CpQvOIxECiiUko2Ip45p")
+            if(result){
                 showDialog("CpQvOIxECiiUko2Ip45p")
             }else{
                 addCode("CpQvOIxECiiUko2Ip45p")
             }
+            isin("CpQvOIxECiiUko2Ip45p")
         }
         button7.setOnClickListener{
-            if(isin("DR0HPx1oD8CAGku7fCJB")){
+            isin("DR0HPx1oD8CAGku7fCJB")
+            if(result){
                 showDialog("DR0HPx1oD8CAGku7fCJB")
             }else{
                 addCode("DR0HPx1oD8CAGku7fCJB")
             }
+            isin("DR0HPx1oD8CAGku7fCJB")
         }
         button6.setOnClickListener{
-            if(isin("PGIX2mtgFmuuWJQz8GWt")){
+            isin("PGIX2mtgFmuuWJQz8GWt")
+            if(result){
                 showDialog("PGIX2mtgFmuuWJQz8GWt")
             }else{
                 addCode("PGIX2mtgFmuuWJQz8GWt")
             }
+            isin("PGIX2mtgFmuuWJQz8GWt")
         }
         button8.setOnClickListener{
-            if(isin("a9j65Uxcz2iuuGpXgPQv")){
+            isin("a9j65Uxcz2iuuGpXgPQv")
+            if(result){
                 showDialog("a9j65Uxcz2iuuGpXgPQv")
             }else{
                 addCode("a9j65Uxcz2iuuGpXgPQv")
             }
+            isin("a9j65Uxcz2iuuGpXgPQv")
         }
         button3.setOnClickListener{
-            if(isin("iXHQ6h67Xm87TEkMiNp5")){
+            isin("iXHQ6h67Xm87TEkMiNp5")
+            if(result){
                 showDialog("iXHQ6h67Xm87TEkMiNp5")
             }else{
                 addCode("iXHQ6h67Xm87TEkMiNp5")
             }
+            isin("iXHQ6h67Xm87TEkMiNp5")
         }
         button4.setOnClickListener{
-            if(isin("owINC3MNVxPz9BquNdcL")){
+            isin("owINC3MNVxPz9BquNdcL")
+            if(result){
                 showDialog("owINC3MNVxPz9BquNdcL")
             }else{
                 addCode("owINC3MNVxPz9BquNdcL")
             }
+            isin("owINC3MNVxPz9BquNdcL")
         }
         button2.setOnClickListener{
-            if(isin("r7lV0RqNsgFuD8mdJdEe")){
+            isin("r7lV0RqNsgFuD8mdJdEe")
+            if(result){
                 showDialog("r7lV0RqNsgFuD8mdJdEe")
             }else {
                 addCode("r7lV0RqNsgFuD8mdJdEe")
             }
+            isin("r7lV0RqNsgFuD8mdJdEe")
         }
 
 
@@ -103,25 +118,20 @@ class Category : AppCompatActivity() {
             db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayUnion(code))
         }
 
+
     }
-    private fun isin(code:String):Boolean{
-        var result:Boolean = true
+    private fun isin(code:String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var nowStr = ""+document.data?.get(key = "current")
-            if(nowStr.contains(code)){
-                result = true
-            }else{
-                result = false
-            }
+            nowStr = ""+document.data?.get(key = "current")
+            result = (code in nowStr)
         }
-        return result
     }
 
     private fun delCode(code: String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
         db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayRemove(code))
+
 
     }
 
@@ -129,13 +139,8 @@ class Category : AppCompatActivity() {
         val dialog =
                 AlertDialog.Builder(this)
                         .setMessage("도전을 취소하시겠습니까? (지금까지의 데이터가 모두 손실됩니다)")
-                        .setPositiveButton(
-                                "예"
-                        ) { dialog, which -> delCode(code) }
-                        .setNegativeButton(
-                                "아니요"
-                        ) { dialog, which ->
-                        }
+                        .setPositiveButton("예") { dialog, which -> delCode(code) }
+                        .setNegativeButton("아니요") { dialog, which -> }
                         .create()
         dialog.show()
     }

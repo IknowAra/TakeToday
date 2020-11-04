@@ -51,13 +51,13 @@
                     android:layout_height="220dp"
                     android:id="@+id/button_1"
                     android:layout_weight="1"
-                    android:text="여행" />
+                    android:text="" />
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="220dp"
                     android:id="@+id/button_2"
                     android:layout_weight="1"
-                    android:text="동물" />
+                    android:text="" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,14 +71,14 @@
                     android:layout_height="220dp"
                     android:id="@+id/button_3"
                     android:layout_weight="1"
-                    android:text="음식" />
+                    android:text="" />
 
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="220dp"
-                    android:id="@+id/btn_sky"
+                    android:id="@+id/button_4"
                     android:layout_weight="1"
-                    android:text="하늘" />
+                    android:text="" />
             </LinearLayout>
         </LinearLayout>
 
