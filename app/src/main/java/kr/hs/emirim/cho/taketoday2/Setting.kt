@@ -82,6 +82,7 @@ class Setting : AppCompatActivity() {
 //                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 실패", Toast.LENGTH_LONG).show()
 //                                    }
                                 Toast.makeText(this, "Users&Posts 컬렉션 삭제 성공!", Toast.LENGTH_LONG).show()
+                                startActivity(Intent(this, Login::class.java))
                             }
                             .addOnFailureListener{
                                 Toast.makeText(this, "Posts 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()

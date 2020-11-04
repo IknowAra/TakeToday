@@ -19,6 +19,8 @@ class Login : AppCompatActivity() {
     private var current_User: FirebaseUser? = null
     private var user_email: String?=null
     private var user_id: String? = null
+    private var loginEmail: String? = null
+    private var loginPass: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,26 +28,28 @@ class Login : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        current_User= mAuth!!.currentUser
+        user_id = current_User!!.uid
 
         login_btn.setOnClickListener(View.OnClickListener {
-            current_User= mAuth!!.currentUser
+
             user_email=current_User?.email
             Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
-            val loginEmail: String = login_email.getText().toString()
-            val loginPass: String = login_password.getText().toString()
+            loginEmail = login_email.text.toString()
+            loginPass = login_password.text.toString()
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
                 login_progress.setVisibility(View.VISIBLE)
-                mAuth!!.signInWithEmailAndPassword(loginEmail, loginPass)
+                mAuth!!.signInWithEmailAndPassword(loginEmail!!, loginPass!!)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            if(current_User!!.isEmailVerified){
+                            if(current_User!!.isEmailVerified || current_User!=null) {
                                 Toast.makeText(
                                     this,
                                     "로그인 성공 :" + user_email,
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 startActivity(Intent(this, MainActivity::class.java))
-                            }else{
+                            } else{
                                 Toast.makeText(
                                     this,
                                     "메일로 보낸 링크를 확인해주세요." ,
@@ -76,19 +80,21 @@ class Login : AppCompatActivity() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show()
-
-        if (current_User != null) {
-            user_id = current_User!!.uid
-            sendToMain()
-        } else {
-            Toast.makeText(this, "LoginActivity = > "+current_User, Toast.LENGTH_SHORT).show()
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        //Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show()
+//
+//        if (current_User != null) {
+//            user_id = current_User!!.uid
+//            Toast.makeText(this, "있음 LoginActivity = > "+ current_User!!.email, Toast.LENGTH_SHORT).show()
+//            sendToMain()
+//        } else {
+//            Toast.makeText(this, "LoginActivity = > "+current_User, Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     private fun sendToMain() {
+        Toast.makeText(this, "sendToMain = > "+user_email, Toast.LENGTH_SHORT).show()
         val docRef = db!!.collection("Users").document(user_id!!)
         docRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {

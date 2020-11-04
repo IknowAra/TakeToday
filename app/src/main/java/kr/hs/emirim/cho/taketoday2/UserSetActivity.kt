@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_set.*
 import java.util.*
@@ -17,6 +18,7 @@ class UserSetActivity : AppCompatActivity() {
     private lateinit var user_name:String;
     private lateinit var user_tele:String;
     //private lateinit var user_email:String;
+    private var current_user: FirebaseUser? = null
     private var user_id: String? = null
     private var user_email: String? = null
 
@@ -27,18 +29,17 @@ class UserSetActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_set)
 
         mAuth = FirebaseAuth.getInstance()
-        val user= mAuth.currentUser
+        current_user= mAuth.currentUser
 
         setup_btn.setOnClickListener {
             user_name=userName.text.toString()
             user_tele=userTele.text.toString()
-            user?.let{
-                user_email = user.email
-                user_id=user.uid
-            }
+
+                user_email = current_user!!.email
+                user_id=current_user!!.uid
+
 
             if (!TextUtils.isEmpty(user_name) && !TextUtils.isEmpty(user_tele)) {
-
                 adduser()
             }
         }
@@ -61,10 +62,23 @@ class UserSetActivity : AppCompatActivity() {
         db.collection("Users").document(user_id.toString()).set(userMap)
                 .addOnCompleteListener(OnCompleteListener<Void?> { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
+                        if(current_user!!.isEmailVerified) {
+                            Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
                                 .show()
-                        startActivity(Intent(this, Login::class.java))
-                        finish()
+                            startActivity(Intent(this, Login::class.java))
+                            finish()
+                        }else{
+                            Toast.makeText(this, "이메일 링크 확인 바람", Toast.LENGTH_LONG)
+                                .show()
+                            current_user?.delete()
+                                ?.addOnCompleteListener {
+                                    task ->
+                                    if(task.isSuccessful){
+                                        Toast.makeText(this, "auth 사용자 삭제", Toast.LENGTH_SHORT)
+
+                                    }
+                                }
+                        }
                     } else {
                         val error = task.exception!!.message
                         Toast.makeText(
