@@ -38,12 +38,21 @@ class Login : AppCompatActivity() {
                 mAuth!!.signInWithEmailAndPassword(loginEmail, loginPass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "로그인 성공 :" + user_email,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            startActivity(Intent(this, MainActivity::class.java))
+                            if(current_User!!.isEmailVerified){
+                                Toast.makeText(
+                                    this,
+                                    "로그인 성공 :" + user_email,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }else{
+                                Toast.makeText(
+                                    this,
+                                    "메일로 보낸 링크를 확인해주세요." ,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                         } else {
                             val errorMessage = task.exception!!.message
                             Toast.makeText(
