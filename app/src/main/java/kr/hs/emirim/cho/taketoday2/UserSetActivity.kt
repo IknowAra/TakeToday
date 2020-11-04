@@ -53,15 +53,9 @@ class UserSetActivity : AppCompatActivity() {
                 "email" to user_email.toString(),
                 "name" to user.getName(),
                 "tele" to user.getTele(),
-                "curren" to listOf<String>(),
+                "current" to listOf<String>(),
                 "finish" to listOf<String>()
         )
-
-
-        val arrMap: MutableMap<String, List<String>> = HashMap()
-        arrMap.put("curren", listOf())
-        arrMap.put("finish", listOf())
-
 
         Toast.makeText(this, user_id.toString(), Toast.LENGTH_SHORT).show()
         db.collection("Users").document(user_id.toString()).set(userMap)
@@ -69,6 +63,8 @@ class UserSetActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
                                 .show()
+                        startActivity(Intent(this, Login::class.java))
+                        finish()
                     } else {
                         val error = task.exception!!.message
                         Toast.makeText(
