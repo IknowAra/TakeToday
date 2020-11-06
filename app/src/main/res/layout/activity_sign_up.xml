@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context=".SignUp">
 
         <LinearLayout
@@ -21,10 +22,21 @@
                     android:visibility="invisible"
                     tools:visibility="invisible" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="30sp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/wandohopeb"
+                    android:text="회원가입"/>
+
                 <LinearLayout
                     android:id="@+id/layout_login"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="100dp"
                     android:orientation="vertical">
 
                         <EditText
@@ -58,6 +70,8 @@
                             android:id="@+id/btn_sign"
                             android:layout_width="130dp"
                             android:layout_height="40dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/main_button"
                             android:layout_gravity="center_horizontal"
                             android:text="회원가입" />
                 </LinearLayout>

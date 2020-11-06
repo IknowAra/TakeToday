@@ -6,6 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context=".MainActivity"
     >
     <LinearLayout
@@ -26,7 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:srcCompat="@drawable/ic_baseline_menu_50" />
+                app:srcCompat="@drawable/ic_baseline_menu_50"
+                app:tint="#ffffff" />
 
         </LinearLayout>
 
@@ -47,15 +49,21 @@
                 android:orientation="horizontal"
                 >
                 <Button
+                    android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="220dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
                     android:id="@+id/button_1"
                     android:layout_weight="1"
+                    android:fontFamily="@font/wandohoper"
                     android:text="" />
                 <Button
+                    android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="220dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="200dp"
                     android:id="@+id/button_2"
+                    android:fontFamily="@font/wandohoper"
                     android:layout_weight="1"
                     android:text="" />
             </LinearLayout>
@@ -67,17 +75,23 @@
                 android:orientation="horizontal"
                 >
                 <Button
+                    android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="220dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="200dp"
                     android:id="@+id/button_3"
                     android:layout_weight="1"
+                    android:fontFamily="@font/wandohoper"
                     android:text="" />
 
                 <Button
+                    android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="220dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
                     android:id="@+id/button_4"
                     android:layout_weight="1"
+                    android:fontFamily="@font/wandohoper"
                     android:text="" />
             </LinearLayout>
         </LinearLayout>
