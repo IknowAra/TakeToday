@@ -9,8 +9,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.location.Address
 import android.location.Geocoder
@@ -33,12 +31,10 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -47,6 +43,7 @@ import java.util.*
 class Upload : AppCompatActivity() {
     val REQUEST_GALLERY_TAKE = 2
     val REQUEST_IMAGE_CAPTURE = 1
+    val REQUEST_LOCATION = 3
     private var photoURI: Uri? = null
     private var currentPhotoPath: String = ""
     private var timeStamp: String = ""
@@ -76,30 +73,24 @@ class Upload : AppCompatActivity() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
-            //startActivity(Intent(this, Upload::class.java))
+            ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
         } else {
-            val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
-            var adre = list?.get(0)?.getAddressLine(0)
-            var arr = adre?.split(" ")
-            loca.text = ("" + (arr?.get(2)))
-            currentLoca = ("" + (arr?.get(2)))
+            setLocation()
         }
 
-        loca.setOnClickListener{
-            if (Build.VERSION.SDK_INT >= 23 &&
-                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
-            } else {
-                val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
-                var adre = list?.get(0)?.getAddressLine(0)
-                var arr = adre?.split(" ")
-                loca.text = ("" + (arr?.get(2)))
-                currentLoca = ("" + (arr?.get(2)))
-            }
-        }
+//        loca.setOnClickListener{
+//            if (Build.VERSION.SDK_INT >= 23 &&
+//                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+//            } else {
+//                val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+//                var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
+//                var adre = list?.get(0)?.getAddressLine(0)
+//                var arr = adre?.split(" ")
+//                loca.text = ("" + (arr?.get(2)))
+//                currentLoca = ("" + (arr?.get(2)))
+//            }
+//        }
         //위치
 
         btn_back.setOnClickListener{
@@ -251,12 +242,18 @@ class Upload : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(
-                "TAG",
-                "Permission: " + permissions[0] + "was " + grantResults[0] + "카메라 허가 받음 예이^^"
-            )
+
         } else {
-            Log.d("TAG", "권한을 허용해주세요")
+            Toast.makeText(this, "권한요청을 허용해주세요", Toast.LENGTH_SHORT).show()
+        }
+
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.size === 1
+                    && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
+                setLocation()
+            } else {
+                finish()
+            }
         }
     }
 
@@ -356,6 +353,22 @@ class Upload : AppCompatActivity() {
         }
     }
 
+    private fun setLocation(){
+        val geocoder = Geocoder(this)
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }else{
+            val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
+            var adre = list?.get(0)?.getAddressLine(0)
+            var arr = adre?.split(" ")
+            loca.text = ("" + (arr?.get(2)))
+            currentLoca = ("" + (arr?.get(2)))
+        }
+
+    }
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"

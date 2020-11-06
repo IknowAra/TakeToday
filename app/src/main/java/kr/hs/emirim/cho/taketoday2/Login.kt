@@ -101,15 +101,11 @@ class Login : AppCompatActivity() {
                     var userName = user!!.name
 
                     startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                     //Toast.makeText(LoginActivity.this, shelterPre, Toast.LENGTH_SHORT).show();
                     if (userName != null) {
                         Toast.makeText(this, "이름 : " + userName, Toast.LENGTH_LONG).show();
-                        startActivity(
-                            Intent(
-                                this,
-                                MainActivity::class.java
-                            )
-                        )
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else if (userName == null) {
                         Toast.makeText(this, "이름 에러 : " + userName, Toast.LENGTH_LONG).show();
