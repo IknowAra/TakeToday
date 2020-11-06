@@ -1,95 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     tools:context=".SignUp">
-
-        <ProgressBar
-            android:id="@+id/reg_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="invisible"
-            tools:visibility="invisible" />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="이메일"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="비밀번호"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/confirm_password"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="비밀번호 확인"
-            android:padding="10dp"/>
-
-        <Button
-            android:id="@+id/btn_verify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:text="이메일 인증"/>
-
-        <Button
-            android:id="@+id/btn_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:text="인증 확인"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="invisible"
-            android:gravity="center_horizontal"
-            android:id="@+id/layout_setup"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-                <EditText
-                    android:layout_width="240dp"
+                <ProgressBar
+                    android:id="@+id/reg_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="이름"
-                    android:padding="10dp"
-                    android:textColor="#000000"
-                    android:id="@+id/userName"
-                    />
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="true"
+                    android:visibility="invisible"
+                    tools:visibility="invisible" />
 
-                <EditText
-                    android:layout_width="240dp"
+                <LinearLayout
+                    android:id="@+id/layout_login"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:hint="전화번호"
-                    android:textColor="#000000"
-                    android:id="@+id/userTele"
-                    />
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btn_sign"
-                    android:layout_width="130dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="회원가입" />
+                        <EditText
+                            android:id="@+id/email"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:inputType="textEmailAddress"
+                            android:hint="이메일"
+                            android:padding="10dp"/>
+
+                        <EditText
+                            android:id="@+id/password"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:inputType="textPassword"
+                            android:hint="비밀번호"
+                            android:padding="10dp"/>
+
+                        <EditText
+                            android:id="@+id/confirm_password"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:inputType="textPassword"
+                            android:hint="비밀번호 확인"
+                            android:padding="10dp"/>
+
+                        <Button
+                            android:id="@+id/btn_sign"
+                            android:layout_width="130dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="회원가입" />
+                </LinearLayout>
 
         </LinearLayout>
 
-</LinearLayout>
-
+</RelativeLayout>
