@@ -98,6 +98,6 @@ class Setting : AppCompatActivity() {
     }
 
     private fun sendToLogout() {
-        startActivity(Intent(this, Login::class.java))
+        startActivity(Intent(this, Login2::class.java))
     }
 }

@@ -12,7 +12,6 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUp : AppCompatActivity() {
@@ -86,7 +85,7 @@ class SignUp : AppCompatActivity() {
     private fun addUser() {
         Toast.makeText(this, "t시작", Toast.LENGTH_SHORT).show()
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val user = User(user_name, user_tele, false)
+        val user = User(user_name, user_tele)
         current_user = mAuth.currentUser
         user_name=userName.text.toString()
         user_tele=userTele.text.toString()
@@ -112,10 +111,13 @@ class SignUp : AppCompatActivity() {
                     )
                     if(current_user!!.isEmailVerified){
 
-                        Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
-                            .show()
-                        startActivity(Intent(this, Login::class.java))
-                        finish()
+                        if(true){
+                            Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
+                                .show()
+                            startActivity(Intent(this, Login::class.java))
+                            finish()
+                        }
+
                     }else {
                         Toast.makeText(
                             this,

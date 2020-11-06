@@ -71,11 +71,8 @@ class Login : AppCompatActivity() {
         })
 
         login_reg.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    SignUp::class.java
-                )
+            startActivity(Intent(
+                this, SignUpSam::class.java)
             )
         })
     }
@@ -100,7 +97,7 @@ class Login : AppCompatActivity() {
             if (task.isSuccessful) {
                 val document = task.result
                 if (document!!.exists()) {
-                    val user = document!!.toObject(User::class.java)
+                    val user = document!!.toObject(User2::class.java)
                     var userName = user!!.name
 
                     startActivity(Intent(this, MainActivity::class.java))
