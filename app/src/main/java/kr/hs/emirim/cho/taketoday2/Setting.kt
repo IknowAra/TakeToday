@@ -27,9 +27,9 @@ class Setting : AppCompatActivity() {
         currentUser= mAuth!!.currentUser
         storage = FirebaseStorage.getInstance().reference
 
-        btn_login.setOnClickListener{
+        btn_logout.setOnClickListener{
             mAuth?.signOut()
-            sendToLogin()
+            sendToLogout()
         }
 
         btn_remove.setOnClickListener {
@@ -66,7 +66,7 @@ class Setting : AppCompatActivity() {
     private fun deleteAccount() {
         val docRef = db!!.collection("Users").document(user_id!!)
         val docRef2 = db!!.collection("Posts").document(user_id!!)
-        val desertRef = storage.child("images").child(user_id + ".jpg")
+       // val desertRef = storage.child("images").child(user_id + ".jpg")
 
         val user = FirebaseAuth.getInstance().currentUser
         user?.delete()
@@ -75,27 +75,28 @@ class Setting : AppCompatActivity() {
                     .addOnSuccessListener {
                         docRef2.delete()
                             .addOnSuccessListener {
-                                desertRef.delete().addOnSuccessListener {
-                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 성공!", Toast.LENGTH_LONG).show()
-                                    startActivity(Intent(this, Login::class.java))
-                                }.addOnFailureListener {
-                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 실패", Toast.LENGTH_LONG).show()
-                                    }
+//                                desertRef.delete().addOnSuccessListener {
+//                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 성공!", Toast.LENGTH_LONG).show()
+//                                    startActivity(Intent(this, Login::class.java))
+//                                }.addOnFailureListener {
+//                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 실패", Toast.LENGTH_LONG).show()
+//                                    }
+                                Toast.makeText(this, "Users&Posts 컬렉션 삭제 성공!", Toast.LENGTH_LONG).show()
                             }
                             .addOnFailureListener{
                                 Toast.makeText(this, "Posts 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()
                             }
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "User 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "User &Posts 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()
                     }
             }
             ?.addOnFailureListener {
-                Toast.makeText(this, "계정&컬렉션 삭제 실패", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "계정&Post  삭제 실패", Toast.LENGTH_LONG).show()
             }
     }
 
-    private fun sendToLogin() {
+    private fun sendToLogout() {
         startActivity(Intent(this, Login::class.java))
     }
 }

@@ -16,7 +16,7 @@ class Login : AppCompatActivity() {
 
     var db: FirebaseFirestore? = null
     private var mAuth: FirebaseAuth? = null
-    private var currentUser: FirebaseUser? = null
+    private var current_User: FirebaseUser? = null
     private var user_email: String?=null
     private var user_id: String? = null
 
@@ -26,13 +26,11 @@ class Login : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        currentUser= mAuth!!.currentUser
-        val user = mAuth!!.currentUser
-
-        user_email = user?.email
-
 
         login_btn.setOnClickListener(View.OnClickListener {
+            current_User= mAuth!!.currentUser
+            user_email=current_User?.email
+            Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
             val loginEmail: String = login_email.getText().toString()
             val loginPass: String = login_password.getText().toString()
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
@@ -40,12 +38,21 @@ class Login : AppCompatActivity() {
                 mAuth!!.signInWithEmailAndPassword(loginEmail, loginPass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "로그인 성공 :" + user_email,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            startActivity(Intent(this, MainActivity::class.java))
+                            if(current_User!!.isEmailVerified){
+                                Toast.makeText(
+                                    this,
+                                    "로그인 성공 :" + user_email,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }else{
+                                Toast.makeText(
+                                    this,
+                                    "메일로 보낸 링크를 확인해주세요." ,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                         } else {
                             val errorMessage = task.exception!!.message
                             Toast.makeText(
@@ -73,11 +80,11 @@ class Login : AppCompatActivity() {
         super.onStart()
         Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show()
 
-        if (currentUser != null) {
-            user_id = currentUser!!.uid
+        if (current_User != null) {
+            user_id = current_User!!.uid
             sendToMain()
         } else {
-            Toast.makeText(this, "LoginActivity = > "+currentUser, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "LoginActivity = > "+current_User, Toast.LENGTH_SHORT).show()
         }
     }
 

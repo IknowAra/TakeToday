@@ -38,14 +38,24 @@ class SignUp : AppCompatActivity() {
                     mAuth.createUserWithEmailAndPassword(userEmail, userPass)
                         .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-                                startActivity(
-                                    Intent(
-                                        this,
-                                        UserSetActivity::class.java
-                                    )
-                                )
-                                finish()
+                                mAuth.currentUser?.sendEmailVerification()
+                                    ?.addOnCompleteListener { task ->
+                                        Toast.makeText(this, "회원가입 완료 이메일 인증을 확인해주세요", Toast.LENGTH_SHORT).show()
+                                        startActivity(
+                                            Intent(
+                                                this,
+                                                UserSetActivity::class.java
+                                            )
+                                        )
+                                    }
+                                //Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+//                                startActivity(
+//                                    Intent(
+//                                        this,
+//                                        UserSetActivity::class.java
+//                                    )
+//                                )
+                                //finish()
                             } else {
                                 val errorMessage = task.exception!!.message
                                 Toast.makeText(
