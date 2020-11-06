@@ -24,8 +24,8 @@ class galleryActivity : AppCompatActivity() {
 
     private var user_id: String? = null
     private lateinit var mAuth: FirebaseAuth;
-    var array=Array<String>(20, { ' '.toString() })
-    var tag:String=""
+    var tag:String = ""
+    var code:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,20 +37,19 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
 
-        if (intent.hasExtra("name")) {
-            cate_title.setText(intent.getStringExtra("name"))
+        if (intent.hasExtra("code")) {
+            code = intent.getStringExtra("code").toString()
         }
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        db.collection("Category").whereEqualTo("name",intent.getStringExtra("name")).get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                var a:List<String> = document.data.get(key = "arr") as List<String>
-                tag = a.random()
-                todays_tag.setText("오늘의 주제 : "+tag)
-            }
+        db.collection("Category").document(code).get().addOnSuccessListener { document ->
+            var name:String = document.data?.get(key = "name") as String
+            var a:List<String> = document.data?.get(key = "arr") as List<String>
+            tag = a.random()
 
+            cate_title.setText(name)
+            todays_tag.setText("오늘의 주제 : "+tag)
         }
-
 
 
         fun <T> List<T>.random() : T {
