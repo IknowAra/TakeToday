@@ -164,9 +164,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun moveToGallery(num:Int){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = (""+document.data?.get(key = "current")).split(",").toMutableList()
-            ex[0] = ex[0].substring(1,ex[0].length)
-            ex[ex.size-1] = ex[ex.size-1].substring(0,ex[ex.size-1].length-1)
+            var ex = document.data?.get(key = "current") as List<String>
             var code = ex[num].trim()
 
             val intent=Intent(this, galleryActivity::class.java)

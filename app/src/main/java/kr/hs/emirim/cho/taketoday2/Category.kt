@@ -6,12 +6,16 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import kotlinx.android.synthetic.main.activity_category.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 class Category : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth;
@@ -71,9 +75,30 @@ class Category : AppCompatActivity() {
                 if(count>=4){
                     Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
                 }else{
-                    db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayUnion(code))
+                    val random = Random()
+                    val todays = hashMapOf(
+                            "cate" to code,
+                            "now" to random.nextInt(20),
+                            "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+                            "time" to "시간",
+                            "user" to user_id.toString()
+                    )
+                    db.collection("Todays").document().set(todays)
+                            .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                                if (task.isSuccessful) {
+                                    db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayUnion(code))
+                                    Toast.makeText(this, "추가되었습니다", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    val error = task.exception!!.message
+                                    Toast.makeText(
+                                            this,
+                                            "Firestore Error : $error",
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                    Log.d("에러 : ", error!!)
+                                }
+                            })
 
-                    Toast.makeText(this, "추가되었습니다", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -82,6 +107,12 @@ class Category : AppCompatActivity() {
     private fun delCode(code: String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayRemove(code))
+        db.collection("Todays").whereEqualTo("cate",code).get().addOnSuccessListener {documents ->
+            for (document in documents){
+                db.collection("Todays").document(document.id).delete()
+            }
+
+        }
     }
 
     private fun showDialog(code: String) {

@@ -56,6 +56,7 @@ class Upload : AppCompatActivity() {
     private lateinit var user_id: String
     private var tempFile: Uri? = null
     private var locationManager : LocationManager? = null
+    private var currentCode: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,11 @@ class Upload : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
-        hashTag.text='#'+Cate.hashtag
+        hashTag.text= '#'.toString()
+        if (intent.hasExtra("code")) {
+            currentCode = intent.getStringExtra("code").toString()
+        }
+
 
         //위치
         val geocoder = Geocoder(this)
@@ -121,17 +126,24 @@ class Upload : AppCompatActivity() {
                 })
             builder.show()
         }
+
         var current = LocalDateTime.now()
         var formatter = DateTimeFormatter.ISO_DATE
+
         setup_btn.setOnClickListener {
-            LodingDialog(this).show()
-            hashTagTitle=Cate.hashtag
             var contents: String = setup_content.text.toString()
+
             if (!TextUtils.isEmpty(contents) && photoURI!=null) {
+                LodingDialog(this).show()
                 timeStamp = current.format(formatter)
                 Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
                 //Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
-                var randomName: String = FieldValue.serverTimestamp().toString()
+
+//                firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+//                    for()
+//                }
+
+
                 var image_path: StorageReference =
                     storageReference.child("images").child(user_id + ".jpg")
                 image_path.putFile(photoURI!!).addOnCompleteListener { task ->
@@ -144,8 +156,9 @@ class Upload : AppCompatActivity() {
                         postMap.put("hashTag", hashTagTitle)
                         postMap.put("timestamp", timeStamp)
                         postMap.put("location", currentLoca)
+                        postMap.put("cate",currentCode)
 
-                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
+                        firebaseFirestore.collection("Posts").document().set(postMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG)
@@ -163,10 +176,10 @@ class Upload : AppCompatActivity() {
                     }
                 }
             } else if (!TextUtils.isEmpty(contents) && tempFile != null) {
+                LodingDialog(this).show()
                 timeStamp = current.format(formatter)
                 Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
                 //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
-                var randomName: String = FieldValue.serverTimestamp().toString()
                 var image_path: StorageReference =
                     storageReference.child("images").child(user_id + ".jpg")
                 image_path.putFile(tempFile!!).addOnCompleteListener { task ->
@@ -179,8 +192,9 @@ class Upload : AppCompatActivity() {
                         postMap.put("hashTag", hashTagTitle)
                         postMap.put("timestamp", timeStamp)
                         postMap.put("location", currentLoca)
+                        postMap.put("cate",currentCode)
 
-                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
+                        firebaseFirestore.collection("Posts").document().set(postMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(
@@ -200,6 +214,8 @@ class Upload : AppCompatActivity() {
                         Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
                     }
                 }
+            }else{
+                Toast.makeText(this, "모두 입력해주세요", Toast.LENGTH_LONG).show()
             }
         }
     }
