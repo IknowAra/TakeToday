@@ -180,13 +180,14 @@ class Upload : AppCompatActivity() {
                 timeStamp = current.format(formatter)
                 Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
                 //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
+
                 var image_path: StorageReference =
                     storageReference.child("images").child(user_id + ".jpg")
+
                 image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val downloadUri: String = task.result.toString()
+
                         val postMap = hashMapOf<String, String>()
-                        postMap.put("image_url", downloadUri)
                         postMap.put("content", contents)
                         postMap.put("user_id", user_id)
                         postMap.put("hashTag", hashTagTitle)
