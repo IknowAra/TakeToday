@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         button_1.setOnClickListener{
             if((button_1.text).equals("+")){
                 startActivity(Intent(this, Category::class.java))
-            }else if((button_1.text).equals("")){
+            }else if((button_1.text).equals("") || (button_1.text).equals(null)){
                 // null
             }else{
                 moveToGallery(0)
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if((button_2.text).equals("+")){
                 val intent=Intent(this, Category::class.java)
                 startActivity(intent)
-            }else if((button_2.text).equals("")){
+            }else if((button_2.text).equals("") || (button_1.text).equals(null)){
                 // null
             }else{
                 moveToGallery(1)
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if((button_3.text).equals("+")){
                 val intent=Intent(this, Category::class.java)
                 startActivity(intent)
-            }else if((button_3.text).equals("")){
+            }else if((button_3.text).equals("") || (button_1.text).equals(null)){
                 // null
             }else{
                 moveToGallery(2)
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if((button_4.text).equals("+")){
                 val intent=Intent(this, Category::class.java)
                 startActivity(intent)
-            } else if((button_4.text).equals("")){
+            } else if((button_4.text).equals("") || (button_1.text).equals(null)){
                 // null
             }else{
                 moveToGallery(3)

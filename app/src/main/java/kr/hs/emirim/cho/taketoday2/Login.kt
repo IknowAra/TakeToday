@@ -153,12 +153,12 @@ class Login : AppCompatActivity() {
                                     ).show()
                                     startActivity(Intent(this, MainActivity::class.java))
                                 }else{
-                                Toast.makeText(
-                                        this,
-                                        "메일로 보낸 링크를 확인해주세요." ,
-                                        Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                                    Toast.makeText(
+                                            this,
+                                            "메일로 보낸 링크를 확인해주세요." ,
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             } else {
                                 val errorMessage = task.exception!!.message
                                 Toast.makeText(

@@ -3,7 +3,6 @@ package kr.hs.emirim.cho.taketoday2
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +24,6 @@ class SignUp : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         mAuth = FirebaseAuth.getInstance();
-        Log.d("1",(mAuth.currentUser).toString())
 
         btn_sign.setOnClickListener {
             userEmail=email.text.toString()
@@ -39,7 +37,6 @@ class SignUp : AppCompatActivity() {
                     reg_progress.visibility = View.VISIBLE
                     mAuth.createUserWithEmailAndPassword(userEmail, userPass)
                             .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
-                                Log.d("2",(mAuth.currentUser).toString())
                                 if (task.isSuccessful) {
                                     mAuth.currentUser?.sendEmailVerification()
                                             ?.addOnCompleteListener { task ->

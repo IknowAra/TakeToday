@@ -64,9 +64,16 @@ class galleryActivity : AppCompatActivity() {
         }
 
 
+        todays_tag.setOnClickListener {
+            var intent = Intent(this, Upload::class.java)
+            intent.putExtra("code",code)
+            startActivity(intent)
+        }
+
 
         btn_back.setOnClickListener{
-            finish();
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         todays_tag.setOnClickListener {
@@ -80,7 +87,6 @@ class galleryActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "customDialog")
         }
      }
-
     public fun makeRandom(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
@@ -133,5 +139,4 @@ class galleryActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "customDialog")
         }
     }
-
 }

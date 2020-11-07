@@ -27,9 +27,10 @@
         <activity android:name=".Category" />
         <activity android:name=".Setting" />
         <activity android:name=".Finished" />
+        <activity android:name=".menu_hambuger" />
         <activity android:name=".Upload" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".UserSetActivity" />
+        <activity android:name=".UserSetActivity"/>
         <activity android:name=".SignUp" />
         <activity android:name=".Login">
             <intent-filter>

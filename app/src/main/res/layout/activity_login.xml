@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context=".Login">
 
     <LinearLayout
@@ -21,10 +22,21 @@
             android:visibility="invisible"
             tools:visibility="invisible" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/wandohopeb"
+            android:text="로그인"/>
+
         <LinearLayout
             android:id="@+id/layout_login"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -81,6 +93,7 @@
                 android:id="@+id/login_btn"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
+                android:background="@drawable/main_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
                 android:text="로그인" />
