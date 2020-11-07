@@ -90,6 +90,7 @@ class Setting : AppCompatActivity() {
                     .addOnFailureListener {
                         Toast.makeText(this, "User &Posts 컬렉션 삭제 실패", Toast.LENGTH_LONG).show()
                     }
+                sendToLogout()
             }
             ?.addOnFailureListener {
                 Toast.makeText(this, "계정&Post  삭제 실패", Toast.LENGTH_LONG).show()
@@ -97,6 +98,10 @@ class Setting : AppCompatActivity() {
     }
 
     private fun sendToLogout() {
-        startActivity(Intent(this, Login::class.java))
+        finish()
+        var intent = Intent(this, Login::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
     }
 }

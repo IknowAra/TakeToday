@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class Login : AppCompatActivity() {
 
     var db: FirebaseFirestore? = null
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth;
     private var current_User: FirebaseUser? = null
     private var user_email: String?=null
     private var user_id: String? = null
@@ -28,50 +28,54 @@ class Login : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         login_btn.setOnClickListener(View.OnClickListener {
-            current_User= mAuth!!.currentUser
+            current_User= mAuth.currentUser
             user_email=current_User?.email
             Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
             val loginEmail: String = login_email.getText().toString()
             val loginPass: String = login_password.getText().toString()
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
                 login_progress.setVisibility(View.VISIBLE)
-                mAuth!!.signInWithEmailAndPassword(loginEmail, loginPass)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            if(current_User!!.isEmailVerified){
+                mAuth.signInWithEmailAndPassword(loginEmail, loginPass)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                current_User= mAuth.currentUser
+                                Log.d("",current_User.toString())
+
+                                if(current_User != null && current_User!!.isEmailVerified){
+                                    current_User= mAuth.currentUser
+                                    user_email=current_User?.email
+                                    Toast.makeText(
+                                            this,
+                                            "로그인 성공 :" + user_email,
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                }else{
+                                    Toast.makeText(
+                                            this,
+                                            "메일로 보낸 링크를 확인해주세요." ,
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                val errorMessage = task.exception!!.message
                                 Toast.makeText(
-                                    this,
-                                    "로그인 성공 :" + user_email,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                startActivity(Intent(this, MainActivity::class.java))
-                            }else{
-                                Toast.makeText(
-                                    this,
-                                    "메일로 보낸 링크를 확인해주세요." ,
-                                    Toast.LENGTH_SHORT
+                                        this,
+                                        "error : $errorMessage",
+                                        Toast.LENGTH_SHORT
                                 ).show()
                             }
-
-                        } else {
-                            val errorMessage = task.exception!!.message
-                            Toast.makeText(
-                                this,
-                                "error : $errorMessage",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            login_progress.setVisibility(View.INVISIBLE)
                         }
-                        login_progress.setVisibility(View.INVISIBLE)
-                    }
             }
         })
 
         login_reg.setOnClickListener(View.OnClickListener {
             startActivity(
-                Intent(
-                    this,
-                    SignUp::class.java
-                )
+                    Intent(
+                            this,
+                            SignUp::class.java
+                    )
             )
         })
     }
@@ -80,7 +84,12 @@ class Login : AppCompatActivity() {
         super.onStart()
         Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show()
 
-        if (current_User != null) {
+        current_User= mAuth.currentUser
+        user_email=current_User?.email
+
+        if (current_User != null && current_User!!.isEmailVerified) {
+            current_User= mAuth.currentUser
+            user_email=current_User?.email
             user_id = current_User!!.uid
             sendToMain()
         } else {
@@ -89,8 +98,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun sendToMain() {
-        val docRef = db!!.collection("Users").document(user_id!!)
-        docRef.get().addOnCompleteListener { task ->
+        db!!.collection("Users").document(user_id!!).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val document = task.result
                 if (document!!.exists()) {
@@ -115,5 +123,62 @@ class Login : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        login_btn.setOnClickListener(View.OnClickListener {
+            current_User= mAuth.currentUser
+            user_email=current_User?.email
+            Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
+            val loginEmail: String = login_email.getText().toString()
+            val loginPass: String = login_password.getText().toString()
+            if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
+                login_progress.setVisibility(View.VISIBLE)
+                mAuth.signInWithEmailAndPassword(loginEmail, loginPass)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                current_User= mAuth.currentUser
+
+                                if(current_User != null && current_User!!.isEmailVerified){
+                                    current_User= mAuth.currentUser
+                                    user_email=current_User?.email
+                                    Toast.makeText(
+                                            this,
+                                            "로그인 성공 :" + user_email,
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                }else{
+                                Toast.makeText(
+                                        this,
+                                        "메일로 보낸 링크를 확인해주세요." ,
+                                        Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            } else {
+                                val errorMessage = task.exception!!.message
+                                Toast.makeText(
+                                        this,
+                                        "error : $errorMessage",
+                                        Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            login_progress.setVisibility(View.INVISIBLE)
+                        }
+            }
+        })
+
+        login_reg.setOnClickListener(View.OnClickListener {
+            startActivity(
+                    Intent(
+                            this,
+                            SignUp::class.java
+                    )
+            )
+        })
     }
 }

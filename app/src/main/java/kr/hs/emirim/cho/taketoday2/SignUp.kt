@@ -3,6 +3,7 @@ package kr.hs.emirim.cho.taketoday2
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,51 +25,53 @@ class SignUp : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         mAuth = FirebaseAuth.getInstance();
+        Log.d("1",(mAuth.currentUser).toString())
 
         btn_sign.setOnClickListener {
             userEmail=email.text.toString()
             userPass=password.text.toString()
             confirmPass=confirm_password.text.toString()
             if (!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass) && !TextUtils.isEmpty(
-                    confirmPass
-                )
+                            confirmPass
+                    )
             ) {
                 if (userPass == confirmPass) {
                     reg_progress.visibility = View.VISIBLE
                     mAuth.createUserWithEmailAndPassword(userEmail, userPass)
-                        .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
-                            if (task.isSuccessful) {
-                                mAuth.currentUser?.sendEmailVerification()
-                                    ?.addOnCompleteListener { task ->
-                                        Toast.makeText(this, "회원가입 완료 이메일 인증을 확인해주세요", Toast.LENGTH_SHORT).show()
-                                        startActivity(
-                                            Intent(
-                                                this,
-                                                UserSetActivity::class.java
-                                            )
-                                        )
-                                    }
-                                //Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                            .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
+                                Log.d("2",(mAuth.currentUser).toString())
+                                if (task.isSuccessful) {
+                                    mAuth.currentUser?.sendEmailVerification()
+                                            ?.addOnCompleteListener { task ->
+                                                Toast.makeText(this, "회원가입 완료 이메일 인증을 확인해주세요", Toast.LENGTH_SHORT).show()
+                                                startActivity(
+                                                        Intent(
+                                                                this,
+                                                                UserSetActivity::class.java
+                                                        )
+                                                )
+                                            }
+                                    //Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
 //                                startActivity(
 //                                    Intent(
 //                                        this,
 //                                        UserSetActivity::class.java
 //                                    )
 //                                )
-                                //finish()
-                            } else {
-                                val errorMessage = task.exception!!.message
-                                Toast.makeText(
-                                    this,
-                                    "Error : $errorMessage",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            reg_progress.visibility = View.INVISIBLE
-                        })
+                                    //finish()
+                                } else {
+                                    val errorMessage = task.exception!!.message
+                                    Toast.makeText(
+                                            this,
+                                            "Error : $errorMessage",
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                reg_progress.visibility = View.INVISIBLE
+                            })
                 } else {
                     Toast.makeText(this, "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT)
-                        .show()
+                            .show()
                 }
             }
         }
