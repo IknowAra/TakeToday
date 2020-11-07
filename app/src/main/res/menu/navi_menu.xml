@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/back"
+    >
 
     <item
         android:id="@+id/cate"
+        android:fontFamily="@font/wandohoper"
         android:title="카테고리 목록"
         />
 
     <item
         android:id="@+id/finished"
+        android:fontFamily="@font/wandohoper"
         android:title="완성한 갤러리"
         />
 
     <item
         android:id="@+id/setting"
+        android:fontFamily="@font/wandohoper"
         android:title="설정"
         />
     <item
         android:id="@+id/ask"
+        android:fontFamily="@font/wandohoper"
         android:title="문의하기"
         />
 

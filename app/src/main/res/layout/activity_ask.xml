@@ -15,7 +15,7 @@
         android:background="@drawable/icon_back"
         android:backgroundTint="#ffffff"
         android:layout_margin="20dp"
-        ></Button>
+        />
 
     <TextView
         android:layout_marginTop="30dp"
