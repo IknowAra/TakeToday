@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.activity_user_set.*
 import kr.hs.emirim.cho.taketoday2.Login
 import kr.hs.emirim.cho.taketoday2.MainActivity
@@ -18,13 +19,13 @@ import java.util.*
 
 class UserSetActivity : AppCompatActivity() {
 
-    private lateinit var user_name:String;
-    private lateinit var user_tele:String;
+    private lateinit var user_name:String
+    private lateinit var user_tele:String
     //private lateinit var user_email:String;
     private var user_id: String? = null
     private var user_email: String? = null
 
-    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

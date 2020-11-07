@@ -60,7 +60,7 @@ class galleryActivity : AppCompatActivity() {
 
         btn_back.setOnClickListener{
             startActivity(Intent(this, MainActivity::class.java))
-            finish();
+            finish()
         }
 
         todays_tag.setOnClickListener {
