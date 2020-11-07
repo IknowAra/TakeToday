@@ -35,6 +35,16 @@
             android:text="카테고리"
             android:textSize="30dp"></TextView>
 
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/icon_reset"
+            ></Button>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     
     
