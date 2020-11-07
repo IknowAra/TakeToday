@@ -13,8 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_margin="20dp"
         >
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="이름"/>
+
+        <TextView
+            android:id="@+id/user_tele"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_marginBottom="40dp"
+            android:text="전화번호"/>
 
         <TextView
             android:id="@+id/cate"
@@ -23,8 +40,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:text="카테고리 목록"/>
+            android:textSize="20sp"
+            android:text="@string/menu_cate"/>
 
         <TextView
             android:id="@+id/finished"
@@ -33,8 +50,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:text="완성한 갤러리"/>
+            android:textSize="20sp"
+            android:text="@string/menu_finished"/>
 
         <TextView
             android:id="@+id/setting"
@@ -43,8 +60,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:text="설정"/>
+            android:textSize="20sp"
+            android:text="@string/menu_setting"/>
 
         <TextView
             android:id="@+id/ask"
@@ -53,8 +70,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:text="문의하기"/>
+            android:textSize="20sp"
+            android:text="@string/menu_ask"/>
 
     </LinearLayout>
 

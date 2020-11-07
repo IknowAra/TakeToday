@@ -31,6 +31,7 @@ class Category : AppCompatActivity() {
             user_id = user.uid
         }
         btn_back.setOnClickListener{
+            startActivity(Intent(this, MainActivity::class.java))
             finish();
         }
 
