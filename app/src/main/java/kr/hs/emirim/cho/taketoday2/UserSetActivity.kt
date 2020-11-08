@@ -53,11 +53,15 @@ class UserSetActivity : AppCompatActivity() {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val user = User(user_name, user_tele)
-        val userMap: MutableMap<String, String> =
-            HashMap()
-        userMap["email"] = user_email.toString()
-        userMap["name"] = user.getName()
-        userMap["tele"] = user.getTele()
+
+        val userMap = hashMapOf<String, Any>()
+
+        userMap.put("email",user_email.toString())
+        userMap.put("name",user.getName())
+        userMap.put("name",user.getTele())
+        userMap.put("current", listOf<String>())
+        userMap.put("inCate", "")
+
         Toast.makeText(this, user_id.toString(), Toast.LENGTH_SHORT).show()
         db.collection("Users").document(user_id.toString()).set(userMap)
             .addOnCompleteListener(OnCompleteListener<Void?> { task ->

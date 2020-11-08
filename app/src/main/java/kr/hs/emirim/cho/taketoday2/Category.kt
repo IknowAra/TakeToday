@@ -38,7 +38,6 @@ class Category : AppCompatActivity() {
             finish();
         }
 
-
         button5.setOnClickListener{
             addCode("CpQvOIxECiiUko2Ip45p")
         }
@@ -65,20 +64,22 @@ class Category : AppCompatActivity() {
 
     private fun addCode(code:String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        val random = Random()
+
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             nowStr = ""+document.data?.get(key = "current")
             if(code in nowStr == true){
                 showDialog(code)
             }else{
-                var ex = (""+document.data?.get(key = "current")).split(",")
+                var ex = document.data?.get(key = "current") as List<String>
                 count = ex.size
                 if(count>=4){
                     Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
                 }else{
-                    val random = Random()
+                    val num = random.nextInt(20)
                     val todays = hashMapOf(
                             "cate" to code,
-                            "now" to random.nextInt(20),
+                            "now" to num,
                             "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
                             "time" to "시간",
                             "user" to user_id.toString()
@@ -98,16 +99,16 @@ class Category : AppCompatActivity() {
                                     Log.d("에러 : ", error!!)
                                 }
                             })
-
                 }
             }
         }
     }
 
+
     private fun delCode(code: String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayRemove(code))
-        db.collection("Todays").whereEqualTo("cate",code).get().addOnSuccessListener {documents ->
+        db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener {documents ->
             for (document in documents){
                 db.collection("Todays").document(document.id).delete()
             }
