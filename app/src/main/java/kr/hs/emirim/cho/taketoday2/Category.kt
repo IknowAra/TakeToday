@@ -1,6 +1,7 @@
 package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -10,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 import kotlinx.android.synthetic.main.activity_category.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,7 +22,8 @@ class Category : AppCompatActivity() {
     private var user_id: String? = null
     private var count: Int = 0
     private var nowStr:String = ""
-
+    private var timeStamp:String=""
+    var start:Long=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +73,7 @@ class Category : AppCompatActivity() {
 
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             nowStr = ""+document.data?.get(key = "current")
+
             if(code in nowStr == true){
                 showDialog(code)
             }else{
@@ -80,12 +82,25 @@ class Category : AppCompatActivity() {
                 if(count>=4){
                     Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
                 }else{
+//                    var current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        LocalDateTime.now()
+//                    } else {
+//                        TODO("VERSION.SDK_INT < O")
+//                    }
+//                    var formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        DateTimeFormatter.ISO_DATE
+//                    } else {
+//                        TODO("VERSION.SDK_INT < O")
+//                    }
+//                    timeStamp=current.format(formatter)
+                    start=System.currentTimeMillis()
+
                     val num = random.nextInt(20)
                     val todays = hashMapOf(
                             "cate" to code,
                             "now" to num,
                             "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
-                            "time" to "시간",
+                            "time" to start.toString().toLong(),
                             "user" to user_id.toString()
                     )
                     db.collection("Todays").document().set(todays)

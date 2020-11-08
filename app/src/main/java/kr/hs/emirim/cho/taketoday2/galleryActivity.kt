@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,15 +15,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_gallery.*
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class galleryActivity : AppCompatActivity() {
-
 
     var buttons: ArrayList<Button> = arrayListOf<Button>()
     private var user_id: String? = null
@@ -31,6 +35,9 @@ class galleryActivity : AppCompatActivity() {
     var tag:String = ""
     var code:String = ""
     var remain:List<Int> = listOf()
+    var start:Long=0
+    var end:Long=0
+    var getTime:Long=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,21 +171,42 @@ class galleryActivity : AppCompatActivity() {
 
 
         btn_reset.setOnClickListener {
-            val dialog =
-                    AlertDialog.Builder(this)
-                            .setMessage("24시간이 지났다는 가정하에) 주제를 변경하시겠습니까?(현재 주제는 추후에 다시 랜덤으로 보여집니다)")
-                            .setPositiveButton("네") { dialog, which ->
-                                makeRandom()
-                                Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
-                                val intent=Intent(this, galleryActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            }
-                            .setNegativeButton("아니오"){ dialog, which ->
-                                Toast.makeText(this, "화이팅하세요!", Toast.LENGTH_SHORT).show()
-                            }
-                            .create()
-            dialog.show()
+//            var current= if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                LocalDateTime.now()
+//            } else {
+//                TODO("VERSION.SDK_INT < O")
+//            }
+//            var formatter=DateTimeFormatter.ISO_DATE
+            //timeStamp=current.format(formatter)
+            end=System.currentTimeMillis()
+            val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+                for(docu in documents){
+                    start=docu.data.get(key="time").toString().toLong()
+
+                    getTime= ((end-start)/1000)
+
+//                    Toast.makeText(this, "getTime : "+getTime, Toast.LENGTH_LONG).show()
+
+                    getReset(getTime)
+                }
+            }
+
+//            val dialog =
+//                    AlertDialog.Builder(this)
+//                            .setMessage("24시간이 지났다는 가정하에) 주제를 변경하시겠습니까?(현재 주제는 추후에 다시 랜덤으로 보여집니다)")
+//                            .setPositiveButton("네") { dialog, which ->
+//                                makeRandom()
+//                                Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+//                                val intent=Intent(this, galleryActivity::class.java)
+//                                startActivity(intent)
+//                                finish()
+//                            }
+//                            .setNegativeButton("아니오"){ dialog, which ->
+//                                Toast.makeText(this, "화이팅하세요!", Toast.LENGTH_SHORT).show()
+//                            }
+//                            .create()
+//            dialog.show()
         }
 
 
@@ -223,14 +251,6 @@ class galleryActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-
-
-
-
         todays_tag.setOnClickListener {
             var intent = Intent(this, Upload::class.java)
             intent.putExtra("code",code)
@@ -243,6 +263,42 @@ class galleryActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "customDialog")
         }
     }
+
+    private fun getReset(time: Long) {
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+        if(time>=86400){
+            val dialog =
+                AlertDialog.Builder(this)
+                    .setMessage("주제를 변경하시겠습니까?(현재 주제는 추후에 다시 랜덤으로 보여집니다)")
+                    .setPositiveButton("네") { dialog, which ->
+                        makeRandom()
+                        Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+                        updateStart()
+                        val intent=Intent(this, galleryActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    .setNegativeButton("아니오"){ dialog, which ->
+                        Toast.makeText(this, "화이팅하세요!", Toast.LENGTH_SHORT).show()
+                    }
+                    .create()
+            dialog.show()
+        }else{
+            Toast.makeText(this, "하루가 지나지 않아 주제 변경이 불가합니다.", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun updateStart() {
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+        start=System.currentTimeMillis()
+        db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { docus->
+            for(d in docus){
+                db.collection("Todays").document(d.id).update("time",start)
+            }
+        }
+    }
+
     fun inInt(arr:List<Int>, su:Int):Boolean{
         var resu:Boolean = false
         for(a in arr){
