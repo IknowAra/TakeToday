@@ -238,6 +238,7 @@ class galleryActivity : AppCompatActivity() {
     }
 
     private fun getReset(time: Long) {
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
         if(time>=86400){
             val dialog =
                 AlertDialog.Builder(this)
@@ -245,6 +246,7 @@ class galleryActivity : AppCompatActivity() {
                     .setPositiveButton("네") { dialog, which ->
                         makeRandom()
                         Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+                        updateStart()
                         val intent=Intent(this, galleryActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -258,6 +260,16 @@ class galleryActivity : AppCompatActivity() {
             Toast.makeText(this, "하루가 지나지 않아 주제 변경이 불가합니다.", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    private fun updateStart() {
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+        start=System.currentTimeMillis()
+        db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { docus->
+            for(d in docus){
+                db.collection("Todays").document(d.id).update("time",start)
+            }
+        }
     }
 
     fun inInt(arr:List<Int>, su:Int):Boolean{
