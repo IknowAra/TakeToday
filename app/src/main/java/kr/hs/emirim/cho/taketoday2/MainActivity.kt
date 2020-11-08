@@ -30,12 +30,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         var count:Int = 0
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = (""+document.data?.get(key = "current")).split(",").toMutableList()
-            ex[0] = ex[0].substring(1,ex[0].length)
-            ex[ex.size-1] = ex[ex.size-1].substring(0,ex[ex.size-1].length-1)
-            ex[0].trim()
+            var ex = document.data?.get(key = "current") as MutableList<String>
 
-            if(ex[0].equals("")){
+            if(ex.size == 0){
                 count = 0
                 button_1.setText("+")
                 button_2.setText("")
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     button_4.setText("+")
                 }
                 for(i in 0..count-1){
-                    ex[i] = ex[i].trim()
+
                     db.collection("Category").document(ex[i]).get().addOnSuccessListener { document ->
                         if(i==0){
                             button_1.setText((document.data?.get(key = "name")).toString())
@@ -162,14 +159,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun moveToGallery(num:Int){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = (""+document.data?.get(key = "current")).split(",").toMutableList()
-            ex[0] = ex[0].substring(1,ex[0].length)
-            ex[ex.size-1] = ex[ex.size-1].substring(0,ex[ex.size-1].length-1)
-            var code = ex[num].trim()
+            var ex = document.data?.get(key = "current") as List<String>
+            var code = ex[num]
 
-            val intent=Intent(this, galleryActivity::class.java)
-            intent.putExtra("code",code)
-            startActivity(intent)
+            db.collection("Users").document(user_id.toString()).update("inCate",code).addOnSuccessListener {
+                val intent=Intent(this, galleryActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 
@@ -183,14 +180,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
         var count:Int = 0
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = (""+document.data?.get(key = "current")).split(",").toMutableList()
-            ex[0] = ex[0].substring(1,ex[0].length)
-            ex[ex.size-1] = ex[ex.size-1].substring(0,ex[ex.size-1].length-1)
-            ex[0].trim()
+            var ex = document.data?.get(key = "current") as MutableList<String>
 
-            if(ex[0].equals("")){
+            if(ex.size == 0){
                 count = 0
                 button_1.setText("+")
                 button_2.setText("")

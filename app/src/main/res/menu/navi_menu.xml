@@ -18,6 +18,7 @@
         android:fontFamily="@font/wandohoper"
         android:title="설정"
         />
+
     <item
         android:id="@+id/ask"
         android:fontFamily="@font/wandohoper"

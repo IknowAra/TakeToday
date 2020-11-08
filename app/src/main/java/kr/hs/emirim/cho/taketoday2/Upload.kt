@@ -56,6 +56,8 @@ class Upload : AppCompatActivity() {
     private lateinit var user_id: String
     private var tempFile: Uri? = null
     private var locationManager : LocationManager? = null
+    private var currentCode: String = ""
+    private var nowing: Int = -1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +68,22 @@ class Upload : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
-        hashTag.text='#'+Cate.hashtag
+
+        firebaseFirestore.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
+            currentCode = document.data?.get(key = "inCate").toString()
+            firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+                for (docu in documents){
+                    nowing = docu.data?.get(key = "now").toString().toInt()
+                    firebaseFirestore.collection("Category").document(currentCode).get().addOnSuccessListener { document2 ->
+                        var cateList:List<String> = document2.data?.get(key = "arr") as List<String>
+
+                        hashTag.text= '#'+cateList[nowing]
+                    }
+                }
+            }
+        }
+
+
 
         //위치
         val geocoder = Geocoder(this)
@@ -121,85 +138,140 @@ class Upload : AppCompatActivity() {
                 })
             builder.show()
         }
+
         var current = LocalDateTime.now()
         var formatter = DateTimeFormatter.ISO_DATE
+
+
         setup_btn.setOnClickListener {
-            LodingDialog(this).show()
-            hashTagTitle=Cate.hashtag
             var contents: String = setup_content.text.toString()
-            if (!TextUtils.isEmpty(contents) && photoURI!=null) {
+
+            if (!TextUtils.isEmpty(contents)) {
+                LodingDialog(this).show()
                 timeStamp = current.format(formatter)
                 Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
-                //Toast.makeText(this, "file : " + photoURI, Toast.LENGTH_LONG).show()
-                var randomName: String = FieldValue.serverTimestamp().toString()
-                var image_path: StorageReference =
-                    storageReference.child("images").child(user_id + ".jpg")
-                image_path.putFile(photoURI!!).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val downloadUri: String = task.result.toString()
-                        val postMap = hashMapOf<String, String>()
-                        postMap.put("image_url", downloadUri)
-                        postMap.put("content", contents)
-                        postMap.put("user_id", user_id)
-                        postMap.put("hashTag", hashTagTitle)
+
+                firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+                    for(docu in documents){
+                        var now = docu.data?.get(key = "now").toString().toInt()
+                        val postMap = hashMapOf<String, Any>()
+                        postMap.put("content", contents.toString())
+                        postMap.put("user_id", user_id) //
+                        postMap.put("hashTag", now) //
                         postMap.put("timestamp", timeStamp)
                         postMap.put("location", currentLoca)
+                        postMap.put("cate",currentCode) //
 
-                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG)
-                                        .show()
-                                    startActivity(Intent(this, galleryActivity::class.java))
-                                    finish()
-                                } else {
-                                    Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+                        firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
+                            if (catdoc.isEmpty) {
+                                firebaseFirestore.collection("Posts").document().set(postMap)
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
+                                                    for(d in documents2){
+
+                                                        var image_path: StorageReference =
+                                                                storageReference.child("images").child(d.id + ".jpg")
+
+                                                        if (photoURI!=null) {
+                                                            image_path.putFile(photoURI!!).addOnCompleteListener { task ->
+                                                                if (task.isSuccessful) {
+                                                                    Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                    firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                        for(docdoc in documents3){
+                                                                            firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                        }
+                                                                    }
+
+                                                                } else {
+                                                                    var error: Exception? = task.exception
+                                                                    Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                                }
+                                                            }
+                                                        }else if (tempFile != null){
+                                                            image_path.putFile(tempFile!!).addOnCompleteListener { task ->
+                                                                if (task.isSuccessful) {
+                                                                    Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                    firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                        for(docdoc in documents3){
+                                                                            firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    var error: Exception? = task.exception
+                                                                    Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                startActivity(Intent(this, galleryActivity::class.java))
+                                                finish()
+                                            } else {
+                                                Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+                                            }
+                                        }
+                            }else{
+                                for(cd in catdoc){
+                                    Log.d("",cd.toString())
+                                    firebaseFirestore.collection("Posts").document(cd.id).set(postMap)
+                                            .addOnCompleteListener { task ->
+                                                if (task.isSuccessful) {
+                                                    firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
+                                                        for(d in documents2){
+
+                                                            var image_path: StorageReference =
+                                                                    storageReference.child("images").child(d.id + ".jpg")
+
+                                                            if (photoURI!=null) {
+                                                                image_path.putFile(photoURI!!).addOnCompleteListener { task ->
+                                                                    if (task.isSuccessful) {
+                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                            for(docdoc in documents3){
+                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            }
+                                                                        }
+
+                                                                    } else {
+                                                                        var error: Exception? = task.exception
+                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                                    }
+                                                                }
+                                                            }else if (tempFile != null){
+                                                                image_path.putFile(tempFile!!).addOnCompleteListener { task ->
+                                                                    if (task.isSuccessful) {
+                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                            for(docdoc in documents3){
+                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        var error: Exception? = task.exception
+                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    startActivity(Intent(this, galleryActivity::class.java))
+                                                    finish()
+                                                } else {
+                                                    Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
                                 }
                             }
-
-                    } else {
-                        var error: Exception? = task.exception
-                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
-            } else if (!TextUtils.isEmpty(contents) && tempFile != null) {
-                timeStamp = current.format(formatter)
-                Toast.makeText(this, "현재시간 : " + timeStamp, Toast.LENGTH_LONG).show()
-                //Toast.makeText(this, "file : " + tempFile, Toast.LENGTH_LONG).show()
-                var randomName: String = FieldValue.serverTimestamp().toString()
-                var image_path: StorageReference =
-                    storageReference.child("images").child(user_id + ".jpg")
-                image_path.putFile(tempFile!!).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val downloadUri: String = task.result.toString()
-                        val postMap = hashMapOf<String, String>()
-                        postMap.put("image_url", downloadUri)
-                        postMap.put("content", contents)
-                        postMap.put("user_id", user_id)
-                        postMap.put("hashTag", hashTagTitle)
-                        postMap.put("timestamp", timeStamp)
-                        postMap.put("location", currentLoca)
-
-                        firebaseFirestore.collection("Posts").document(user_id).set(postMap)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        this,
-                                        "The gallery Image is Uploaded",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    startActivity(Intent(this, galleryActivity::class.java))
-                                    finish()
-                                } else {
-                                    Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
-                                }
-                            }
-
-                    } else {
-                        var error: Exception? = task.exception
-                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
-                    }
-                }
+            }else{
+                Toast.makeText(this, "모두 입력해주세요", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -364,7 +436,7 @@ class Upload : AppCompatActivity() {
             var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
             var adre = list?.get(0)?.getAddressLine(0)
             var arr = adre?.split(" ")
-            loca.text = ("" + (arr?.get(2)))
+            loca.text = (" " + (arr?.get(2)))
             currentLoca = ("" + (arr?.get(2)))
         }
 
