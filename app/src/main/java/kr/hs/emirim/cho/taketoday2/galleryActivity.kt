@@ -167,36 +167,43 @@ class galleryActivity : AppCompatActivity() {
                         var now:Int = (docu.data?.get(key = "now")).toString().toInt()
                         remain = docu.data?.get(key = "remain") as List<Int>
                         todays_tag.setText("오늘의 주제 : "+arr[now])
-                        var butt:String = "btn_"+(now+1).toString()
 
-                        for ((idx,btn) in buttons.withIndex()){
-                            if(idx == now){
-                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
-                            }
-                            if(inInt(remain,idx)){
-                                btn.setEnabled(false)
-                            }else{
-                                btn.setEnabled(true)
-                                db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
-                                    for(d in documents2){
-                                        var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
-                                        image_path.getBytes(1024*1024).addOnSuccessListener { bytes ->
-                                            var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                                            var img:BitmapDrawable = BitmapDrawable(resources,bit)
-                                            btn.setBackground(img)
-                                        }
-                                    }
 
+//                        for ((idx,btn) in buttons.withIndex()){
+//                            if(idx == now){
+//                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+//                            }
+//                            if(inInt(remain,idx)){
+//                                btn.setEnabled(false)
+//                            }else{
+//                                btn.setEnabled(true)
+//                            }
+//                        }
+                        
+                        db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
+                            for(d in documents2){
+                                var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
+                                image_path.getBytes(1024*1024).addOnSuccessListener { bytes ->
+                                    var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                                    var img:BitmapDrawable = BitmapDrawable(resources,bit)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setBackground(img)
                                 }
-
-
-
                             }
+
                         }
                     }
                 }
             }
         }
+
+
+
+
+
+
+
+
+
         todays_tag.setOnClickListener {
             var intent = Intent(this, Upload::class.java)
             intent.putExtra("code",code)
