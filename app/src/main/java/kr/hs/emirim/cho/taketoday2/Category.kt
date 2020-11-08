@@ -60,6 +60,9 @@ class Category : AppCompatActivity() {
         button2.setOnClickListener{
             addCode("r7lV0RqNsgFuD8mdJdEe")
         }
+        button9.setOnClickListener {
+            Toast.makeText(this, "준비중입니다", Toast.LENGTH_SHORT).show()
+        }
 
     }
 

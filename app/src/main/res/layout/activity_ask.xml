@@ -39,7 +39,8 @@
             android:paddingLeft="30dp"
             android:layout_width="match_parent"
             android:layout_margin="20dp"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp"
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/btn_ask"

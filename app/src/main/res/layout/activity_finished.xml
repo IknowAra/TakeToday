@@ -73,6 +73,7 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:layout_margin="10dp"
+                        android:textColor="@color/black"
                         android:text="하늘" />
 
                     <Button
@@ -82,6 +83,7 @@
                         android:layout_margin="10dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="공부" />
                 </LinearLayout>
 
@@ -99,6 +101,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="코로나" />
 
                     <Button
@@ -108,6 +111,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="음식" />
                 </LinearLayout>
 
@@ -125,6 +129,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="미션" />
 
                     <Button
@@ -133,6 +138,7 @@
                         android:id="@+id/button7"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
+                        android:textColor="@color/black"
                         android:layout_weight="1"
                         android:text="책" />
                 </LinearLayout>
@@ -150,6 +156,7 @@
                         android:id="@+id/button8"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
+                        android:textColor="@color/black"
                         android:layout_weight="1"
                         android:text="나" />
 
@@ -159,6 +166,7 @@
                         android:id="@+id/button9"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
+                        android:textColor="@color/black"
                         android:layout_weight="1"
                         android:text="더 많은 주제" />
                 </LinearLayout>

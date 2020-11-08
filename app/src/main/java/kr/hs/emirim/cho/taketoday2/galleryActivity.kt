@@ -45,6 +45,25 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
 
+        btn_reset.setOnClickListener {
+            val dialog =
+                    AlertDialog.Builder(this)
+                            .setMessage("24시간이 지났다는 가정하에) 주제를 변경하시겠습니까?(현재 주제는 추후에 다시 랜덤으로 보여집니다)")
+                            .setPositiveButton("네") { dialog, which ->
+                                makeRandom()
+                                Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+                                val intent=Intent(this, galleryActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .setNegativeButton("아니오"){ dialog, which ->
+                                Toast.makeText(this, "화이팅하세요!", Toast.LENGTH_SHORT).show()
+                            }
+                            .create()
+            dialog.show()
+        }
+
+
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -58,18 +77,29 @@ class galleryActivity : AppCompatActivity() {
                 db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
                     for(docu in documents){
                         var now:Int = (docu.data?.get(key = "now")).toString().toInt()
-                        var remain:List<String> = docu.data?.get(key = "remain") as List<String>
+                        remain = docu.data?.get(key = "remain") as List<Int>
                         todays_tag.setText("오늘의 주제 : "+arr[now])
-                        var butt:String = "btn_"+(now+1).toString()
 
-//                    for ((index,btn) in buttons.withIndex()){
-//
-//                        if(index.toString() in remain){
-//                            btn
-//                        }else{
-//                            btn.setBackgroundResource(R.drawable.ic_baseline_menu_50);
-//                        }
-//                    }
+                        for ((idx,btn) in buttons.withIndex()){
+                            if(idx == now){
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                            }
+                            btn.setEnabled(false)
+                        }
+
+                        db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
+                            for(d in documents2){
+
+                                var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
+                                image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
+                                    var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                                    var img:BitmapDrawable = BitmapDrawable(resources,bit)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setBackground(img)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setEnabled(true)
+                                }
+                            }
+
+                        }
                     }
                 }
             }
@@ -168,25 +198,22 @@ class galleryActivity : AppCompatActivity() {
                         remain = docu.data?.get(key = "remain") as List<Int>
                         todays_tag.setText("오늘의 주제 : "+arr[now])
 
+                        for ((idx,btn) in buttons.withIndex()){
+                            if(idx == now){
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                            }
+                            btn.setEnabled(false)
+                        }
 
-//                        for ((idx,btn) in buttons.withIndex()){
-//                            if(idx == now){
-//                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
-//                            }
-//                            if(inInt(remain,idx)){
-//                                btn.setEnabled(false)
-//                            }else{
-//                                btn.setEnabled(true)
-//                            }
-//                        }
-                        
                         db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
                             for(d in documents2){
+
                                 var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
-                                image_path.getBytes(1024*1024).addOnSuccessListener { bytes ->
+                                image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
                                     var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
                                     var img:BitmapDrawable = BitmapDrawable(resources,bit)
                                     buttons[d.data?.get(key = "hashTag").toString().toInt()].setBackground(img)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setEnabled(true)
                                 }
                             }
 

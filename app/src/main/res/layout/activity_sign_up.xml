@@ -46,6 +46,7 @@
                             android:layout_gravity="center_horizontal"
                             android:inputType="textEmailAddress"
                             android:hint="이메일"
+                            android:textColor="@color/black"
                             android:padding="10dp"/>
 
                         <EditText
@@ -55,6 +56,7 @@
                             android:layout_gravity="center_horizontal"
                             android:inputType="textPassword"
                             android:hint="비밀번호"
+                            android:textColor="@color/black"
                             android:padding="10dp"/>
 
                         <EditText
@@ -64,6 +66,7 @@
                             android:layout_gravity="center_horizontal"
                             android:inputType="textPassword"
                             android:hint="비밀번호 확인"
+                            android:textColor="@color/black"
                             android:padding="10dp"/>
 
                         <Button
@@ -73,6 +76,7 @@
                             android:layout_marginTop="20dp"
                             android:background="@drawable/main_button"
                             android:layout_gravity="center_horizontal"
+                            android:textColor="@color/black"
                             android:text="회원가입" />
                 </LinearLayout>
 

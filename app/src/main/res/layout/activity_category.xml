@@ -73,7 +73,8 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:layout_margin="10dp"
-                        android:text="하늘" />
+                        android:text="하늘"
+                        android:textColor="@color/black"/>
 
                     <Button
                         android:background="@drawable/main_button"
@@ -82,6 +83,7 @@
                         android:layout_margin="10dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="공부" />
                 </LinearLayout>
 
@@ -99,6 +101,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="코로나" />
 
                     <Button
@@ -108,6 +111,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="음식" />
                 </LinearLayout>
 
@@ -125,6 +129,7 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
                         android:text="미션" />
 
                     <Button
@@ -134,7 +139,8 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="책" />
+                        android:text="책"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,7 +157,8 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="나" />
+                        android:text="나"
+                        android:textColor="@color/black"/>
 
                     <Button
                         android:layout_margin="10dp"
@@ -160,7 +167,8 @@
                         android:layout_width="0dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:text="더 많은 주제" />
+                        android:text="더 많은 주제"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

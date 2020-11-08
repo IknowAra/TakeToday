@@ -23,9 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이름"
-            android:textSize="40sp"/>
+            android:fontFamily="@font/wandohoper"
+            android:textSize="45sp"/>
 
         <TextView
+            android:fontFamily="@font/wandohoper"
             android:id="@+id/userTele"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,6 +38,7 @@
 
     <Button
         android:id="@+id/btn_logout"
+        android:textColor="@color/black"
         android:fontFamily="@font/wandohoper"
         android:background="@drawable/main_button"
         android:layout_width="120dp"
@@ -47,6 +50,7 @@
         android:id="@+id/btn_remove"
         android:background="@drawable/main_button"
         android:fontFamily="@font/wandohoper"
+        android:textColor="@color/black"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="20dp"
