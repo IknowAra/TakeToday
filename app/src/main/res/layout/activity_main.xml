@@ -55,6 +55,7 @@
                     android:layout_margin="10dp"
                     android:id="@+id/button_1"
                     android:layout_weight="1"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/wandohoper"
                     android:text="" />
                 <Button
@@ -64,6 +65,7 @@
                     android:layout_height="180dp"
                     android:id="@+id/button_2"
                     android:fontFamily="@font/wandohoper"
+                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:text="" />
             </LinearLayout>
@@ -78,6 +80,7 @@
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
                     android:layout_margin="10dp"
+                    android:textColor="@color/black"
                     android:layout_height="180dp"
                     android:id="@+id/button_3"
                     android:layout_weight="1"
@@ -88,6 +91,7 @@
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
                     android:layout_height="180dp"
+                    android:textColor="@color/black"
                     android:layout_margin="10dp"
                     android:id="@+id/button_4"
                     android:layout_weight="1"
