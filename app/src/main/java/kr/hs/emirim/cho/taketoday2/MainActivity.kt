@@ -116,8 +116,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawer_layout.openDrawer(GravityCompat.END)
         }
 
-
-
         naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
     }
 
@@ -270,8 +268,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         btn_open.setOnClickListener{
             drawer_layout.openDrawer(GravityCompat.END)
         }
-
-
 
         naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
     }

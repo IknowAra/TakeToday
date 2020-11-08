@@ -7,8 +7,32 @@
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:orientation="vertical"
-    android:gravity="center_horizontal|center_vertical"
+    android:gravity="center_horizontal"
     tools:context=".Setting">
+
+    <LinearLayout
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/userTele"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전번"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_logout"

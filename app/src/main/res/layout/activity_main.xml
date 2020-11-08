@@ -51,7 +51,7 @@
                 <Button
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_margin="10dp"
                     android:id="@+id/button_1"
                     android:layout_weight="1"
@@ -61,7 +61,7 @@
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
                     android:layout_margin="10dp"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:id="@+id/button_2"
                     android:fontFamily="@font/wandohoper"
                     android:layout_weight="1"
@@ -78,7 +78,7 @@
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
                     android:layout_margin="10dp"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:id="@+id/button_3"
                     android:layout_weight="1"
                     android:fontFamily="@font/wandohoper"
@@ -87,7 +87,7 @@
                 <Button
                     android:background="@drawable/main_button"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_margin="10dp"
                     android:id="@+id/button_4"
                     android:layout_weight="1"
@@ -100,7 +100,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/naviView"
-        android:background="#C2B7DF"
+        android:background="@drawable/back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"

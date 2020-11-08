@@ -2,6 +2,7 @@ package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -13,23 +14,30 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_setting.*
 
 class Setting : AppCompatActivity() {
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     private var db: FirebaseFirestore? = null
-    private var currentUser: FirebaseUser? = null
     private var user_id: String? = null
     private lateinit var storage: StorageReference
+    private lateinit var user_name:String
+    private lateinit var user_tele:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        currentUser= mAuth!!.currentUser
+        //currentUser= mAuth!!.currentUser
         storage = FirebaseStorage.getInstance().reference
 
         btn_logout.setOnClickListener{
-            mAuth?.signOut()
+            mAuth.signOut()
             sendToLogout()
+        }
+
+        val user= mAuth.currentUser
+        user?.let{
+            user_id = user.uid
         }
 
         btn_remove.setOnClickListener {
@@ -56,10 +64,27 @@ class Setting : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        Toast.makeText(this, "email : "+currentUser?.email, Toast.LENGTH_LONG).show()
-        if (currentUser != null) {
-            user_id = currentUser!!.uid
-        } else {
+        getNameTele()
+    }
+
+    private fun getNameTele() {
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        db.collection("Users").document(user_id!!).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document!!.exists()) {
+                    val user = document.toObject(User::class.java)
+                    user_name = user!!.name
+                    user_tele=user!!.tele
+
+                    userName.text=user_name
+                    userTele.text=user_tele
+                } else {
+                    Log.d("LoginActivity => ", "No such document")
+                }
+            } else {
+
+            }
         }
     }
 
@@ -75,12 +100,6 @@ class Setting : AppCompatActivity() {
                     .addOnSuccessListener {
                         docRef2.delete()
                             .addOnSuccessListener {
-//                                desertRef.delete().addOnSuccessListener {
-//                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 성공!", Toast.LENGTH_LONG).show()
-//                                    startActivity(Intent(this, Login::class.java))
-//                                }.addOnFailureListener {
-//                                    Toast.makeText(this, "계정&컬렉션&이미지 삭제 실패", Toast.LENGTH_LONG).show()
-//                                    }
                                 Toast.makeText(this, "Users&Posts 컬렉션 삭제 성공!", Toast.LENGTH_LONG).show()
                             }
                             .addOnFailureListener{
