@@ -7,4 +7,6 @@
     <string name="menu_finished">완성한 갤러리</string>
     <string name="menu_setting">설정</string>
     <string name="menu_ask">문의하기</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/back"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/cate"
@@ -25,6 +23,5 @@
         android:fontFamily="@font/wandohoper"
         android:title="문의하기"
         />
-
 
 </menu>

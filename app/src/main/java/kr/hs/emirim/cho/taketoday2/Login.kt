@@ -40,7 +40,7 @@ class Login : AppCompatActivity() {
                                 "로그인 성공 :"+ currentUser?.email,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            startActivity(Intent(this, MainActivity::class.java))
+                            startActivity(Intent(this, HomeActivity::class.java))
                         } else {
                             val errorMessage = task.exception!!.message
                             Toast.makeText(
@@ -69,7 +69,7 @@ class Login : AppCompatActivity() {
         if (currentUser != null) {
             user_id = currentUser!!.uid
             Toast.makeText(this, "LoginActivity = > "+user_email, Toast.LENGTH_SHORT)
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
         } else {
             Toast.makeText(this, "LoginActivity = > null", Toast.LENGTH_SHORT)
         }

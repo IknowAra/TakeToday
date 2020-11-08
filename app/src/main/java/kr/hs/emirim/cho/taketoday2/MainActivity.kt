@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(){
 
     private var user_id: String? = null
     private lateinit var mAuth: FirebaseAuth;
@@ -114,51 +114,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-
-        btn_open.setOnClickListener{
-            drawer_layout.openDrawer(GravityCompat.END)
-        }
-
-
-
-        naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
-    }
-
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId)
-        {
-            R.id.cate-> {
-                val intent=Intent(this, Category::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
-                startActivity(intent)
-            }
-
-            R.id.finished-> {
-                val intent=Intent(this, Finished::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
-                startActivity(intent)
-            }
-
-            R.id.setting-> {
-                val intent=Intent(this, Setting::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
-                startActivity(intent)
-            }
-            R.id.ask-> {
-                val intent=Intent(this, Ask::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
-                startActivity(intent)
-            }
-        }
-        //drawer_layout.closeDrawers()
-        return false
-    }
-
-    override fun onBackPressed() {
-        if(drawer_layout.isDrawerOpen(GravityCompat.END))
-        {
-            drawer_layout.closeDrawers()
-        }
-        else{
-            super.onBackPressed()
-        }
     }
 
     private fun moveToGallery(num:Int){
@@ -271,14 +226,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-
-        btn_open.setOnClickListener{
-            drawer_layout.openDrawer(GravityCompat.END)
-        }
-
-
-
-        naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
     }
 
 

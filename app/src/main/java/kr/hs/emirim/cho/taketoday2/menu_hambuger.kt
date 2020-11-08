@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_menu_hambuger.*
 
 class menu_hambuger : AppCompatActivity() {
 
@@ -18,7 +17,6 @@ class menu_hambuger : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu_hambuger)
 
         mAuth=FirebaseAuth.getInstance()
         val current_User=mAuth.currentUser
