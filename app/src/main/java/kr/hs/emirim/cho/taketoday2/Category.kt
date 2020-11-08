@@ -31,7 +31,7 @@ class Category : AppCompatActivity() {
             user_id = user.uid
         }
         btn_back.setOnClickListener{
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish();
         }
 
