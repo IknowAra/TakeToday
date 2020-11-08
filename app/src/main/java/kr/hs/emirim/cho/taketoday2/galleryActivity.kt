@@ -1,18 +1,24 @@
 package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_gallery.*
+import java.io.File
 import java.util.*
 
 class galleryActivity : AppCompatActivity() {
@@ -24,6 +30,7 @@ class galleryActivity : AppCompatActivity() {
     private lateinit var storageReference: StorageReference
     var tag:String = ""
     var code:String = ""
+    var remain:List<Int> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +40,7 @@ class galleryActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         val user= mAuth.currentUser
+        remain = listOf()
         user?.let{
             user_id = user.uid
         }
@@ -89,7 +97,7 @@ class galleryActivity : AppCompatActivity() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
             for(document in documents){
-                var now = document.data?.get(key = "now") as Int
+                var now = document.data?.get(key = "now").toString().toInt()
                 var a:List<Int> = document.data?.get(key = "remain") as List<Int>
                 if(a.size == 1){
                     val dialog =
@@ -122,6 +130,27 @@ class galleryActivity : AppCompatActivity() {
         user?.let{
             user_id = user.uid
         }
+        remain = listOf()
+
+
+        btn_reset.setOnClickListener {
+            val dialog =
+                    AlertDialog.Builder(this)
+                            .setMessage("24시간이 지났다는 가정하에) 주제를 변경하시겠습니까?(현재 주제는 추후에 다시 랜덤으로 보여집니다)")
+                            .setPositiveButton("네") { dialog, which ->
+                                makeRandom()
+                                Toast.makeText(this, "주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+                                val intent=Intent(this, galleryActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .setNegativeButton("아니오"){ dialog, which ->
+                                Toast.makeText(this, "화이팅하세요!", Toast.LENGTH_SHORT).show()
+                            }
+                            .create()
+            dialog.show()
+        }
+
 
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -136,23 +165,38 @@ class galleryActivity : AppCompatActivity() {
                 db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
                     for(docu in documents){
                         var now:Int = (docu.data?.get(key = "now")).toString().toInt()
-                        var remain:List<String> = docu.data?.get(key = "remain") as List<String>
+                        remain = docu.data?.get(key = "remain") as List<Int>
                         todays_tag.setText("오늘의 주제 : "+arr[now])
                         var butt:String = "btn_"+(now+1).toString()
 
-//                    for ((index,btn) in buttons.withIndex()){
-//
-//                        if(index.toString() in remain){
-//                            btn
-//                        }else{
-//                            btn.setBackgroundResource(R.drawable.ic_baseline_menu_50);
-//                        }
-//                    }
+                        for ((idx,btn) in buttons.withIndex()){
+                            if(idx == now){
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                            }
+                            if(inInt(remain,idx)){
+                                btn.setEnabled(false)
+                            }else{
+                                btn.setEnabled(true)
+                                db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
+                                    for(d in documents2){
+                                        var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
+                                        image_path.getBytes(1024*1024).addOnSuccessListener { bytes ->
+                                            var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                                            var img:BitmapDrawable = BitmapDrawable(resources,bit)
+                                            btn.setBackground(img)
+                                        }
+                                    }
+
+                                }
+
+
+
+                            }
+                        }
                     }
                 }
             }
         }
-
         todays_tag.setOnClickListener {
             var intent = Intent(this, Upload::class.java)
             intent.putExtra("code",code)
@@ -164,5 +208,15 @@ class galleryActivity : AppCompatActivity() {
 
             dialog.show(supportFragmentManager, "customDialog")
         }
+    }
+    fun inInt(arr:List<Int>, su:Int):Boolean{
+        var resu:Boolean = false
+        for(a in arr){
+            if(a == su){
+                resu = true
+                break
+            }
+        }
+        return resu
     }
 }
