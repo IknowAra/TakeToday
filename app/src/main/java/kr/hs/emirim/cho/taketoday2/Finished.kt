@@ -178,8 +178,6 @@ class Finished : AppCompatActivity() {
                         }
                 }
             }
-
-
         }
 
     private fun moveToGallery(code: String) {

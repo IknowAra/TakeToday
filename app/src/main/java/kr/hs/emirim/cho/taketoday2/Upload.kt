@@ -9,6 +9,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.location.Address
 import android.location.Geocoder
@@ -379,15 +380,27 @@ class Upload : AppCompatActivity() {
                     // 카메라로부터 받은 데이터가 있을경우에만
                     val file = File(currentPhotoPath)
                     if (Build.VERSION.SDK_INT < 28) {
-                        val bitmap = MediaStore.Images.Media
-                            .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
+                        val options=BitmapFactory.Options()
+
+                        options.inSampleSize=8
+//                        val bitmap = MediaStore.Images.Media
+//                            .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
+//                        imageUp.setImageBitmap(bitmap)
+
+                        val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
                         imageUp.setImageBitmap(bitmap)
                     } else {
-                        val decode = ImageDecoder.createSource(
-                            this.contentResolver,
-                            Uri.fromFile(file)
-                        )
-                        val bitmap = ImageDecoder.decodeBitmap(decode)
+//                        val decode = ImageDecoder.createSource(
+//                            this.contentResolver,
+//                            Uri.fromFile(file)
+//                        )
+
+                        val options=BitmapFactory.Options()
+
+                        options.inSampleSize=8
+//                        val bitmap = ImageDecoder.decodeBitmap(decode)
+//                        imageUp.setImageBitmap(bitmap)
+                        val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
                         imageUp.setImageBitmap(bitmap)
                     }
                 }

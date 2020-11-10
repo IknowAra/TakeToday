@@ -82,17 +82,6 @@ class Category : AppCompatActivity() {
                 if(count>=4){
                     Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
                 }else{
-//                    var current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        LocalDateTime.now()
-//                    } else {
-//                        TODO("VERSION.SDK_INT < O")
-//                    }
-//                    var formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        DateTimeFormatter.ISO_DATE
-//                    } else {
-//                        TODO("VERSION.SDK_INT < O")
-//                    }
-//                    timeStamp=current.format(formatter)
                     start=System.currentTimeMillis()
 
                     val num = random.nextInt(20)
