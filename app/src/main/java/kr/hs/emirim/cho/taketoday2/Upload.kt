@@ -9,6 +9,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.location.Address
 import android.location.Geocoder
@@ -381,14 +383,17 @@ class Upload : AppCompatActivity() {
                     if (Build.VERSION.SDK_INT < 28) {
                         val bitmap = MediaStore.Images.Media
                             .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
-                        imageUp.setImageBitmap(bitmap)
+
+                        val rebitmap = Bitmap.createBitmap(bitmap, 0, 0, 200, 200)
+                        imageUp.setImageBitmap(rebitmap)
                     } else {
                         val decode = ImageDecoder.createSource(
                             this.contentResolver,
                             Uri.fromFile(file)
                         )
                         val bitmap = ImageDecoder.decodeBitmap(decode)
-                        imageUp.setImageBitmap(bitmap)
+                        val rebitmap = Bitmap.createBitmap(bitmap, 0, 0, 200, 200)
+                        imageUp.setImageBitmap(rebitmap)
                     }
                 }
             }

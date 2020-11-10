@@ -5,7 +5,10 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.drawable.BitmapDrawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
@@ -33,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class Popup_post : DialogFragment(){
+class Popup_post(postId:String) : DialogFragment(){
     private lateinit var mAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -41,7 +44,8 @@ class Popup_post : DialogFragment(){
     private var tempFile: Uri? = null
     private var locationManager : LocationManager? = null
     private var currentCode: String = ""
-    private var nowing: Int = -1
+    private var nowing: String = postId
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.white_round);
@@ -56,12 +60,34 @@ class Popup_post : DialogFragment(){
         val height = (resources.displayMetrics.heightPixels * 0.50).toInt()
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-//        mAuth = FirebaseAuth.getInstance()
-//        storageReference = FirebaseStorage.getInstance().reference
-//        firebaseFirestore = FirebaseFirestore.getInstance()
-//        user_id = mAuth.currentUser!!.uid
-//
-//        firebaseFirestore.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
+
+        mAuth = FirebaseAuth.getInstance()
+        storageReference = FirebaseStorage.getInstance().reference
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        user_id = mAuth.currentUser!!.uid
+
+
+
+        firebaseFirestore.collection("Posts").document(nowing).get().addOnSuccessListener { document ->
+            tv_location.setText((document.data?.get(key = "location")).toString()+"의")
+            tv_date.setText((document.data?.get(key = "timestamp")).toString())
+            tv_contents.setText((document.data?.get(key = "content")).toString())
+            firebaseFirestore.collection("Category").document((document.data?.get(key = "cate")).toString()).get().addOnSuccessListener { docu ->
+                var catelist:List<String> = docu.data?.get(key = "arr") as List<String>
+                var hash:String = catelist[((document.data?.get(key = "hashTag")).toString().toInt())]
+                tv_keyword.setText("#"+hash)
+            }
+
+            var image_path: StorageReference = storageReference.child("images").child(document.id + ".jpg")
+            image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
+                var bit: Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                var img: BitmapDrawable = BitmapDrawable(resources,bit)
+                image.setImageDrawable(img)
+
+            }
+
+
+        }
 //            currentCode = document.data?.get(key = "inCate").toString()
 //            firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
 //                for (docu in documents){
