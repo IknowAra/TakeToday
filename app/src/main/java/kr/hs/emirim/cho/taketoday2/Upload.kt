@@ -91,7 +91,7 @@ class Upload : AppCompatActivity() {
         val geocoder = Geocoder(this)
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
         } else {
             setLocation()
@@ -323,7 +323,7 @@ class Upload : AppCompatActivity() {
 
         if (requestCode == REQUEST_LOCATION) {
             if (grantResults.size === 1
-                    && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
+                && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
                 setLocation()
             } else {
                 finish()
@@ -444,7 +444,7 @@ class Upload : AppCompatActivity() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
         if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }else{
             val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
@@ -455,6 +455,7 @@ class Upload : AppCompatActivity() {
         }
 
     }
+
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
