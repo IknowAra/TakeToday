@@ -37,6 +37,7 @@ class galleryActivity : AppCompatActivity() {
     var remain:List<Int> = listOf()
     var start:Long=0
     var end:Long=0
+    var now:Int=0
     var getTime:Long=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +53,38 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
         remain = listOf()
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+
+//        db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id.toString()).get().addOnSuccessListener { documents->
+//            for(d in documents){
+//                var now = d.data?.get(key = "now").toString().toInt()
+//                var a:List<Int> = d.data?.get(key = "remain") as List<Int>
+//            }
+//        }
+//        if(now in remain){
+//
+//        }else{
+//            Log.d("now=====>",now.toString())
+//            Log.d("remain=====>",remain.toString())
+//            end=System.currentTimeMillis()
+//
+//            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+//                for(docu in documents){
+//                    start=docu.data.get(key="time").toString().toLong()
+//                }
+//            }
+//            getTime= (end-start)/1000
+//            Log.d("getTime====>",getTime.toString())
+//            if(getTime>=86400){
+//                makeRandom()
+//                Toast.makeText(this, "하루가 지나 주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+//                updateStart()
+//                val intent=Intent(this, galleryActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//        }
+
 
 
         btn_reset.setOnClickListener {
@@ -66,10 +99,6 @@ class galleryActivity : AppCompatActivity() {
             }
 
         }
-
-
-
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             code = document.data?.get(key = "inCate").toString()
@@ -228,7 +257,9 @@ class galleryActivity : AppCompatActivity() {
             db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
                 for(docu in documents){
                     start=docu.data.get(key="time").toString().toLong()
-                    getTime= ((end-start)/1000)
+                    Log.d("start ======>", start.toString())
+                    Log.d("end ======>", end.toString())
+                    getTime= (end-start)/1000
                     getReset(getTime)
                 }
             }

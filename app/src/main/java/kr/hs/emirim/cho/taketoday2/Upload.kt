@@ -15,6 +15,7 @@ import android.graphics.ImageDecoder
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -167,13 +168,71 @@ class Upload : AppCompatActivity() {
                         firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
                             if (catdoc.isEmpty) {
                                 firebaseFirestore.collection("Posts").document().set(postMap)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
+                                                for(d in documents2){
+
+                                                    var image_path: StorageReference =
+                                                        storageReference.child("images").child(d.id + ".jpg")
+                                                    Log.d("image_path======>",
+                                                        image_path.toString()
+                                                    )
+                                                    if (photoURI!=null) {
+                                                        image_path.putFile(photoURI!!).addOnCompleteListener { task ->
+                                                            if (task.isSuccessful) {
+                                                                Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                    for(docdoc in documents3){
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                    }
+                                                                }
+
+                                                            } else {
+                                                                var error: Exception? = task.exception
+                                                                Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                            }
+                                                        }
+                                                    }else if (tempFile != null){
+                                                        image_path.putFile(tempFile!!).addOnCompleteListener { task ->
+                                                            if (task.isSuccessful) {
+                                                                Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                    for(docdoc in documents3){
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                var error: Exception? = task.exception
+                                                                Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            startActivity(Intent(this, galleryActivity::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                            }else{
+                                for(cd in catdoc){
+                                    Log.d("",cd.toString())
+                                    firebaseFirestore.collection("Posts").document(cd.id).set(postMap)
                                         .addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
                                                 firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
                                                     for(d in documents2){
 
                                                         var image_path: StorageReference =
-                                                                storageReference.child("images").child(d.id + ".jpg")
+                                                            storageReference.child("images").child(d.id + ".jpg")
+
+                                                        Log.d("image_path======>",
+                                                            image_path.toString()
+                                                        )
 
                                                         if (photoURI!=null) {
                                                             image_path.putFile(photoURI!!).addOnCompleteListener { task ->
@@ -215,58 +274,6 @@ class Upload : AppCompatActivity() {
                                                 Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
                                             }
                                         }
-                            }else{
-                                for(cd in catdoc){
-                                    Log.d("",cd.toString())
-                                    firebaseFirestore.collection("Posts").document(cd.id).set(postMap)
-                                            .addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
-                                                        for(d in documents2){
-
-                                                            var image_path: StorageReference =
-                                                                    storageReference.child("images").child(d.id + ".jpg")
-
-                                                            if (photoURI!=null) {
-                                                                image_path.putFile(photoURI!!).addOnCompleteListener { task ->
-                                                                    if (task.isSuccessful) {
-                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
-                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
-                                                                            for(docdoc in documents3){
-                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
-                                                                            }
-                                                                        }
-
-                                                                    } else {
-                                                                        var error: Exception? = task.exception
-                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
-                                                                    }
-                                                                }
-                                                            }else if (tempFile != null){
-                                                                image_path.putFile(tempFile!!).addOnCompleteListener { task ->
-                                                                    if (task.isSuccessful) {
-                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
-                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
-                                                                            for(docdoc in documents3){
-                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
-                                                                            }
-                                                                        }
-                                                                    } else {
-                                                                        var error: Exception? = task.exception
-                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    startActivity(Intent(this, galleryActivity::class.java))
-                                                    finish()
-                                                } else {
-                                                    Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
-                                                }
-                                            }
                                 }
                             }
                         }
@@ -384,25 +391,25 @@ class Upload : AppCompatActivity() {
                         val options=BitmapFactory.Options()
 
                         options.inSampleSize=8
-//                        val bitmap = MediaStore.Images.Media
-//                            .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
-//                        imageUp.setImageBitmap(bitmap)
-
-                        val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
+                        val bitmap = MediaStore.Images.Media
+                            .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
                         imageUp.setImageBitmap(bitmap)
+//
+//                        val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
+//                        imageUp.setImageBitmap(bitmap)
                     } else {
-//                        val decode = ImageDecoder.createSource(
-//                            this.contentResolver,
-//                            Uri.fromFile(file)
-//                        )
+                        val decode = ImageDecoder.createSource(
+                            this.contentResolver,
+                            Uri.fromFile(file)
+                        )
 
                         val options=BitmapFactory.Options()
 
                         options.inSampleSize=8
-//                        val bitmap = ImageDecoder.decodeBitmap(decode)
-//                        imageUp.setImageBitmap(bitmap)
-                        val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
+                        val bitmap = ImageDecoder.decodeBitmap(decode)
                         imageUp.setImageBitmap(bitmap)
+//                        val bitmap=BitmapFactory.decodeFile(decode.toString(), options)
+//                        imageUp.setImageBitmap(bitmap)
                     }
                 }
             }
@@ -445,9 +452,11 @@ class Upload : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= 23 &&
             ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        }else{
+        }else if(locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null){
             val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
+            var list: List<Address>? = geocoder.getFromLocation(
+                location!!.latitude,
+                location.longitude,1)
             var adre = list?.get(0)?.getAddressLine(0)
             var arr = adre?.split(" ")
             loca.text = (" " + (arr?.get(2)))
@@ -455,7 +464,6 @@ class Upload : AppCompatActivity() {
         }
 
     }
-
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
