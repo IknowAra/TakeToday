@@ -83,7 +83,6 @@ class Popup_post(postId:String) : DialogFragment(){
                 var bit: Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
                 var img: BitmapDrawable = BitmapDrawable(resources,bit)
                 image.setImageDrawable(img)
-
             }
 
 

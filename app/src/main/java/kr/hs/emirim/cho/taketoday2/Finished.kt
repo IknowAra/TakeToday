@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.d
+import android.view.View
+import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_category.btn_back
@@ -16,10 +19,13 @@ class Finished : AppCompatActivity() {
     var remain: List<Int> = listOf()
     var name: MutableList<String> = ArrayList()
     var code: String = ""
+    var arr: MutableList<String> = mutableListOf()
+    var buttons:List<Button> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finished)
+        buttons = arrayListOf<Button>(findViewById(R.id.fbutton1),findViewById(R.id.fbutton2),findViewById(R.id.fbutton3),findViewById(R.id.fbutton4),findViewById(R.id.fbutton5),findViewById(R.id.fbutton6),findViewById(R.id.fbutton7),findViewById(R.id.fbutton8))
 
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
@@ -32,153 +38,58 @@ class Finished : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+
+        for (btn in buttons) {
+            btn.isEnabled = false
+            btn.visibility = View.INVISIBLE
+        }
+
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        fbutton1.setOnClickListener {
-            if(fbutton1.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton1.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton1.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton1.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton1.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton1.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton1.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
+        db.collection("Todays").whereEqualTo("user", user_id).get().addOnSuccessListener { docus ->
+            for (d in docus) {
+                if((d.data?.get(key = "remain")).toString() == "[]"){
+                    arr.add((d.data?.get(key = "cate")).toString())
+                }
             }
-        }
-
-        fbutton2.setOnClickListener {
-            if(fbutton2.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton2.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton2.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton2.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton2.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton2.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton2.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        fbutton3.setOnClickListener {
-            if(fbutton3.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton3.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton3.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton3.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton3.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton3.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton3.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        fbutton4.setOnClickListener {
-            if(fbutton4.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton4.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton4.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton4.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton4.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton4.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton4.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        fbutton5.setOnClickListener {
-            if(fbutton5.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton5.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton5.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton5.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton5.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton5.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton5.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        fbutton6.setOnClickListener {
-            if(fbutton6.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton6.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton6.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton6.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton6.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton6.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton6.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        fbutton7.setOnClickListener {
-            if(fbutton7.text=="음식"){
-                moveToGallery("CpQvOIxECiiUko2Ip45p")
-            }else if(fbutton7.text=="책"){
-                moveToGallery("DR0HPx1oD8CAGku7fCJB")
-            }else if(fbutton7.text=="미션"){
-                moveToGallery("PGIX2mtgFmuuWJQz8GWt")
-            }else if(fbutton7.text=="나"){
-                moveToGallery("a9j65Uxcz2iuuGpXgPQv")
-            }else if(fbutton7.text=="공부"){
-                moveToGallery("iXHQ6h67Xm87TEkMiNp5")
-            }else if(fbutton7.text=="코로나19"){
-                moveToGallery("owINC3MNVxPz9BquNdcL")
-            }else if(fbutton7.text=="하늘"){
-                moveToGallery("r7lV0RqNsgFuD8mdJdEe")
-            }
-        }
-
-        var count: Int = 0
-        db.collection("Users").document(user_id.toString()).get()
-            .addOnSuccessListener { document ->
-                var current: List<String> =
-                    document.data?.get(key = "current") as List<String>
-                for (i in current) {
-                    db.collection("Todays").whereEqualTo("cate", i)
-                        .whereEqualTo("user", user_id).get()
-                        .addOnSuccessListener { documents ->
-                            for (docu in documents) {
-                                remain = docu.data?.get(key = "remain") as List<Int>
-                                if (remain.size == 0) {
-                                    count += 1
-                                    setBtnText(count, i)
-                                }
-                            }
-                        }
+            for ((ix, a) in arr.withIndex()) {
+                db.collection("Category").document(a).get().addOnSuccessListener { doc ->
+                    buttons[ix].isEnabled = true
+                    buttons[ix].visibility = View.VISIBLE
+                    buttons[ix].text = (doc.data?.get(key = "name")).toString()
                 }
             }
         }
+
+        fbutton1.setOnClickListener {
+            moveToGallery(arr[0])
+        }
+
+        fbutton2.setOnClickListener {
+            moveToGallery(arr[1])
+        }
+
+        fbutton3.setOnClickListener {
+            moveToGallery(arr[2])
+        }
+
+        fbutton4.setOnClickListener {
+            moveToGallery(arr[3])
+        }
+
+        fbutton5.setOnClickListener {
+            moveToGallery(arr[4])
+        }
+
+        fbutton6.setOnClickListener {
+            moveToGallery(arr[5])
+        }
+
+        fbutton7.setOnClickListener {
+            moveToGallery(arr[6])
+        }
+
+    }
+
 
     private fun moveToGallery(code: String) {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -186,85 +97,4 @@ class Finished : AppCompatActivity() {
             startActivity(Intent(this, galleryActivity::class.java))
         }
 
-    private fun setBtnText(count: Int, i: String) {
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        db.collection("Category").document(i).get().addOnSuccessListener { document ->
-            var oname = document.data?.get(key = "name") as String
-            name.add(oname)
-
-            if (count == 1) {
-                fbutton1.setText(name[0])
-                fbutton2.setText("")
-                fbutton3.setText("")
-                fbutton4.setText("")
-                fbutton5.setText("")
-                fbutton6.setText("")
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 2) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText("")
-                fbutton4.setText("")
-                fbutton5.setText("")
-                fbutton6.setText("")
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 3) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText("")
-                fbutton5.setText("")
-                fbutton6.setText("")
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 4) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText(name[3])
-                fbutton5.setText("")
-                fbutton6.setText("")
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 5) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText(name[3])
-                fbutton5.setText(name[4])
-                fbutton6.setText("")
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 6) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText(name[3])
-                fbutton5.setText(name[4])
-                fbutton6.setText(name[5])
-                fbutton7.setText("")
-                fbutton8.setText("")
-            } else if (count == 7) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText(name[3])
-                fbutton5.setText(name[4])
-                fbutton6.setText(name[5])
-                fbutton7.setText(name[6])
-                fbutton8.setText("")
-            } else if (count == 8) {
-                fbutton1.setText(name[0])
-                fbutton2.setText(name[1])
-                fbutton3.setText(name[2])
-                fbutton4.setText(name[3])
-                fbutton5.setText(name[4])
-                fbutton6.setText(name[5])
-                fbutton7.setText(name[6])
-                fbutton8.setText(name[7])
-            }
-        }
-    }
 }

@@ -102,7 +102,7 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:textColor="@color/black"
-                        android:text="코로나" />
+                        android:text="코로나19" />
 
                     <Button
                         android:layout_margin="10dp"
