@@ -62,6 +62,7 @@ class galleryActivity : AppCompatActivity() {
                     start=docu.data.get(key="time").toString().toLong()
                     getTime= ((end-start)/1000)
                     getReset(getTime)
+
                 }
             }
 

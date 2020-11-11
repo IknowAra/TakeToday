@@ -235,6 +235,9 @@ class Upload : AppCompatActivity() {
                                                                         firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                             for(docdoc in documents3){
                                                                                 firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                                if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                                    firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                                }
                                                                             }
                                                                         }
 
@@ -251,6 +254,9 @@ class Upload : AppCompatActivity() {
                                                                         firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                             for(docdoc in documents3){
                                                                                 firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                                if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                                    firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                                }
                                                                             }
                                                                         }
                                                                     } else {

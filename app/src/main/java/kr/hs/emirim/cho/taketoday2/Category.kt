@@ -71,43 +71,52 @@ class Category : AppCompatActivity() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val random = Random()
 
+
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             nowStr = ""+document.data?.get(key = "current")
 
             if(code in nowStr == true){
                 showDialog(code)
             }else{
-                var ex = document.data?.get(key = "current") as List<String>
-                count = ex.size
-                if(count>=4){
-                    Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
-                }else{
-                    start=System.currentTimeMillis()
 
-                    val num = random.nextInt(20)
-                    val todays = hashMapOf(
-                            "cate" to code,
-                            "now" to num,
-                            "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
-                            "time" to start.toString().toLong(),
-                            "user" to user_id.toString()
-                    )
-                    db.collection("Todays").document().set(todays)
-                            .addOnCompleteListener(OnCompleteListener<Void?> { task ->
-                                if (task.isSuccessful) {
-                                    db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayUnion(code))
-                                    Toast.makeText(this, "추가되었습니다", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    val error = task.exception!!.message
-                                    Toast.makeText(
-                                            this,
-                                            "Firestore Error : $error",
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                    Log.d("에러 : ", error!!)
-                                }
-                            })
+                db.collection("Todays").whereEqualTo("user",user_id).whereEqualTo("cate",code).get().addOnSuccessListener { coco ->
+                    if (!coco.isEmpty) {
+                        Toast.makeText(this, "이미 완료한 주제는 선택할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        var ex = document.data?.get(key = "current") as List<String>
+                        count = ex.size
+                        if(count>=4){
+                            Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
+                        }else{
+                            start=System.currentTimeMillis()
+
+                            val num = random.nextInt(20)
+                            val todays = hashMapOf(
+                                    "cate" to code,
+                                    "now" to num,
+                                    "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+                                    "time" to start.toString().toLong(),
+                                    "user" to user_id.toString()
+                            )
+                            db.collection("Todays").document().set(todays)
+                                    .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                                        if (task.isSuccessful) {
+                                            db.collection("Users").document(user_id.toString()).update("current",FieldValue.arrayUnion(code))
+                                            Toast.makeText(this, "추가되었습니다", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val error = task.exception!!.message
+                                            Toast.makeText(
+                                                    this,
+                                                    "Firestore Error : $error",
+                                                    Toast.LENGTH_SHORT
+                                            ).show()
+                                            Log.d("에러 : ", error!!)
+                                        }
+                                    })
+                        }
+                    }
                 }
+
             }
         }
     }
