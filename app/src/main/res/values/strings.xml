@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TakeToday</string>
     <string name="btn_login">로그인</string>
-    <string name="btn_go_to_signup">회원가입 하러하기</string>
+    <string name="btn_go_to_signup">Go To Sign Up</string>
     <string name="app_title">Take Today</string>
     <string name="menu_cate">카테고리 목록</string>
     <string name="menu_finished">완성한 갤러리</string>
