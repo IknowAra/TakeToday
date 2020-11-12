@@ -68,9 +68,6 @@ class galleryActivity : AppCompatActivity() {
 
         }
 
-        end=System.currentTimeMillis()
-        Log.d(",",end.toString())
-
 
         todays_tag.setOnClickListener {
             var intent = Intent(this, Upload::class.java)

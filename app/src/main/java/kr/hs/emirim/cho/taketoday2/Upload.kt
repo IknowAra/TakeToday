@@ -167,13 +167,65 @@ class Upload : AppCompatActivity() {
                         firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
                             if (catdoc.isEmpty) {
                                 firebaseFirestore.collection("Posts").document().set(postMap)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
+                                                for(d in documents2){
+
+                                                    var image_path: StorageReference =
+                                                        storageReference.child("images").child(d.id + ".jpg")
+
+                                                    if (photoURI!=null) {
+                                                        image_path.putFile(photoURI!!).addOnCompleteListener { task ->
+                                                            if (task.isSuccessful) {
+                                                                Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                    for(docdoc in documents3){
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                    }
+                                                                }
+
+                                                            } else {
+                                                                var error: Exception? = task.exception
+                                                                Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                            }
+                                                        }
+                                                    }else if (tempFile != null){
+                                                        image_path.putFile(tempFile!!).addOnCompleteListener { task ->
+                                                            if (task.isSuccessful) {
+                                                                Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
+
+                                                                firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
+                                                                    for(docdoc in documents3){
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                var error: Exception? = task.exception
+                                                                Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            startActivity(Intent(this, galleryActivity::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                            }else{
+                                for(cd in catdoc){
+                                    Log.d("",cd.toString())
+                                    firebaseFirestore.collection("Posts").document(cd.id).set(postMap)
                                         .addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
                                                 firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
                                                     for(d in documents2){
 
                                                         var image_path: StorageReference =
-                                                                storageReference.child("images").child(d.id + ".jpg")
+                                                            storageReference.child("images").child(d.id + ".jpg")
 
                                                         if (photoURI!=null) {
                                                             image_path.putFile(photoURI!!).addOnCompleteListener { task ->
@@ -183,6 +235,9 @@ class Upload : AppCompatActivity() {
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                                firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                            }
                                                                         }
                                                                     }
 
@@ -199,6 +254,9 @@ class Upload : AppCompatActivity() {
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                                firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                            }
                                                                         }
                                                                     }
                                                                 } else {
@@ -215,64 +273,6 @@ class Upload : AppCompatActivity() {
                                                 Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
                                             }
                                         }
-                            }else{
-                                for(cd in catdoc){
-                                    Log.d("",cd.toString())
-                                    firebaseFirestore.collection("Posts").document(cd.id).set(postMap)
-                                            .addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
-                                                        for(d in documents2){
-
-                                                            var image_path: StorageReference =
-                                                                    storageReference.child("images").child(d.id + ".jpg")
-
-                                                            if (photoURI!=null) {
-                                                                image_path.putFile(photoURI!!).addOnCompleteListener { task ->
-                                                                    if (task.isSuccessful) {
-                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
-                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
-                                                                            for(docdoc in documents3){
-                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
-                                                                                if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
-                                                                                    firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
-                                                                                }
-                                                                            }
-                                                                        }
-
-                                                                    } else {
-                                                                        var error: Exception? = task.exception
-                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
-                                                                    }
-                                                                }
-                                                            }else if (tempFile != null){
-                                                                image_path.putFile(tempFile!!).addOnCompleteListener { task ->
-                                                                    if (task.isSuccessful) {
-                                                                        Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
-                                                                        firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
-                                                                            for(docdoc in documents3){
-                                                                                firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
-                                                                                if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
-                                                                                    firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    } else {
-                                                                        var error: Exception? = task.exception
-                                                                        Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    startActivity(Intent(this, galleryActivity::class.java))
-                                                    finish()
-                                                } else {
-                                                    Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
-                                                }
-                                            }
                                 }
                             }
                         }
