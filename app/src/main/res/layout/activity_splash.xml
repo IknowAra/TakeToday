@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/splash_title"
+        android:fontFamily="@font/yang_ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
@@ -29,7 +30,8 @@
         android:id="@+id/google_logo"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/google"
+        android:padding="10dp"
+        android:src="@mipmap/applogo_new"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
