@@ -12,25 +12,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:background="#BDDD97">
-
             <ProgressBar
                 android:id="@+id/login_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:background="#ffffff"
                 android:indeterminate="true"
                 android:visibility="invisible"
                 tools:visibility="invisible" />
 
-        </LinearLayout>
-
-
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/sign" />
 
         <LinearLayout
             android:id="@+id/layout_login"
@@ -39,7 +37,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
                 <EditText
@@ -78,11 +76,12 @@
                 android:textColor="@color/black"
                 android:text="@string/btn_login" />
 
-            <TextView
+            <Button
                 android:id="@+id/login_reg"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
                 android:text="@string/btn_go_to_signup"
                 android:textColor="@color/black"
                 android:layout_marginTop="22dp"/>

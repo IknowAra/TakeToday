@@ -9,4 +9,8 @@
     <string name="menu_ask">문의하기</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="email">email</string>
+    <string name="pass">password</string>
+    <string name="comfirm">comfirm password</string>
+    <string name="signup">회원가입</string>
 </resources>

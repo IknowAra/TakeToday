@@ -36,46 +36,46 @@ class Login : AppCompatActivity() {
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
                 login_progress.setVisibility(View.VISIBLE)
                 mAuth.signInWithEmailAndPassword(loginEmail, loginPass)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                current_User= mAuth.currentUser
-                                Log.d("",current_User.toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            current_User= mAuth.currentUser
+                            Log.d("",current_User.toString())
 
-                                if(current_User != null && current_User!!.isEmailVerified){
-                                    current_User= mAuth.currentUser
-                                    user_email=current_User?.email
-                                    Toast.makeText(
-                                            this,
-                                            "로그인 성공 :" + user_email,
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                    startActivity(Intent(this, MainActivity::class.java))
-                                }else{
-                                    Toast.makeText(
-                                            this,
-                                            "메일로 보낸 링크를 확인해주세요." ,
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            } else {
-                                val errorMessage = task.exception!!.message
+                            if(current_User != null && current_User!!.isEmailVerified){
+                                current_User= mAuth.currentUser
+                                user_email=current_User?.email
                                 Toast.makeText(
-                                        this,
-                                        "error : $errorMessage",
-                                        Toast.LENGTH_SHORT
+                                    this,
+                                    "로그인 성공 :" + user_email,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }else{
+                                Toast.makeText(
+                                    this,
+                                    "메일로 보낸 링크를 확인해주세요." ,
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            login_progress.setVisibility(View.INVISIBLE)
+                        } else {
+                            val errorMessage = task.exception!!.message
+                            Toast.makeText(
+                                this,
+                                "error : $errorMessage",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+                        login_progress.setVisibility(View.INVISIBLE)
+                    }
             }
         })
 
         login_reg.setOnClickListener(View.OnClickListener {
             startActivity(
-                    Intent(
-                            this,
-                            SignUp::class.java
-                    )
+                Intent(
+                    this,
+                    SignUp::class.java
+                )
             )
         })
     }
@@ -139,45 +139,45 @@ class Login : AppCompatActivity() {
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
                 login_progress.setVisibility(View.VISIBLE)
                 mAuth.signInWithEmailAndPassword(loginEmail, loginPass)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                current_User= mAuth.currentUser
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            current_User= mAuth.currentUser
 
-                                if(current_User != null && current_User!!.isEmailVerified){
-                                    current_User= mAuth.currentUser
-                                    user_email=current_User?.email
-                                    Toast.makeText(
-                                            this,
-                                            "로그인 성공 :" + user_email,
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                    startActivity(Intent(this, MainActivity::class.java))
-                                }else{
-                                    Toast.makeText(
-                                            this,
-                                            "메일로 보낸 링크를 확인해주세요." ,
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            } else {
-                                val errorMessage = task.exception!!.message
+                            if(current_User != null && current_User!!.isEmailVerified){
+                                current_User= mAuth.currentUser
+                                user_email=current_User?.email
                                 Toast.makeText(
-                                        this,
-                                        "error : $errorMessage",
-                                        Toast.LENGTH_SHORT
+                                    this,
+                                    "로그인 성공 :" + user_email,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }else{
+                                Toast.makeText(
+                                    this,
+                                    "메일로 보낸 링크를 확인해주세요." ,
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            login_progress.setVisibility(View.INVISIBLE)
+                        } else {
+                            val errorMessage = task.exception!!.message
+                            Toast.makeText(
+                                this,
+                                "error : $errorMessage",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+                        login_progress.setVisibility(View.INVISIBLE)
+                    }
             }
         })
 
         login_reg.setOnClickListener(View.OnClickListener {
             startActivity(
-                    Intent(
-                            this,
-                            SignUp::class.java
-                    )
+                Intent(
+                    this,
+                    SignUp::class.java
+                )
             )
         })
     }
