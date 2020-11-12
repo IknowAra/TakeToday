@@ -27,20 +27,7 @@
                 android:layout_margin="20dp"
                 android:backgroundTint="#ffffff"
                 android:background="@drawable/icon_back"
-                android:layout_marginTop="10dp"></Button>
-
-            <TextView
-                android:fontFamily="@font/wandohoper"
-                android:id="@+id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal|center"
-                android:text="내가 완성한 갤러리"
-                android:textSize="30dp"></TextView>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 

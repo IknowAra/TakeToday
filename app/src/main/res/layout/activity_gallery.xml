@@ -63,6 +63,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_height="30dp"
+            android:textColor="@color/black"
             android:text=""
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"/>
