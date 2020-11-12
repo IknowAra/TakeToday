@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
+                android:progressTint="@color/pink"
                 android:indeterminate="true"
                 android:visibility="invisible"
                 tools:visibility="invisible" />
@@ -47,6 +48,7 @@
                     android:layout_gravity="center_horizontal"
                     android:inputType="textEmailAddress"
                     android:hint="email"
+                    android:fontFamily="@font"
                     android:textColorHint="@color/cyan"
                     android:background="@drawable/login_input"
                     android:textColor="@color/cyan"
@@ -86,7 +88,7 @@
                 android:text="@string/btn_go_to_signup"
                 android:fontFamily="@font/wandohoper"
                 android:textColor="@color/black"
-                android:layout_marginTop="22dp"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
