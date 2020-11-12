@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var user_id: String? = null
     private lateinit var mAuth: FirebaseAuth;
+    private lateinit var ex:MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         var count:Int = 0
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = document.data?.get(key = "current") as MutableList<String>
+            ex = document.data?.get(key = "current") as MutableList<String>
 
             if(ex.size == 0){
                 count = 0

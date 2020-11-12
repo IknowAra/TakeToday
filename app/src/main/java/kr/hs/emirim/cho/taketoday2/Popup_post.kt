@@ -48,7 +48,6 @@ class Popup_post(postId:String) : DialogFragment(){
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.white_round);
 
         return inflater.inflate(R.layout.activity_popup_post, container, false)
     }
@@ -57,7 +56,7 @@ class Popup_post(postId:String) : DialogFragment(){
         super.onStart()
 
         val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
-        val height = (resources.displayMetrics.heightPixels * 0.50).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.60).toInt()
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
 

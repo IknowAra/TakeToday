@@ -37,6 +37,7 @@ class galleryActivity : AppCompatActivity() {
     var remain:List<Int> = listOf()
     var start:Long=0
     var end:Long=0
+    var now:Int=0
     var getTime:Long=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,15 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
         remain = listOf()
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
 
+        db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id.toString()).get().addOnSuccessListener { documents->
+            for(d in documents){
+                var noww = d.data?.get(key = "now").toString().toInt()
+                var a:List<Int> = d.data?.get(key = "remain") as List<Int>
+                HoursCate(noww, a)
+            }
+        }
 
         btn_reset.setOnClickListener {
             end=System.currentTimeMillis()
@@ -68,6 +77,43 @@ class galleryActivity : AppCompatActivity() {
 
         }
 
+        db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
+            code = document.data?.get(key = "inCate").toString()
+
+            db.collection("Category").document(code).get().addOnSuccessListener { document ->
+                var name:String = document.data?.get(key = "name") as String
+                var arr:List<String> = document.data?.get(key = "arr") as List<String>
+                cate_title.setText(name)
+                db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+                    for(docu in documents){
+                        var now:Int = (docu.data?.get(key = "now")).toString().toInt()
+                        remain = docu.data?.get(key = "remain") as List<Int>
+                        todays_tag.setText("오늘의 주제 : "+arr[now])
+
+                        for ((idx,btn) in buttons.withIndex()){
+                            if(idx == now){
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                            }
+                            btn.setEnabled(false)
+                        }
+
+                        db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
+                            for(d in documents2){
+
+                                var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
+                                image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
+                                    var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                                    var img:BitmapDrawable = BitmapDrawable(resources,bit)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setBackground(img)
+                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setEnabled(true)
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
 
         todays_tag.setOnClickListener {
             var intent = Intent(this, Upload::class.java)
@@ -142,6 +188,33 @@ class galleryActivity : AppCompatActivity() {
 
      }
 
+    private fun HoursCate(noww: Int, a: List<Int>) {
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
+        if(noww in a){
+
+        }else{
+            Log.d("now=====>",noww.toString())
+            Log.d("remain=====>",a.toString())
+            end=System.currentTimeMillis()
+
+            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+                for(docu in documents){
+                    start=docu.data.get(key="time").toString().toLong()
+                }
+            }
+            getTime= (end-start)/1000
+            Log.d("getTime====>",getTime.toString())
+            if(getTime>=86400){
+                makeRandom()
+                Toast.makeText(this, "하루가 지나 주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
+                updateStart()
+                val intent=Intent(this, galleryActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+
     public fun makeRandom(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
@@ -194,14 +267,17 @@ class galleryActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+        buttons = arrayListOf<Button>(findViewById(R.id.btn_1),findViewById(R.id.btn_2),findViewById(R.id.btn_3),findViewById(R.id.btn_4),findViewById(R.id.btn_5),findViewById(R.id.btn_6),findViewById(R.id.btn_7),findViewById(R.id.btn_8),findViewById(R.id.btn_9),findViewById(R.id.btn_10),findViewById(R.id.btn_11),findViewById(R.id.btn_12),findViewById(R.id.btn_13),findViewById(R.id.btn_14),findViewById(R.id.btn_15),findViewById(R.id.btn_16),findViewById(R.id.btn_17),findViewById(R.id.btn_18),findViewById(R.id.btn_19),findViewById<Button>(R.id.btn_20))
+
         mAuth = FirebaseAuth.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         val user= mAuth.currentUser
+        remain = listOf()
         user?.let{
             user_id = user.uid
         }
         remain = listOf()
-
+        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
 
         btn_reset.setOnClickListener {
             end=System.currentTimeMillis()
@@ -211,14 +287,11 @@ class galleryActivity : AppCompatActivity() {
                     start=docu.data.get(key="time").toString().toLong()
                     getTime= ((end-start)/1000)
                     getReset(getTime)
+
                 }
             }
 
         }
-
-
-
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             code = document.data?.get(key = "inCate").toString()

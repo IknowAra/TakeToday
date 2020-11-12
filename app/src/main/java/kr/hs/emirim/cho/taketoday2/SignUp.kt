@@ -30,45 +30,37 @@ class SignUp : AppCompatActivity() {
             userPass=password.text.toString()
             confirmPass=confirm_password.text.toString()
             if (!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass) && !TextUtils.isEmpty(
-                            confirmPass
-                    )
+                    confirmPass
+                )
             ) {
                 if (userPass == confirmPass) {
                     reg_progress.visibility = View.VISIBLE
                     mAuth.createUserWithEmailAndPassword(userEmail, userPass)
-                            .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
-                                if (task.isSuccessful) {
-                                    mAuth.currentUser?.sendEmailVerification()
-                                            ?.addOnCompleteListener { task ->
-                                                Toast.makeText(this, "회원가입 완료 이메일 인증을 확인해주세요", Toast.LENGTH_SHORT).show()
-                                                startActivity(
-                                                        Intent(
-                                                                this,
-                                                                UserSetActivity::class.java
-                                                        )
-                                                )
-                                            }
-                                    //Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-//                                startActivity(
-//                                    Intent(
-//                                        this,
-//                                        UserSetActivity::class.java
-//                                    )
-//                                )
-                                    //finish()
-                                } else {
-                                    val errorMessage = task.exception!!.message
-                                    Toast.makeText(
-                                            this,
-                                            "Error : $errorMessage",
-                                            Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                reg_progress.visibility = View.INVISIBLE
-                            })
+                        .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
+                            if (task.isSuccessful) {
+                                mAuth.currentUser?.sendEmailVerification()
+                                    ?.addOnCompleteListener { task ->
+                                        Toast.makeText(this, "회원가입 완료 이메일 인증을 확인해주세요", Toast.LENGTH_SHORT).show()
+                                        startActivity(
+                                            Intent(
+                                                this,
+                                                UserSetActivity::class.java
+                                            )
+                                        )
+                                    }
+                            } else {
+                                val errorMessage = task.exception!!.message
+                                Toast.makeText(
+                                    this,
+                                    "Error : $errorMessage",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            reg_progress.visibility = View.INVISIBLE
+                        })
                 } else {
                     Toast.makeText(this, "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT)
-                            .show()
+                        .show()
                 }
             }
         }
