@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -21,92 +23,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        var btnArray:List<Button> = arrayListOf<Button>(findViewById(R.id.button_1),findViewById(R.id.button_2),findViewById(R.id.button_3),findViewById(R.id.button_4))
         mAuth = FirebaseAuth.getInstance()
         val user= mAuth.currentUser
         user?.let{
             user_id = user.uid
         }
-
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        var count:Int = 0
-        db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            ex = document.data?.get(key = "current") as MutableList<String>
-
-            if(ex.size == 0){
-                count = 0
-                button_1.setText("+")
-                button_2.setText("")
-                button_3.setText("")
-                button_4.setText("")
-            } else{
-                count = ex.size
-                button_1.setText("")
-                button_2.setText("")
-                button_3.setText("")
-                button_4.setText("")
-
-                if(count==0){
-                    button_1.setText("+")
-                }else if(count == 1){
-                    button_2.setText("+")
-                }else if(count == 2){
-                    button_3.setText("+")
-                }else if(count == 3){
-                    button_4.setText("+")
-                }
-                for(i in 0..count-1){
-
-                    db.collection("Category").document(ex[i]).get().addOnSuccessListener { document ->
-                        if(i==0){
-                            button_1.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 1){
-                            button_2.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 2){
-                            button_3.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 3){
-                            button_4.setText((document.data?.get(key = "name")).toString())
-                        }
-                    }
-                }
-            }
+        for (b in btnArray){
+            b.visibility = View.INVISIBLE
+            b.setBackgroundResource(R.drawable.pola)
         }
 
+
         button_1.setOnClickListener{
-            if((button_1.text).equals("+")){
+            if((button_1.text).equals("")){
                 startActivity(Intent(this, Category::class.java))
-            }else if((button_1.text).equals("") || (button_1.text).equals(null)){
-                // null
             }else{
                 moveToGallery(0)
             }
         }
         button_2.setOnClickListener{
-            if((button_2.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            }else if((button_2.text).equals("") || (button_1.text).equals(null)){
-                // null
+            if((button_2.text).equals("")){
+                startActivity(Intent(this, Category::class.java))
             }else{
                 moveToGallery(1)
             }
         }
         button_3.setOnClickListener{
-            if((button_3.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            }else if((button_3.text).equals("") || (button_1.text).equals(null)){
-                // null
+            if((button_3.text).equals("")){
+                startActivity(Intent(this, Category::class.java))
             }else{
                 moveToGallery(2)
             }
         }
         button_4.setOnClickListener{
-            if((button_4.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            } else if((button_4.text).equals("") || (button_1.text).equals(null)){
-                // null
+            if((button_4.text).equals("")){
+                startActivity(Intent(this, Category::class.java))
             }else{
                 moveToGallery(3)
             }
@@ -174,104 +126,71 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onResume() {
         super.onResume()
 
+        var btnArray: List<Button> = arrayListOf<Button>(findViewById(R.id.button_1), findViewById(R.id.button_2), findViewById(R.id.button_3), findViewById(R.id.button_4))
         mAuth = FirebaseAuth.getInstance()
-        val user= mAuth.currentUser
-        user?.let{
+        val user = mAuth.currentUser
+        user?.let {
             user_id = user.uid
         }
-
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
-        var count:Int = 0
-        db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            var ex = document.data?.get(key = "current") as MutableList<String>
-
-            if(ex.size == 0){
-                count = 0
-                button_1.setText("+")
-                button_2.setText("")
-                button_3.setText("")
-                button_4.setText("")
-            } else{
-                count = ex.size
-                button_1.setText("")
-                button_2.setText("")
-                button_3.setText("")
-                button_4.setText("")
-
-                if(count==0){
-                    button_1.setText("+")
-                }else if(count == 1){
-                    button_2.setText("+")
-                }else if(count == 2){
-                    button_3.setText("+")
-                }else if(count == 3){
-                    button_4.setText("+")
-                }
-                for(i in 0..count-1){
-                    ex[i] = ex[i].trim()
-                    db.collection("Category").document(ex[i]).get().addOnSuccessListener { document ->
-                        if(i==0){
-                            button_1.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 1){
-                            button_2.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 2){
-                            button_3.setText((document.data?.get(key = "name")).toString())
-                        }else if(i == 3){
-                            button_4.setText((document.data?.get(key = "name")).toString())
-                        }
-                    }
-                }
-            }
+        for (b in btnArray) {
+            b.visibility = View.INVISIBLE
+            b.setBackgroundResource(R.drawable.pola)
         }
 
-        button_1.setOnClickListener{
-            if((button_1.text).equals("+")){
+
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        var count: Int = 0
+        db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
+            ex = document.data?.get(key = "current") as MutableList<String>
+            for ((idx, co) in ex.withIndex()) {
+                db.collection("Category").document(co).get().addOnSuccessListener { d ->
+                    btnArray[idx].text = (d.data?.get(key = "name")).toString()
+                    btnArray[idx].visibility = View.VISIBLE
+                }
+            }
+            if (ex.size != 4) {
+                btnArray[ex.size].text = ""
+                btnArray[ex.size].visibility = View.VISIBLE
+                btnArray[ex.size].setBackgroundResource(R.drawable.take)
+            }
+
+        }
+
+        button_1.setOnClickListener {
+            if ((button_1.text).equals("")) {
                 startActivity(Intent(this, Category::class.java))
-            }else if((button_1.text).equals("")){
-                // null
-            }else{
+            } else {
                 moveToGallery(0)
             }
         }
-        button_2.setOnClickListener{
-            if((button_2.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            }else if((button_2.text).equals("")){
-                // null
-            }else{
+        button_2.setOnClickListener {
+            if ((button_2.text).equals("")) {
+                startActivity(Intent(this, Category::class.java))
+            } else {
                 moveToGallery(1)
             }
         }
-        button_3.setOnClickListener{
-            if((button_3.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            }else if((button_3.text).equals("")){
-                // null
-            }else{
+        button_3.setOnClickListener {
+            if ((button_3.text).equals("")) {
+                startActivity(Intent(this, Category::class.java))
+            } else {
                 moveToGallery(2)
             }
         }
-        button_4.setOnClickListener{
-            if((button_4.text).equals("+")){
-                val intent=Intent(this, Category::class.java)
-                startActivity(intent)
-            } else if((button_4.text).equals("")){
-                // null
-            }else{
+        button_4.setOnClickListener {
+            if ((button_4.text).equals("")) {
+                startActivity(Intent(this, Category::class.java))
+            } else {
                 moveToGallery(3)
             }
         }
 
 
-        btn_open.setOnClickListener{
+        btn_open.setOnClickListener {
             drawer_layout.openDrawer(GravityCompat.END)
         }
 
         naviView.setNavigationItemSelectedListener(this)    //네비게이션 메뉴 아이템에 클릭 속성 부여
     }
-
 
 }
