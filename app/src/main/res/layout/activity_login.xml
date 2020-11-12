@@ -48,7 +48,7 @@
                     android:layout_gravity="center_horizontal"
                     android:inputType="textEmailAddress"
                     android:hint="email"
-                    android:fontFamily="@font"
+                    android:fontFamily="@font/wellbeing"
                     android:textColorHint="@color/cyan"
                     android:background="@drawable/login_input"
                     android:textColor="@color/cyan"
@@ -63,6 +63,7 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/cyan"
                     android:inputType="textPassword"
+                    android:fontFamily="@font/wellbeing"
                     android:hint="password"
                     android:textColorHint="@color/cyan"
                     android:background="@drawable/login_input"
@@ -76,7 +77,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/wandohoper"
+                android:fontFamily="@font/wellbeing"
                 android:text="@string/btn_login" />
 
             <Button
@@ -86,7 +87,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/main_button"
                 android:text="@string/btn_go_to_signup"
-                android:fontFamily="@font/wandohoper"
+                android:fontFamily="@font/wellbeing"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"/>
 
