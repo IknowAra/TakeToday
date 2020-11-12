@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="#달"
+        android:text="#"
+        android:fontFamily="@font/wandohoper"
         android:textSize="50sp" />
 
     <ImageView
