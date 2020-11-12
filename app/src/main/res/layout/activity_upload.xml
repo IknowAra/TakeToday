@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/back"
-    android:padding="20dp"
     android:gravity="center_horizontal">
 
     <Button
@@ -12,6 +11,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="start"
+        android:layout_margin="30dp"
         android:background="@drawable/icon_back"
         android:backgroundTint="#ffffff" />
 
@@ -22,14 +22,16 @@
         android:gravity="center_horizontal"
         android:text="#"
         android:fontFamily="@font/wandohoper"
+        android:layout_marginBottom="10dp"
         android:textSize="50sp" />
 
     <ImageView
         android:id="@+id/imageUp"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/upload"
+        android:background="@drawable/plus"
+        android:layout_marginBottom="10dp"
         android:scaleType="centerCrop" />
 
     <TextView
@@ -40,29 +42,33 @@
         android:text=" 위치정보"
         android:drawableStart="@drawable/ic_location_pin"
         android:paddingLeft="30dp"
-        android:gravity="left"
+        android:gravity="start"
+        android:layout_marginBottom="20dp"
         android:autoSizeTextType="uniform"/>
 
     <EditText
         android:id="@+id/setup_content"
         android:layout_width="match_parent"
-        android:background="@drawable/main_button"
+        android:background="@drawable/white_box"
         android:layout_marginTop="5dp"
-
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:textColor="@color/black"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="30dp"
         android:layout_height="150dp"/>
 
     <Button
         android:id="@+id/setup_btn"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:text="오늘 업로드하기"
+        android:background=""
         android:layout_marginBottom="20dp"
         />
 

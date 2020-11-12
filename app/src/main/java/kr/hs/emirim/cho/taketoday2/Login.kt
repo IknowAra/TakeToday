@@ -146,11 +146,6 @@ class Login : AppCompatActivity() {
                             if(current_User != null && current_User!!.isEmailVerified){
                                 current_User= mAuth.currentUser
                                 user_email=current_User?.email
-                                Toast.makeText(
-                                    this,
-                                    "로그인 성공 :" + user_email,
-                                    Toast.LENGTH_SHORT
-                                ).show()
                                 startActivity(Intent(this, MainActivity::class.java))
                             }else{
                                 Toast.makeText(

@@ -88,7 +88,7 @@ class galleryActivity : AppCompatActivity() {
                     for(docu in documents){
                         var now:Int = (docu.data?.get(key = "now")).toString().toInt()
                         remain = docu.data?.get(key = "remain") as List<Int>
-                        todays_tag.setText("오늘의 주제 : "+arr[now])
+                        todays_tag.setText("# "+arr[now])
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){

@@ -40,7 +40,7 @@
         android:id="@+id/btn_logout"
         android:textColor="@color/black"
         android:fontFamily="@font/wandohoper"
-        android:background="@drawable/main_button"
+        android:background="@drawable/white_box"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="20dp"
@@ -48,7 +48,7 @@
 
     <Button
         android:id="@+id/btn_remove"
-        android:background="@drawable/main_button"
+        android:background="@drawable/white_box"
         android:fontFamily="@font/wandohoper"
         android:textColor="@color/black"
         android:layout_width="120dp"
