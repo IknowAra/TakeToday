@@ -27,7 +27,7 @@
                 android:layout_margin="30dp"
                 android:backgroundTint="#ffffff"
                 android:background="@drawable/icon_back"
-                android:layout_marginTop="10dp"></Button>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
