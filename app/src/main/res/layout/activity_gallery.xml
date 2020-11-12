@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@drawable/back2"
     tools:context=".galleryActivity">
 
     <Button
         android:id="@+id/btn_back"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#ffffff"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="30dp"
@@ -30,7 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="카테고리"
-            android:textColor="@color/black"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/spoqab"
+            android:textStyle="bold"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="20dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#ffffff"
             android:layout_marginTop="10dp"
             android:background="@drawable/icon_reset"/>
 
@@ -67,187 +69,296 @@
             android:text=""
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"/>
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_1"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_2"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_1"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_3"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn_4"
+                app:layout_constraintLeft_toRightOf="@id/btn_2"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_4"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_3"
+                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_5"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_6"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_5"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_7"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn_8"
+                app:layout_constraintLeft_toRightOf="@id/btn_6"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_8"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_7"
+                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_9"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_10"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_9"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_11"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn_12"
+                app:layout_constraintLeft_toRightOf="@id/btn_10"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_12"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_11"
+                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_13"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_14"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_13"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_15"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn_16"
+                app:layout_constraintLeft_toRightOf="@id/btn_14"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_16"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_15"
+                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            >
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_17"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_18"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_17"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_19"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn_20"
+                app:layout_constraintLeft_toRightOf="@id/btn_18"
                 android:scaleType="centerCrop"/>
 
             <Button
                 android:id="@+id/btn_20"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
+                android:background="#ffffff"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/btn_19"
+                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"/>
 
-        </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
