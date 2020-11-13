@@ -84,8 +84,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/btn_2"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_2"
@@ -96,8 +95,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/btn_1"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_1" />
 
             <Button
                 android:id="@+id/btn_3"
@@ -109,8 +107,7 @@
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btn_4"
-                app:layout_constraintLeft_toRightOf="@id/btn_2"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@id/btn_2" />
 
             <Button
                 android:id="@+id/btn_4"
@@ -122,8 +119,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_3"
-                app:layout_constraintRight_toRightOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,8 +139,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/btn_6"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_6"
@@ -155,8 +150,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/btn_5"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_5" />
 
             <Button
                 android:id="@+id/btn_7"
@@ -168,8 +162,7 @@
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btn_8"
-                app:layout_constraintLeft_toRightOf="@id/btn_6"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@id/btn_6" />
 
             <Button
                 android:id="@+id/btn_8"
@@ -181,8 +174,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_7"
-                app:layout_constraintRight_toRightOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -201,8 +193,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/btn_10"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_10"
@@ -213,8 +204,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/btn_9"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_9" />
 
             <Button
                 android:id="@+id/btn_11"
@@ -226,8 +216,7 @@
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btn_12"
-                app:layout_constraintLeft_toRightOf="@id/btn_10"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@id/btn_10" />
 
             <Button
                 android:id="@+id/btn_12"
@@ -239,8 +228,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_11"
-                app:layout_constraintRight_toRightOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -259,8 +247,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/btn_14"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_14"
@@ -271,8 +258,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/btn_13"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_13" />
 
             <Button
                 android:id="@+id/btn_15"
@@ -284,8 +270,7 @@
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btn_16"
-                app:layout_constraintLeft_toRightOf="@id/btn_14"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@id/btn_14" />
 
             <Button
                 android:id="@+id/btn_16"
@@ -297,8 +282,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_15"
-                app:layout_constraintRight_toRightOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -317,8 +301,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/btn_18"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_18"
@@ -329,8 +312,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/btn_17"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_17" />
 
             <Button
                 android:id="@+id/btn_19"
@@ -342,8 +324,7 @@
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btn_20"
-                app:layout_constraintLeft_toRightOf="@id/btn_18"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintLeft_toRightOf="@id/btn_18" />
 
             <Button
                 android:id="@+id/btn_20"
@@ -355,8 +336,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_19"
-                app:layout_constraintRight_toRightOf="parent"
-                android:scaleType="centerCrop"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
