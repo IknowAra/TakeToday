@@ -67,6 +67,8 @@
             android:layout_height="30dp"
             android:textColor="@color/black"
             android:text=""
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/wandohoper"
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"/>
         <androidx.constraintlayout.widget.ConstraintLayout
