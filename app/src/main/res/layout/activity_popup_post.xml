@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/back"
@@ -9,56 +10,79 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="서울의"
-        android:textSize="30sp"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tv_keyword"
-        />
-    <TextView
-        android:id="@+id/tv_keyword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="#"
-        android:textSize="60sp"
-        app:layout_constraintStart_toStartOf="@id/tv_location"
-        app:layout_constraintEnd_toEndOf="@id/tv_date"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="2020.10.8"
-        app:layout_constraintBottom_toBottomOf="@id/tv_keyword"
-        android:textSize="20sp"/>
+        android:layout_width="match_parent"
+        android:id="@+id/text_pop"
+        android:layout_height="wrap_content">
 
-    <ImageView
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="서울의"
+            android:textSize="30sp"
+            app:layout_constraintRight_toLeftOf="@id/tv_keyword"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_keyword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:textSize="60sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_location"
+            app:layout_constraintRight_toLeftOf="@id/tv_date"
+            android:gravity="center_horizontal"
+            tools:layout_editor_absoluteX="169dp" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/tv_keyword"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="2020.10.8"
+            app:layout_constraintBottom_toBottomOf="@id/tv_keyword"
+            android:textSize="20sp"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_pop"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
         android:id="@+id/image"
         android:layout_width="250dp"
         android:layout_height="250dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_keyword"
-        android:layout_margin="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/main_button"
         />
 
-    <TextView
-        android:id="@+id/tv_contents"
-        android:layout_margin="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        android:fontFamily="@font/wellbeing"
-        android:textColor="@color/black"
-        />
+        <TextView
+            android:id="@+id/tv_contents"
+            android:layout_margin="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#ffffff"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            android:fontFamily="@font/wellbeing"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
