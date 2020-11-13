@@ -74,7 +74,7 @@ class Login : AppCompatActivity() {
             startActivity(
                 Intent(
                     this,
-                    SignUp::class.java
+                    PolicyActivity::class.java
                 )
             )
         })
