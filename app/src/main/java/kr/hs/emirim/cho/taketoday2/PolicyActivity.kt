@@ -18,7 +18,7 @@ class PolicyActivity : AppCompatActivity() {
                 startActivity(Intent(this, SignUp::class.java))
                 finish()
             } else {
-                Toast.makeText(this, "개인정보 수집에 동의해주세요.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "개인정보 수집에 동의해주세요.", Toast.LENGTH_LONG).show()
             }
         }
     }

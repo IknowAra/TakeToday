@@ -4,16 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/polaroid"
-    android:padding="50dp"
-    android:orientation="vertical">
+    android:background="@drawable/back"
+    android:padding="20dp"
+    android:orientation="vertical"
+    >
 
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="서울의"
-        android:textSize="25sp"
+        android:textSize="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tv_keyword"
@@ -22,10 +23,10 @@
         android:id="@+id/tv_keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="#달"
-        android:textSize="50sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="#"
+        android:textSize="60dp"
+        app:layout_constraintStart_toStartOf="@id/tv_location"
+        app:layout_constraintEnd_toEndOf="@id/tv_date"
         app:layout_constraintTop_toTopOf="parent"
         />
     <TextView
@@ -36,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="2020.10.8"
         app:layout_constraintBottom_toBottomOf="@id/tv_keyword"
-        android:textSize="20sp"/>
+        android:textSize="20dp"/>
 
     <ImageView
         android:id="@+id/image"
@@ -53,9 +54,10 @@
         android:id="@+id/tv_contents"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/main_button"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
         app:layout_constraintTop_toBottomOf="@+id/image"
+        android:fontFamily="@font/wellbeing"
         android:textColor="@color/black"
         />
 
