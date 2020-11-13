@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             drawer_layout.closeDrawers()
         }
-        else{
+        else{   
             super.onBackPressed()
         }
     }

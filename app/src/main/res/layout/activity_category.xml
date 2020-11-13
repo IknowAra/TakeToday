@@ -54,7 +54,7 @@
                     android:weightSum="2">
 
                     <Button
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button2"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -64,7 +64,7 @@
                         android:textColor="@color/black"/>
 
                     <Button
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button3"
                         android:layout_width="0dp"
                         android:layout_margin="10dp"
@@ -83,7 +83,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button4"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -93,7 +93,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button5"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -111,7 +111,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button6"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -121,7 +121,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button7"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -139,7 +139,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button8"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
@@ -149,7 +149,7 @@
 
                     <Button
                         android:layout_margin="10dp"
-                        android:background="@drawable/white_box"
+                        android:background="@drawable/pola"
                         android:id="@+id/button9"
                         android:layout_width="0dp"
                         android:layout_height="150dp"

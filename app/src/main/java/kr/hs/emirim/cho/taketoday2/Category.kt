@@ -65,6 +65,7 @@ class Category : AppCompatActivity() {
             Toast.makeText(this, "준비중입니다", Toast.LENGTH_SHORT).show()
         }
 
+
     }
 
     private fun addCode(code:String){
