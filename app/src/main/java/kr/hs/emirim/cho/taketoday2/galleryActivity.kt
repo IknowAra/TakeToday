@@ -92,7 +92,7 @@ class galleryActivity : AppCompatActivity() {
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){
-                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                                btn.setBackgroundResource(R.drawable.applogo)
                             }
                             btn.setEnabled(false)
                         }
@@ -308,7 +308,7 @@ class galleryActivity : AppCompatActivity() {
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){
-                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                                btn.setBackgroundResource(R.drawable.applogo)
                             }
                             btn.setEnabled(false)
                         }
