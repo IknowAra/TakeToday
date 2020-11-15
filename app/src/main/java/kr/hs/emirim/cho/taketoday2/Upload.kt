@@ -168,7 +168,6 @@ class Upload : AppCompatActivity() {
                         firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
                             if (catdoc.isEmpty) {
                                 firebaseFirestore.collection("Posts").document().set(postMap)
-                                firebaseFirestore.collection("Posts").document().set(postMap)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
