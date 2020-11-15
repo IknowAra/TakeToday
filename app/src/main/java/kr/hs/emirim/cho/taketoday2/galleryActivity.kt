@@ -53,13 +53,33 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
         remain = listOf()
-        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
 
-        db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id.toString()).get().addOnSuccessListener { documents->
-            for(d in documents){
-                var noww = d.data?.get(key = "now").toString().toInt()
-                var a:List<Int> = d.data?.get(key = "remain") as List<Int>
-                HoursCate(noww, a)
+
+
+
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+        db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+            for(docu in documents){
+                end=System.currentTimeMillis()
+                start=docu.data.get(key="time").toString().toLong()
+                getTime= ((end-start)/1000)
+                if(getTime>=86400){
+                    var inlist = docu.data.get(key="remain") as List<Int>
+                    var susu = docu.data.get(key="now").toString().toInt()
+                    if(!inInt(inlist,susu)) {
+                        makeRandom()
+                        updateStart()
+                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "어려운 주제라면 우측 상단의 리셋버튼을 눌러보세요" , Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    var timi = 86400 - getTime
+                    var hour = timi/3600
+                    var minute = (timi-(hour*3600))/60
+                    Toast.makeText(this,hour.toString()+"시 "+ minute.toString() + "분 남았습니다" , Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -75,44 +95,6 @@ class galleryActivity : AppCompatActivity() {
                 }
             }
 
-        }
-
-        db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
-            code = document.data?.get(key = "inCate").toString()
-
-            db.collection("Category").document(code).get().addOnSuccessListener { document ->
-                var name:String = document.data?.get(key = "name") as String
-                var arr:List<String> = document.data?.get(key = "arr") as List<String>
-                cate_title.setText(name)
-                db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
-                    for(docu in documents){
-                        var now:Int = (docu.data?.get(key = "now")).toString().toInt()
-                        remain = docu.data?.get(key = "remain") as List<Int>
-                        todays_tag.setText("# "+arr[now])
-
-                        for ((idx,btn) in buttons.withIndex()){
-                            if(idx == now){
-                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
-                            }
-                            btn.setEnabled(false)
-                        }
-
-                        db.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("cate",code).get().addOnSuccessListener { documents2 ->
-                            for(d in documents2){
-
-                                var image_path: StorageReference = storageReference.child("images").child(d.id + ".jpg")
-                                image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
-                                    var bit:Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                                    var img:BitmapDrawable = BitmapDrawable(resources,bit)
-                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setBackground(img)
-                                    buttons[d.data?.get(key = "hashTag").toString().toInt()].setEnabled(true)
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
         }
 
         todays_tag.setOnClickListener {
@@ -188,33 +170,6 @@ class galleryActivity : AppCompatActivity() {
 
      }
 
-    private fun HoursCate(noww: Int, a: List<Int>) {
-        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
-        if(noww in a){
-
-        }else{
-            Log.d("now=====>",noww.toString())
-            Log.d("remain=====>",a.toString())
-            end=System.currentTimeMillis()
-
-            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
-                for(docu in documents){
-                    start=docu.data.get(key="time").toString().toLong()
-                }
-            }
-            getTime= (end-start)/1000
-            Log.d("getTime====>",getTime.toString())
-            if(getTime>=86400){
-                makeRandom()
-                Toast.makeText(this, "하루가 지나 주제가 변경되었습니다", Toast.LENGTH_SHORT).show()
-                updateStart()
-                val intent=Intent(this, galleryActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-    }
-
     public fun makeRandom(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
@@ -246,11 +201,11 @@ class galleryActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        end=System.currentTimeMillis()
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
             for(docu in documents){
+                end=System.currentTimeMillis()
                 start=docu.data.get(key="time").toString().toLong()
                 getTime= ((end-start)/1000)
                 if(getTime>=86400){
@@ -260,7 +215,14 @@ class galleryActivity : AppCompatActivity() {
                         makeRandom()
                         updateStart()
                         Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "어려운 주제라면 우측 상단의 리셋버튼을 눌러보세요" , Toast.LENGTH_SHORT).show()
                     }
+                }else{
+                    var timi = 86400 - getTime
+                    var hour = timi/3600
+                    var minute = (timi-(hour*3600))/60
+                    Toast.makeText(this,hour.toString()+"시 "+ minute.toString() + "분 남았습니다" , Toast.LENGTH_SHORT).show()
                 }
             }
         }

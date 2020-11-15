@@ -71,6 +71,7 @@ class Upload : AppCompatActivity() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
 
+        //nowing과 hashTag를 구하는
         firebaseFirestore.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             currentCode = document.data?.get(key = "inCate").toString()
             firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
@@ -167,6 +168,7 @@ class Upload : AppCompatActivity() {
                         firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
                             if (catdoc.isEmpty) {
                                 firebaseFirestore.collection("Posts").document().set(postMap)
+                                firebaseFirestore.collection("Posts").document().set(postMap)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
@@ -183,6 +185,10 @@ class Upload : AppCompatActivity() {
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                     for(docdoc in documents3){
                                                                         firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("time",System.currentTimeMillis())
+                                                                        if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                            firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                        }
                                                                     }
                                                                 }
 
@@ -199,6 +205,10 @@ class Upload : AppCompatActivity() {
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                     for(docdoc in documents3){
                                                                         firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("time",System.currentTimeMillis())
+                                                                        if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
+                                                                            firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                        }
                                                                     }
                                                                 }
                                                             } else {
@@ -235,6 +245,8 @@ class Upload : AppCompatActivity() {
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            firebaseFirestore.collection("Todays").document(docdoc.id).update("time",System.currentTimeMillis())
+
                                                                             if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
                                                                                 firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
                                                                             }
@@ -254,6 +266,7 @@ class Upload : AppCompatActivity() {
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
+                                                                            firebaseFirestore.collection("Todays").document(docdoc.id).update("time",System.currentTimeMillis())
                                                                             if (((docdoc.data?.get(key = "remain")).toString()).equals("[]")){
                                                                                 firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
                                                                             }
