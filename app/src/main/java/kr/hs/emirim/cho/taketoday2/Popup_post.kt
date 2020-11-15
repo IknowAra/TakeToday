@@ -65,24 +65,39 @@ class Popup_post(postId:String) : DialogFragment(){
         firebaseFirestore = FirebaseFirestore.getInstance()
         user_id = mAuth.currentUser!!.uid
 
+
+
         firebaseFirestore.collection("Posts").document(nowing).get().addOnSuccessListener { document ->
             tv_location.setText((document.data?.get(key = "location")).toString()+"의")
             tv_date.setText((document.data?.get(key = "timestamp")).toString())
             tv_contents.setText((document.data?.get(key = "content")).toString())
             firebaseFirestore.collection("Category").document((document.data?.get(key = "cate")).toString()).get().addOnSuccessListener { docu ->
-                val catelist:List<String> = docu.data?.get(key = "arr") as List<String>
-                val hash:String = catelist[((document.data?.get(key = "hashTag")).toString().toInt())]
+                var catelist:List<String> = docu.data?.get(key = "arr") as List<String>
+                var hash:String = catelist[((document.data?.get(key = "hashTag")).toString().toInt())]
                 tv_keyword.setText("#"+hash)
             }
 
-            val image_path: StorageReference = storageReference.child("images").child(document.id + ".jpg")
+            var image_path: StorageReference = storageReference.child("images").child(document.id + ".jpg")
             image_path.getBytes(1024*1024*5).addOnSuccessListener { bytes ->
-                val bit: Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                val img = BitmapDrawable(resources,bit)
+                var bit: Bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                var img: BitmapDrawable = BitmapDrawable(resources,bit)
                 image.setImageDrawable(img)
             }
 
+
         }
+//            currentCode = document.data?.get(key = "inCate").toString()
+//            firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+//                for (docu in documents){
+//                    nowing = docu.data?.get(key = "now").toString().toInt()
+//                    firebaseFirestore.collection("Category").document(currentCode).get().addOnSuccessListener { document2 ->
+//                        var cateList:List<String> = document2.data?.get(key = "arr") as List<String>
+//                        tv_keyword.text = '#'+cateList[nowing]
+//
+//                    }
+//                }
+//            }
+//        }
     }
 
 }
