@@ -53,13 +53,33 @@ class galleryActivity : AppCompatActivity() {
             user_id = user.uid
         }
         remain = listOf()
-        val db:FirebaseFirestore= FirebaseFirestore.getInstance()
 
-        db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id.toString()).get().addOnSuccessListener { documents->
-            for(d in documents){
-                var noww = d.data?.get(key = "now").toString().toInt()
-                var a:List<Int> = d.data?.get(key = "remain") as List<Int>
-                HoursCate(noww, a)
+
+
+
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+        db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+            for(docu in documents){
+                end=System.currentTimeMillis()
+                start=docu.data.get(key="time").toString().toLong()
+                getTime= ((end-start)/1000)
+                if(getTime>=86400){
+                    var inlist = docu.data.get(key="remain") as List<Int>
+                    var susu = docu.data.get(key="now").toString().toInt()
+                    if(!inInt(inlist,susu)) {
+                        makeRandom()
+                        updateStart()
+                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "어려운 주제라면 우측 상단의 리셋버튼을 눌러보세요" , Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    var timi = 86400 - getTime
+                    var hour = timi/3600
+                    var minute = (timi-(hour*3600))/60
+                    Toast.makeText(this,hour.toString()+"시 "+ minute.toString() + "분 남았습니다" , Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -92,7 +112,7 @@ class galleryActivity : AppCompatActivity() {
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){
-                                btn.setBackgroundResource(R.drawable.applogo)
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
                             }
                             btn.setEnabled(false)
                         }
@@ -308,7 +328,7 @@ class galleryActivity : AppCompatActivity() {
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){
-                                btn.setBackgroundResource(R.drawable.applogo)
+                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
                             }
                             btn.setEnabled(false)
                         }

@@ -52,14 +52,28 @@
         android:layout_height="wrap_content">
 
         <ImageView
-        android:id="@+id/image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/main_button"
-        />
+            android:id="@+id/image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/main_button"
+            />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/spoqab"
+            android:text="2020.10.8"
+            app:layout_constraintTop_toBottomOf="@id/image"
+            app:layout_constraintBottom_toTopOf="@id/tv_contents"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#838383"
+            />
 
         <TextView
             android:id="@+id/tv_date"
