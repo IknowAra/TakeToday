@@ -14,7 +14,10 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:id="@+id/text_pop"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_weight="1"
+        >
 
         <TextView
             android:id="@+id/tv_location"
@@ -27,6 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
             />
 
         <TextView
@@ -40,7 +44,8 @@
             app:layout_constraintLeft_toRightOf="@id/tv_location"
             app:layout_constraintRight_toLeftOf="@id/tv_date"
             android:gravity="center_horizontal"
-            tools:layout_editor_absoluteX="169dp" />
+            app:layout_constraintHorizontal_bias="0.8"
+            />
 
         <TextView
             android:id="@+id/tv_date"
