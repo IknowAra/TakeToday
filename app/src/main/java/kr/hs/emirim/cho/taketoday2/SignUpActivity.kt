@@ -11,7 +11,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
-class SignUp : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var userEmail:String;
     private lateinit var userPass:String;

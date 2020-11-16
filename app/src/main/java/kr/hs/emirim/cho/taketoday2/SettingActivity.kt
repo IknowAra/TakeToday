@@ -2,18 +2,16 @@ package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class Setting : AppCompatActivity() {
+class SettingActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private var db: FirebaseFirestore? = null
     private var user_id: String? = null
@@ -119,7 +117,7 @@ class Setting : AppCompatActivity() {
 
     private fun sendToLogout() {
         finish()
-        var intent = Intent(this, Login::class.java)
+        var intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()

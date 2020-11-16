@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class Popup_post(postId:String) : DialogFragment(){
+class PopupPostActivity(postId:String) : DialogFragment(){
     private lateinit var mAuth: FirebaseAuth
     private lateinit var storageReference: StorageReference
     private lateinit var firebaseFirestore: FirebaseFirestore

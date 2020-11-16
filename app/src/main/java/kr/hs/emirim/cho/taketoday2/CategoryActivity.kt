@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class Category : AppCompatActivity() {
+class CategoryActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth;
     private var user_id: String? = null
     private var count: Int = 0

@@ -4,26 +4,18 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_gallery.*
-import java.io.File
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class galleryActivity : AppCompatActivity() {
@@ -55,8 +47,6 @@ class galleryActivity : AppCompatActivity() {
         remain = listOf()
 
 
-
-
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
         db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
@@ -68,9 +58,10 @@ class galleryActivity : AppCompatActivity() {
                     var inlist = docu.data.get(key="remain") as List<Int>
                     var susu = docu.data.get(key="now").toString().toInt()
                     if(!inInt(inlist,susu)) {
+                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
                         makeRandom()
                         updateStart()
-                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
+
                     }else{
                         Toast.makeText(this, "어려운 주제라면 우측 상단의 리셋버튼을 눌러보세요" , Toast.LENGTH_SHORT).show()
                     }
@@ -86,14 +77,29 @@ class galleryActivity : AppCompatActivity() {
         btn_reset.setOnClickListener {
             end=System.currentTimeMillis()
             val db:FirebaseFirestore= FirebaseFirestore.getInstance()
-            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
-                for(docu in documents){
-                    start=docu.data.get(key="time").toString().toLong()
-                    getTime= ((end-start)/1000)
-                    getReset(getTime)
+            db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var now = document.data?.get(key = "now").toString().toInt()
+                    var a: List<Int> = document.data?.get(key = "remain") as List<Int>
+                    for(item in a){
+                        if(a.size==1 && item==now){
+                            Toast.makeText(this, "더 이상 바꿀 주제가 없습니다. 마지막 주제입니다.", Toast.LENGTH_LONG).show()
+                            break
+                        }else{
+                            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+                                for(docu in documents){
+                                    start=docu.data.get(key="time").toString().toLong()
+                                    getTime= ((end-start)/1000)
+                                    getReset(getTime)
+
+                                }
+                            }
+                        }
+                    }
 
                 }
             }
+
 
         }
 
@@ -170,27 +176,29 @@ class galleryActivity : AppCompatActivity() {
 
     }
 
-    public fun makeRandom(){
+    private fun makeRandom(){
+        Log.d("와우", "와우")
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
             for(document in documents){
                 var now = document.data?.get(key = "now").toString().toInt()
                 var a:List<Int> = document.data?.get(key = "remain") as List<Int>
-                if(a.size == 1){
-                    val dialog =
-                        AlertDialog.Builder(this)
-                            .setMessage("너무 어려운 주제였나요? 마지막 미션은 자유로 해도 좋아요 🙂")
-                            .setPositiveButton("네") { dialog, which ->
-                                Toast.makeText(this, "화이팅!", Toast.LENGTH_SHORT).show()
-                            }
-                            .create()
-                    dialog.show()
-                    break
+
+
+                val mu:MutableList<Int> = mutableListOf()
+                for(item in a){
+                    if(item != now){
+                        mu.add(item)
+                    }
                 }
-                var mu:MutableList<Int> = a.toMutableList()
-                mu.remove(now)
+
                 var result = mu.random()
+                Log.d("mumu=========>", mu.toString()+result)
                 db.collection("Todays").document(document.id).update("now",result)
+                if(a.size == 1){
+                    Toast.makeText(this, "너무 어려운 주제였나요? 마지막 미션은 자유로 해도 좋아요 :)", Toast.LENGTH_SHORT).show()
+                    continue
+                }
             }
         }
         fun <T> List<T>.random() : T {
@@ -212,9 +220,9 @@ class galleryActivity : AppCompatActivity() {
                     var inlist = docu.data.get(key="remain") as List<Int>
                     var susu = docu.data.get(key="now").toString().toInt()
                     if(!inInt(inlist,susu)) {
+                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
                         makeRandom()
                         updateStart()
-                        Toast.makeText(this, "24시간이 지나 주제가 변경되었습니다.", Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(this, "어려운 주제라면 우측 상단의 리셋버튼을 눌러보세요" , Toast.LENGTH_SHORT).show()
                     }
@@ -244,14 +252,29 @@ class galleryActivity : AppCompatActivity() {
         btn_reset.setOnClickListener {
             end=System.currentTimeMillis()
             val db:FirebaseFirestore= FirebaseFirestore.getInstance()
-            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
-                for(docu in documents){
-                    start=docu.data.get(key="time").toString().toLong()
-                    getTime= ((end-start)/1000)
-                    getReset(getTime)
+            db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var now = document.data?.get(key = "now").toString().toInt()
+                    var a: List<Int> = document.data?.get(key = "remain") as List<Int>
+                    for(item in a){
+                        if(a.size==1 && item==now){
+                            Toast.makeText(this, "더 이상 바꿀 주제가 없습니다. 마지막 주제입니다.", Toast.LENGTH_LONG).show()
+                            break
+                        }else{
+                            db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+                                for(docu in documents){
+                                    start=docu.data.get(key="time").toString().toLong()
+                                    getTime= ((end-start)/1000)
+                                    getReset(getTime)
+
+                                }
+                            }
+                        }
+                    }
 
                 }
             }
+
 
         }
 
@@ -370,7 +393,7 @@ class galleryActivity : AppCompatActivity() {
         val db:FirebaseFirestore= FirebaseFirestore.getInstance()
         db.collection("Posts").whereEqualTo("cate",code).whereEqualTo("user_id",user_id).whereEqualTo("hashTag",su).get().addOnSuccessListener { docus ->
             for (d in docus){
-                var dialog = Popup_post((d.id).toString())
+                var dialog = PopupPostActivity((d.id).toString())
                 dialog.show(supportFragmentManager, "customDialog")
             }
         }

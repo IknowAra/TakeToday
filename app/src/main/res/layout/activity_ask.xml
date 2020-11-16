@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:orientation="vertical"
-    tools:context=".Ask">
+    tools:context=".AskActivity">
 
     <Button
         android:id="@+id/btn_back"
@@ -41,6 +41,7 @@
             android:paddingLeft="30dp"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginBottom="30dp"
             android:textColor="@color/black"/>
 
         <Button
@@ -48,8 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:background="#000000"
-
+            android:background="@drawable/white_box"
             android:text="문의하기"/>
 
     </LinearLayout>

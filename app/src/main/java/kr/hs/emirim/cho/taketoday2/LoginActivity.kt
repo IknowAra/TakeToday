@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     var db: FirebaseFirestore? = null
     private lateinit var mAuth: FirebaseAuth;
@@ -100,8 +100,7 @@ class Login : AppCompatActivity() {
             if (task.isSuccessful) {
                 val document = task.result
                 if (document!!.exists()) {
-                    val user = document!!.toObject(User::class.java)
-                    var userName = user!!.name
+                    var userName = document.data?.get(key="name")
 
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()

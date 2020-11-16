@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context=".SignUp">
+    tools:context=".SignUpActivity">
 
         <ProgressBar
             android:id="@+id/reg_progress"
