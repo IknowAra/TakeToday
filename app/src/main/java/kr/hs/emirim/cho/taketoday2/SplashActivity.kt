@@ -37,9 +37,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         splash_layout.setBackgroundResource(R.drawable.back2)
-//        var slideDownAnimation=AnimationUtils.loadAnimation(this, R.anim.slide_down)
-//        splash_title.startAnimation(slideDownAnimation)
-//        var slideUpAnimation=AnimationUtils.loadAnimation(this, R.anim.slide_up)
         google_logo.visibility=View.INVISIBLE
 
         Handler().postDelayed(mRunnable,1000)
@@ -53,10 +50,4 @@ class SplashActivity : AppCompatActivity() {
         view.startAnimation(animation)
     }
 
-//    fun slideDown(view: View, time:Int){
-//        val animation=TranslateAnimation(0f,0f,0f,300f)
-//        animation.duration=time.toLong()
-//        animation.fillAfter=true
-//        view.startAnimation(animation)
-//    }
 }

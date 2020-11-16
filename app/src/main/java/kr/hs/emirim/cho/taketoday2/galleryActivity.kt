@@ -177,7 +177,6 @@ class galleryActivity : AppCompatActivity() {
     }
 
     private fun makeRandom(){
-        Log.d("와우", "와우")
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
             for(document in documents){
@@ -193,7 +192,6 @@ class galleryActivity : AppCompatActivity() {
                 }
 
                 var result = mu.random()
-                Log.d("mumu=========>", mu.toString()+result)
                 db.collection("Todays").document(document.id).update("now",result)
                 if(a.size == 1){
                     Toast.makeText(this, "너무 어려운 주제였나요? 마지막 미션은 자유로 해도 좋아요 :)", Toast.LENGTH_SHORT).show()

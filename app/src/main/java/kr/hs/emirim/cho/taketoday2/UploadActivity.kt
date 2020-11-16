@@ -526,12 +526,6 @@ class Upload : AppCompatActivity() {
         }
     }
 
-//    private fun setImage() {
-//        val options: BitmapFactory.Options = BitmapFactory.Options()
-//        val originalBm: Bitmap = BitmapFactory.decodeFile(tempFile!!.absolutePath, options)
-//        imageUp.setImageBitmap(originalBm)
-//
-//    }
 }
 private fun <K, V> Map<K, V>.put(key: K, value: K) {
 
