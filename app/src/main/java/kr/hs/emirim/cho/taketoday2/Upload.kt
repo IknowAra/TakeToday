@@ -9,9 +9,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
@@ -113,6 +111,15 @@ class Upload : AppCompatActivity() {
 //        }
         //위치
 
+        btn_reload.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
+            } else {
+                Log.d("d","웅모랄ㅇㅁ라ㅜ망ㄻㄹㅇ루ㅏ")
+                setLocation()
+            }
+        }
         btn_back.setOnClickListener{
             startActivity(Intent(this, galleryActivity::class.java))
             finish()
