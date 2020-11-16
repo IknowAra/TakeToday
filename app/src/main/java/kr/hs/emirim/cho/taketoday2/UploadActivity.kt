@@ -103,6 +103,7 @@ class Upload : AppCompatActivity() {
         btn_reload.setOnClickListener {
             getLastLocation()
         }
+
         btn_back.setOnClickListener{
             startActivity(Intent(this, galleryActivity::class.java))
             finish()
@@ -448,7 +449,6 @@ class Upload : AppCompatActivity() {
                     var location = task.result
                     if (location != null) {
                         val geocoder = Geocoder(this@Upload)
-
                         var list: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude,1)
                         var adre = list?.get(0)?.getAddressLine(0)
                         var arr = adre?.split(" ")
