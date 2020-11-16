@@ -42,6 +42,7 @@ class FinishedActivity : AppCompatActivity() {
             finish()
         }
 
+        nonfinished.visibility = View.INVISIBLE
         for (btn in buttons) {
             btn.isEnabled = false
             btn.visibility = View.INVISIBLE
@@ -53,18 +54,19 @@ class FinishedActivity : AppCompatActivity() {
                 if((d.data?.get(key = "remain")).toString() == "[]"){
                     arr.add((d.data?.get(key = "cate")).toString())
                 }
-                else{
-                    showText()
-                    break
+            }
+            if(arr.size == 0){
+                nonfinished.visibility = View.VISIBLE
+            }else{
+                for ((ix, a) in arr.withIndex()) {
+                    db.collection("Category").document(a).get().addOnSuccessListener { doc ->
+                        buttons[ix].isEnabled = true
+                        buttons[ix].visibility = View.VISIBLE
+                        buttons[ix].text = (doc.data?.get(key = "name")).toString()
+                    }
                 }
             }
-            for ((ix, a) in arr.withIndex()) {
-                db.collection("Category").document(a).get().addOnSuccessListener { doc ->
-                    buttons[ix].isEnabled = true
-                    buttons[ix].visibility = View.VISIBLE
-                    buttons[ix].text = (doc.data?.get(key = "name")).toString()
-                }
-            }
+
         }
 
         fbutton1.setOnClickListener {
@@ -96,16 +98,6 @@ class FinishedActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun showText() {
-        val textView = TextView(this)
-        textView.text = "완성된 갤러리가 없습니다"
-        textView.gravity = Gravity.CENTER_HORIZONTAL
-        textView.setTextColor(getResources().getColor(R.color.black))
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 23F)
-        llayout.addView(textView)
-    }
-
 
     private fun moveToGallery(code: String) {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()

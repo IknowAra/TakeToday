@@ -47,6 +47,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/nonfinished"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="20sp"
+                    android:text="완성된 갤러리가 없습니다"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/wellbeing"
+                    android:gravity="center"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

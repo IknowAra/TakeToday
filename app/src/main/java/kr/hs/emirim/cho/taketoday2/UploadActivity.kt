@@ -171,7 +171,6 @@ class Upload : AppCompatActivity() {
                                                         image_path.putFile(photoURI!!).addOnCompleteListener { task ->
                                                             if (task.isSuccessful) {
                                                                 Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-                                                                LodingDialogActivity(this).dismiss()
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                     for(docdoc in documents3){
                                                                         firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -179,10 +178,11 @@ class Upload : AppCompatActivity() {
                                                                         if (((docdoc.data.get(key = "remain")).toString()).equals("[]")){
                                                                             firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
                                                                         }
+                                                                        LodingDialogActivity(this).dismiss()
+                                                                        startActivity(Intent(this, galleryActivity::class.java))
+                                                                        finish()
                                                                     }
                                                                 }
-
-
                                                             } else {
                                                                 var error: Exception? = task.exception
                                                                 Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
@@ -192,14 +192,16 @@ class Upload : AppCompatActivity() {
                                                         image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                                                             if (task.isSuccessful) {
                                                                 Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-                                                                LodingDialogActivity(this).dismiss()
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
-                                                                    for(docdoc in documents3){
-                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
-                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("time",System.currentTimeMillis())
-                                                                        if (((docdoc.data.get(key = "remain")).toString()).equals("[]")){
-                                                                            firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
+                                                                    for(docdoc in documents3) {
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("remain", FieldValue.arrayRemove(nowing))
+                                                                        firebaseFirestore.collection("Todays").document(docdoc.id).update("time", System.currentTimeMillis())
+                                                                        if (((docdoc.data.get(key = "remain")).toString()).equals("[]")) {
+                                                                            firebaseFirestore.collection("Users").document(user_id).update("current", FieldValue.arrayRemove(currentCode))
                                                                         }
+                                                                        LodingDialogActivity(this).dismiss()
+                                                                        startActivity(Intent(this, galleryActivity::class.java))
+                                                                        finish()
                                                                     }
                                                                 }
                                                             } else {
@@ -210,8 +212,6 @@ class Upload : AppCompatActivity() {
                                                     }
                                                 }
                                             }
-                                            startActivity(Intent(this, galleryActivity::class.java))
-                                            finish()
                                         } else {
                                             Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
                                         }
@@ -232,7 +232,7 @@ class Upload : AppCompatActivity() {
                                                             image_path.putFile(photoURI!!).addOnCompleteListener { task ->
                                                                 if (task.isSuccessful) {
                                                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-                                                                    LodingDialogActivity(this).dismiss()
+
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -241,9 +241,11 @@ class Upload : AppCompatActivity() {
                                                                             if (((docdoc.data.get(key = "remain")).toString()).equals("[]")){
                                                                                 firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
                                                                             }
+                                                                            LodingDialogActivity(this).dismiss()
+                                                                            startActivity(Intent(this, galleryActivity::class.java))
+                                                                            finish()
                                                                         }
                                                                     }
-
                                                                 } else {
                                                                     var error: Exception? = task.exception
                                                                     Toast.makeText(this, "Error : " + error, Toast.LENGTH_LONG).show()
@@ -253,7 +255,7 @@ class Upload : AppCompatActivity() {
                                                             image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                                                                 if (task.isSuccessful) {
                                                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-                                                                    LodingDialogActivity(this).dismiss()
+
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -261,6 +263,9 @@ class Upload : AppCompatActivity() {
                                                                             if (((docdoc.data.get(key = "remain")).toString()).equals("[]")){
                                                                                 firebaseFirestore.collection("Users").document(user_id).update("current",FieldValue.arrayRemove(currentCode))
                                                                             }
+                                                                            LodingDialogActivity(this).dismiss()
+                                                                            startActivity(Intent(this, galleryActivity::class.java))
+                                                                            finish()
                                                                         }
                                                                     }
                                                                 } else {
@@ -271,8 +276,6 @@ class Upload : AppCompatActivity() {
                                                         }
                                                     }
                                                 }
-                                                startActivity(Intent(this, galleryActivity::class.java))
-                                                finish()
                                             } else {
                                                 Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
                                             }
@@ -514,6 +517,13 @@ class Upload : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (LodingDialogActivity(this) != null && LodingDialogActivity(this).isShowing()) {
+            LodingDialogActivity(this).cancel()
+        }
     }
 
 //    private fun setImage() {
