@@ -9,13 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.activity_user_set.*
-import kr.hs.emirim.cho.taketoday2.Login
-import kr.hs.emirim.cho.taketoday2.MainActivity
-import kr.hs.emirim.cho.taketoday2.R
-import kr.hs.emirim.cho.taketoday2.User
-import java.util.*
 
 class UserSetActivity : AppCompatActivity() {
 
@@ -52,13 +46,11 @@ class UserSetActivity : AppCompatActivity() {
     private fun adduser() {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val user = User(user_name, user_tele)
-
         val userMap = hashMapOf<String, Any>()
 
         userMap.put("email",user_email.toString())
-        userMap.put("name",user.getName())
-        userMap.put("name",user.getTele())
+        userMap.put("name",user_name)
+        userMap.put("name",user_tele)
         userMap.put("current", listOf<String>())
         userMap.put("inCate", "")
 
@@ -68,7 +60,7 @@ class UserSetActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this, "유저 정보가 등록됨", Toast.LENGTH_SHORT)
                         .show()
-                    startActivity(Intent(this, Login::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
                 } else {
                     val error = task.exception!!.message
                     Toast.makeText(

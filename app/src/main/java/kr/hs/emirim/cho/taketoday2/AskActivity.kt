@@ -10,10 +10,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_ask.*
 import kotlinx.android.synthetic.main.activity_ask.btn_back
-import kotlinx.android.synthetic.main.activity_category.*
 import java.util.HashMap
 
-class Ask : AppCompatActivity() {
+class AskActivity : AppCompatActivity() {
 
     private lateinit var ask_contents:String
     private lateinit var mAuth: FirebaseAuth
@@ -51,7 +50,7 @@ class Ask : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(this, "문의가 등록되었습니다.", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, Ask::class.java))
+                    startActivity(Intent(this, AskActivity::class.java))
                     finish()
                 }else{
                     val error = task.exception!!.message

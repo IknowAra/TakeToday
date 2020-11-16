@@ -8,7 +8,7 @@
     android:background="@drawable/back"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".Setting">
+    tools:context=".SettingActivity">
 
     <LinearLayout
         android:layout_marginTop="80dp"

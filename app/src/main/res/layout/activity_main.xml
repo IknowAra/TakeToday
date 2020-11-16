@@ -104,6 +104,8 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
+        app:itemTextAppearance="@font/wandohoper"
+        app:itemTextColor="@color/black"
         android:id="@+id/naviView"
         android:background="@drawable/back"
         android:layout_width="wrap_content"

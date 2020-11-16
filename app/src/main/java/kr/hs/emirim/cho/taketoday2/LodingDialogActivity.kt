@@ -11,25 +11,23 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 
-class LodingDialog constructor(context: Context): Dialog(context) {
+class LodingDialogActivity constructor(context: Context): Dialog(context) {
     private var c: Context? = null
-    init{
+
+    init {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCanceledOnTouchOutside(false)
         c = context
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loding_dialog)
         val logo = findViewById<ImageView>(R.id.loadingIcon)
-        val animation : Animation = AnimationUtils.loadAnimation(c,R.anim.loading)
+        val animation: Animation = AnimationUtils.loadAnimation(c, R.anim.loading)
         logo.animation = animation
     }
-    override fun show(){
-        super.show()
-    }
-    override fun dismiss() {
-        super.dismiss()
-    }
+
+
 }

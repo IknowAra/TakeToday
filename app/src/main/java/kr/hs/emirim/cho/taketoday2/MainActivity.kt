@@ -3,7 +3,6 @@ package kr.hs.emirim.cho.taketoday2
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -11,7 +10,6 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -37,28 +35,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         button_1.setOnClickListener{
             if((button_1.text).equals("")){
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             }else{
                 moveToGallery(0)
             }
         }
         button_2.setOnClickListener{
             if((button_2.text).equals("")){
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             }else{
                 moveToGallery(1)
             }
         }
         button_3.setOnClickListener{
             if((button_3.text).equals("")){
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             }else{
                 moveToGallery(2)
             }
         }
         button_4.setOnClickListener{
             if((button_4.text).equals("")){
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             }else{
                 moveToGallery(3)
             }
@@ -77,21 +75,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(item.itemId)
         {
             R.id.cate-> {
-                val intent=Intent(this, Category::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+                val intent=Intent(this, CategoryActivity::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
                 startActivity(intent)
             }
 
             R.id.finished-> {
-                val intent=Intent(this, Finished::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+                val intent=Intent(this, FinishedActivity::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
                 startActivity(intent)
             }
 
             R.id.setting-> {
-                val intent=Intent(this, Setting::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+                val intent=Intent(this, SettingActivity::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
                 startActivity(intent)
             }
             R.id.ask-> {
-                val intent=Intent(this, Ask::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
+                val intent=Intent(this, AskActivity::class.java)   //다음 화면으로 이동하기 위한 인텐트 객체 생성
                 startActivity(intent)
             }
         }
@@ -158,28 +156,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         button_1.setOnClickListener {
             if ((button_1.text).equals("")) {
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             } else {
                 moveToGallery(0)
             }
         }
         button_2.setOnClickListener {
             if ((button_2.text).equals("")) {
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             } else {
                 moveToGallery(1)
             }
         }
         button_3.setOnClickListener {
             if ((button_3.text).equals("")) {
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             } else {
                 moveToGallery(2)
             }
         }
         button_4.setOnClickListener {
             if ((button_4.text).equals("")) {
-                startActivity(Intent(this, Category::class.java))
+                startActivity(Intent(this, CategoryActivity::class.java))
             } else {
                 moveToGallery(3)
             }

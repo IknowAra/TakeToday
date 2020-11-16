@@ -1,18 +1,21 @@
 package kr.hs.emirim.cho.taketoday2
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.d
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_category.btn_back
 import kotlinx.android.synthetic.main.activity_finished.*
 
-class Finished : AppCompatActivity() {
+
+class FinishedActivity : AppCompatActivity() {
 
     private var user_id: String? = null
     private lateinit var mAuth: FirebaseAuth
@@ -25,7 +28,7 @@ class Finished : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finished)
-        buttons = arrayListOf<Button>(findViewById(R.id.fbutton1),findViewById(R.id.fbutton2),findViewById(R.id.fbutton3),findViewById(R.id.fbutton4),findViewById(R.id.fbutton5),findViewById(R.id.fbutton6),findViewById(R.id.fbutton7),findViewById(R.id.fbutton8))
+        buttons = arrayListOf<Button>(fbutton1,fbutton2,fbutton3,fbutton4,fbutton5,fbutton6,fbutton7,fbutton8)
 
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
@@ -49,6 +52,10 @@ class Finished : AppCompatActivity() {
             for (d in docus) {
                 if((d.data?.get(key = "remain")).toString() == "[]"){
                     arr.add((d.data?.get(key = "cate")).toString())
+                }
+                else{
+                    showText()
+                    break
                 }
             }
             for ((ix, a) in arr.withIndex()) {
@@ -88,6 +95,15 @@ class Finished : AppCompatActivity() {
             moveToGallery(arr[6])
         }
 
+    }
+
+    private fun showText() {
+        val textView = TextView(this)
+        textView.text = "완성된 갤러리가 없습니다"
+        textView.gravity = Gravity.CENTER_HORIZONTAL
+        textView.setTextColor(getResources().getColor(R.color.black))
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 23F)
+        llayout.addView(textView)
     }
 
 

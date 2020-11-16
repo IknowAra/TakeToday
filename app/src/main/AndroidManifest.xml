@@ -21,17 +21,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PolicyActivity"></activity>
+        <activity android:name=".PolicyActivity"/>
         <activity android:name=".galleryActivity" />
-        <activity android:name=".Ask" />
-        <activity android:name=".Category" />
-        <activity android:name=".Setting" />
-        <activity android:name=".Finished" />
+        <activity android:name=".AskActivity" />
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".FinishedActivity" />
         <activity android:name=".Upload" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UserSetActivity" />
-        <activity android:name=".SignUp" />
-        <activity android:name=".Login" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

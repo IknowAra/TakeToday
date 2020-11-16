@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -27,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
             }, 2000)
 
             Handler().postDelayed({
-                startActivity(Intent(this, Login::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }, 3000)
         }
