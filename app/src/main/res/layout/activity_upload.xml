@@ -34,18 +34,33 @@
         android:layout_marginBottom="10dp"
         android:scaleType="centerCrop" />
 
-
-    <TextView
-        android:id="@+id/loca"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
-        android:text=" 위치정보"
-        android:drawableStart="@drawable/ic_location_pin"
-        android:paddingLeft="30dp"
-        android:gravity="start"
         android:layout_marginBottom="20dp"
-        android:autoSizeTextType="uniform"/>
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <TextView
+            android:id="@+id/loca"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:text=" 위치정보"
+            android:drawableStart="@drawable/ic_location_pin"
+            android:paddingLeft="30dp"
+            android:gravity="start"
+            android:autoSizeTextType="uniform"/>
+
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/plus"
+            />
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/setup_content"

@@ -264,8 +264,8 @@ class galleryActivity : AppCompatActivity() {
                 cate_title.setText(name)
                 db.collection("Todays").whereEqualTo("cate",code).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
                     for(docu in documents){
-                        var now:Int = (docu.data?.get(key = "now")).toString().toInt()
-                        remain = docu.data?.get(key = "remain") as List<Int>
+                        var now:Int = (docu.data.get(key = "now")).toString().toInt()
+                        remain = docu.data.get(key = "remain") as List<Int>
                         todays_tag.setText("# "+arr[now])
 
                         for ((idx,btn) in buttons.withIndex()){
