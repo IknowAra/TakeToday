@@ -40,6 +40,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:weightSum="1">
         <TextView
             android:id="@+id/loca"
@@ -49,7 +50,7 @@
 
             android:text=" 위치정보"
             android:drawableStart="@drawable/ic_location_pin"
-            android:paddingLeft="30dp"
+
             android:gravity="start"
 
             android:autoSizeTextType="uniform"/>

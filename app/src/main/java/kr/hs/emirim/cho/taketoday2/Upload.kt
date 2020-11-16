@@ -5,6 +5,7 @@ import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,12 +13,15 @@ import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Looper
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
@@ -26,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,8 +61,10 @@ class Upload : AppCompatActivity() {
     private lateinit var user_id: String
     private var tempFile: Uri? = null
     private var locationManager : LocationManager? = null
+
     private var currentCode: String = ""
     private var nowing: Int = -1
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,40 +92,18 @@ class Upload : AppCompatActivity() {
         }
 
 
-
         //위치
-        val geocoder = Geocoder(this)
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-        if (Build.VERSION.SDK_INT >= 23 &&
-            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
-        } else {
-            setLocation()
-        }
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-//        loca.setOnClickListener{
-//            if (Build.VERSION.SDK_INT >= 23 &&
-//                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
-//            } else {
-//                val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-//                var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
-//                var adre = list?.get(0)?.getAddressLine(0)
-//                var arr = adre?.split(" ")
-//                loca.text = ("" + (arr?.get(2)))
-//                currentLoca = ("" + (arr?.get(2)))
-//            }
-//        }
-        //위치
+
+
+        getLastLocation()
+
+
 
         btn_reload.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= 23 &&
-                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
-            } else {
-                Log.d("d","웅모랄ㅇㅁ라ㅜ망ㄻㄹㅇ루ㅏ")
-                setLocation()
-            }
+            getLastLocation()
         }
         btn_back.setOnClickListener{
             startActivity(Intent(this, galleryActivity::class.java))
@@ -318,6 +303,7 @@ class Upload : AppCompatActivity() {
 
     //권한 요청
     private fun requestPermission() {
+
         ActivityCompat.requestPermissions(
             this, arrayOf(READ_EXTERNAL_STORAGE, CAMERA),
             REQUEST_IMAGE_CAPTURE
@@ -340,16 +326,11 @@ class Upload : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        } else {
-            Toast.makeText(this, "권한요청을 허용해주세요", Toast.LENGTH_SHORT).show()
-        }
 
         if (requestCode == REQUEST_LOCATION) {
             if (grantResults.size === 1
                 && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
-                setLocation()
+                getLastLocation()
             } else {
                 finish()
             }
@@ -465,24 +446,82 @@ class Upload : AppCompatActivity() {
         }
     }
 
-    private fun setLocation(){
-        val geocoder = Geocoder(this)
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var locationRequest: LocationRequest
 
-        if (Build.VERSION.SDK_INT >= 23 &&
-            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        }else{
-            val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            if(location != null){
-                var list: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude,1)
-                var adre = list?.get(0)?.getAddressLine(0)
-                var arr = adre?.split(" ")
-                loca.text = (" " + (arr?.get(2)))
-                currentLoca = ("" + (arr?.get(2)))
+
+    private fun getLastLocation(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED) {
+            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if(locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
+                    var location = task.result
+                    if (location != null) {
+                        val geocoder = Geocoder(this@Upload)
+
+                        var list: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude,1)
+                        var adre = list?.get(0)?.getAddressLine(0)
+                        var arr = adre?.split(" ")
+                        loca.text = (" " + (arr?.get(2)))
+                        currentLoca = ("" + (arr?.get(2)))
+                    }else{
+                        getNewLocation()
+                    }
+                }
+            }else{
+                if ( !locationManager!!.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                    val dialog =
+                            androidx.appcompat.app.AlertDialog.Builder(this)
+                                    .setMessage("더 나은 서비스를 위해 GPS를 활성화해주세요!")
+                                    .setPositiveButton("예") { dialog, which ->
+                                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                    }
+                                    .setNegativeButton("아니요") { dialog, which -> }
+                                    .create()
+                    dialog.show()
+                }else{
+                    Toast.makeText(this,"다시 시도해주세요",Toast.LENGTH_SHORT).show()
+                }
             }
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),REQUEST_LOCATION
+            )
+        }
+    }
+
+    private fun getNewLocation(){
+        locationRequest = LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_LOW_POWER
+        locationRequest.interval = 1000
+        locationRequest.fastestInterval = 1000
+        locationRequest.numUpdates = 1
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),REQUEST_LOCATION
+            )
+        }
+    }
+    private val locationCallback = object:LocationCallback(){
+        override fun onLocationResult(p0: LocationResult) {
+            var lastLocation:Location = p0.lastLocation
+
+            val geocoder = Geocoder(this@Upload)
+
+            var list: List<Address>? = geocoder.getFromLocation(lastLocation.latitude, lastLocation.longitude,1)
+            var adre = list?.get(0)?.getAddressLine(0)
+            var arr = adre?.split(" ")
+            loca.text = (" " + (arr?.get(2)))
+            currentLoca = ("" + (arr?.get(2)))
         }
 
     }
+
+
 
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -496,8 +535,6 @@ class Upload : AppCompatActivity() {
 //        imageUp.setImageBitmap(originalBm)
 //
 //    }
-
 }
 private fun <K, V> Map<K, V>.put(key: K, value: K) {
-
 }

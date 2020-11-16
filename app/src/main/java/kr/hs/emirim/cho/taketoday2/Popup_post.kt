@@ -68,7 +68,11 @@ class Popup_post(postId:String) : DialogFragment(){
 
 
         firebaseFirestore.collection("Posts").document(nowing).get().addOnSuccessListener { document ->
-            tv_location.setText((document.data?.get(key = "location")).toString()+"의")
+            if ((document.data?.get(key = "location")).toString().equals("")){
+                tv_location.setText("어딘가의")
+            }else{
+                tv_location.setText((document.data?.get(key = "location")).toString()+"의")
+            }
             tv_date.setText((document.data?.get(key = "timestamp")).toString())
             tv_contents.setText((document.data?.get(key = "content")).toString())
             firebaseFirestore.collection("Category").document((document.data?.get(key = "cate")).toString()).get().addOnSuccessListener { docu ->
