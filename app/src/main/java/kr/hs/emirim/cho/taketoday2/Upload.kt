@@ -466,11 +466,13 @@ class Upload : AppCompatActivity() {
             ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }else{
             val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            var list: List<Address>? = geocoder.getFromLocation(location!!.latitude, location!!.longitude,1)
-            var adre = list?.get(0)?.getAddressLine(0)
-            var arr = adre?.split(" ")
-            loca.text = (" " + (arr?.get(2)))
-            currentLoca = ("" + (arr?.get(2)))
+            if(location != null){
+                var list: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude,1)
+                var adre = list?.get(0)?.getAddressLine(0)
+                var arr = adre?.split(" ")
+                loca.text = (" " + (arr?.get(2)))
+                currentLoca = ("" + (arr?.get(2)))
+            }
         }
 
     }
