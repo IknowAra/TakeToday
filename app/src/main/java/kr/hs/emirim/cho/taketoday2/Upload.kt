@@ -168,7 +168,6 @@ class Upload : AppCompatActivity() {
                         firebaseFirestore.collection("Posts").whereEqualTo("cate",currentCode).whereEqualTo("hashTag",nowing).whereEqualTo("user_id",user_id).get().addOnSuccessListener { catdoc ->
                             if (catdoc.isEmpty) {
                                 firebaseFirestore.collection("Posts").document().set(postMap)
-                                firebaseFirestore.collection("Posts").document().set(postMap)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             firebaseFirestore.collection("Posts").whereEqualTo("user_id", user_id).whereEqualTo("hashTag", now).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents2 ->
@@ -181,7 +180,7 @@ class Upload : AppCompatActivity() {
                                                         image_path.putFile(photoURI!!).addOnCompleteListener { task ->
                                                             if (task.isSuccessful) {
                                                                 Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
+                                                                LodingDialog(this).dismiss()
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                     for(docdoc in documents3){
                                                                         firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -201,7 +200,7 @@ class Upload : AppCompatActivity() {
                                                         image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                                                             if (task.isSuccessful) {
                                                                 Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
+                                                                LodingDialog(this).dismiss()
                                                                 firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                     for(docdoc in documents3){
                                                                         firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -241,7 +240,7 @@ class Upload : AppCompatActivity() {
                                                             image_path.putFile(photoURI!!).addOnCompleteListener { task ->
                                                                 if (task.isSuccessful) {
                                                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
+                                                                    LodingDialog(this).dismiss()
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -262,7 +261,7 @@ class Upload : AppCompatActivity() {
                                                             image_path.putFile(tempFile!!).addOnCompleteListener { task ->
                                                                 if (task.isSuccessful) {
                                                                     Toast.makeText(this, "The Image is Uploaded", Toast.LENGTH_LONG).show()
-
+                                                                    LodingDialog(this).dismiss()
                                                                     firebaseFirestore.collection("Todays").whereEqualTo("user", user_id).whereEqualTo("cate",currentCode).get().addOnSuccessListener { documents3 ->
                                                                         for(docdoc in documents3){
                                                                             firebaseFirestore.collection("Todays").document(docdoc.id).update("remain",FieldValue.arrayRemove(nowing))
@@ -422,6 +421,7 @@ class Upload : AppCompatActivity() {
 //                        imageUp.setImageBitmap(bitmap)
                         val bitmap=BitmapFactory.decodeFile(file.absolutePath, options)
                         imageUp.setImageBitmap(bitmap)
+
                     }
                 }
             }

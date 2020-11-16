@@ -168,7 +168,7 @@ class galleryActivity : AppCompatActivity() {
             showDia(19)
         }
 
-     }
+    }
 
     public fun makeRandom(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -178,12 +178,12 @@ class galleryActivity : AppCompatActivity() {
                 var a:List<Int> = document.data?.get(key = "remain") as List<Int>
                 if(a.size == 1){
                     val dialog =
-                            AlertDialog.Builder(this)
-                                    .setMessage("너무 어려운 주제였나요? 마지막 미션은 자유로 해도 좋아요 :)")
-                                    .setPositiveButton("네") { dialog, which ->
-                                        Toast.makeText(this, "화이팅!", Toast.LENGTH_SHORT).show()
-                                    }
-                                    .create()
+                        AlertDialog.Builder(this)
+                            .setMessage("너무 어려운 주제였나요? 마지막 미션은 자유로 해도 좋아요 🙂")
+                            .setPositiveButton("네") { dialog, which ->
+                                Toast.makeText(this, "화이팅!", Toast.LENGTH_SHORT).show()
+                            }
+                            .create()
                     dialog.show()
                     break
                 }
@@ -270,7 +270,7 @@ class galleryActivity : AppCompatActivity() {
 
                         for ((idx,btn) in buttons.withIndex()){
                             if(idx == now){
-                                btn.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark)
+                                btn.setBackgroundResource(R.drawable.applogo)
                             }
                             btn.setEnabled(false)
                         }
