@@ -113,7 +113,7 @@ class Upload : AppCompatActivity() {
 
         btn_reload.setOnClickListener {
             if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this@Upload, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION)
             } else {
                 Log.d("d","웅모랄ㅇㅁ라ㅜ망ㄻㄹㅇ루ㅏ")
