@@ -36,7 +36,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        splash_layout.setBackgroundResource(R.drawable.back2)
+        splash_layout.setBackgroundResource(R.drawable.back)
 //        var slideDownAnimation=AnimationUtils.loadAnimation(this, R.anim.slide_down)
 //        splash_title.startAnimation(slideDownAnimation)
 //        var slideUpAnimation=AnimationUtils.loadAnimation(this, R.anim.slide_up)
