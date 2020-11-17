@@ -81,10 +81,26 @@ class galleryActivity : AppCompatActivity() {
                 for (document in documents) {
                     var now = document.data?.get(key = "now").toString().toInt()
                     var a: List<Int> = document.data?.get(key = "remain") as List<Int>
-                    for(item in a){
-                        if(a.size==1 && item==now){
-                            Toast.makeText(this, "더 이상 바꿀 주제가 없습니다. 마지막 주제입니다.", Toast.LENGTH_LONG).show()
-                            break
+                        if(a.size==1){
+                            var isin:Boolean = true
+                            for(item in a){
+                                if(item == now){
+                                    Toast.makeText(this, "더 이상 바꿀 주제가 없습니다. 마지막 주제입니다.", Toast.LENGTH_LONG).show()
+                                    isin = false
+                                    break
+                                }
+                            }
+                            if (isin){
+                                db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
+                                    for(docu in documents){
+                                        start=docu.data.get(key="time").toString().toLong()
+                                        getTime= ((end-start)/1000)
+                                        getReset(getTime)
+
+                                    }
+                                }
+                            }
+
                         }else{
                             db.collection("Todays").whereEqualTo("cate", code).whereEqualTo("user", user_id.toString()).get().addOnSuccessListener { documents->
                                 for(docu in documents){
@@ -95,8 +111,6 @@ class galleryActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                    }
-
                 }
             }
 

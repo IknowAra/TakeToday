@@ -97,7 +97,7 @@ class CategoryActivity : AppCompatActivity() {
                                     "now" to num,
                                     "remain" to listOf<Int>(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
                                     "time" to start.toString().toLong(),
-                                    "user" to user_id.toString()
+                                    "user" to user_id
                             )
                             db.collection("Todays").document().set(todays)
                                     .addOnCompleteListener(OnCompleteListener<Void?> { task ->

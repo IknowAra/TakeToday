@@ -50,7 +50,7 @@ class UserSetActivity : AppCompatActivity() {
 
         userMap.put("email",user_email.toString())
         userMap.put("name",user_name)
-        userMap.put("name",user_tele)
+        userMap.put("tele",user_tele)
         userMap.put("current", listOf<String>())
         userMap.put("inCate", "")
 
