@@ -68,23 +68,6 @@ class SettingActivity : AppCompatActivity() {
             userName.text = docu.data?.get(key = "name").toString()
             userTele.text = docu.data?.get(key = "tele").toString()
         }
-//        db.collection("Users").document(user_id!!).get().addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                val document = task.result
-//                if (document!!.exists()) {
-//                    val user = document.toObject(User::class.java)
-//                    user_name = user!!.name
-//                    user_tele=user.tele
-//
-//                    userName.text=user_name
-//                    userTele.text=user_tele
-//                } else {
-//                    Log.d("LoginActivity => ", "No such document")
-//                }
-//            } else {
-//
-//            }
-//        }
     }
 
     private fun deleteAccount() {

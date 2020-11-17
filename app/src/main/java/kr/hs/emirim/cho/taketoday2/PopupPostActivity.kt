@@ -90,18 +90,6 @@ class PopupPostActivity(postId:String) : DialogFragment(){
 
 
         }
-//            currentCode = document.data?.get(key = "inCate").toString()
-//            firebaseFirestore.collection("Todays").whereEqualTo("cate",currentCode).whereEqualTo("user",user_id).get().addOnSuccessListener { documents ->
-//                for (docu in documents){
-//                    nowing = docu.data?.get(key = "now").toString().toInt()
-//                    firebaseFirestore.collection("Category").document(currentCode).get().addOnSuccessListener { document2 ->
-//                        var cateList:List<String> = document2.data?.get(key = "arr") as List<String>
-//                        tv_keyword.text = '#'+cateList[nowing]
-//
-//                    }
-//                }
-//            }
-//        }
     }
 
 }

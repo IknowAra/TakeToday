@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
         login_btn.setOnClickListener(View.OnClickListener {
             current_User= mAuth.currentUser
             user_email=current_User?.email
-            Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
             val loginEmail: String = login_email.getText().toString()
             val loginPass: String = login_password.getText().toString()
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
@@ -82,7 +81,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(this, "hihihihi", Toast.LENGTH_SHORT).show()
 
         current_User= mAuth.currentUser
         user_email=current_User?.email
@@ -106,11 +104,11 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                     //Toast.makeText(LoginActivity.this, shelterPre, Toast.LENGTH_SHORT).show();
                     if (userName != null) {
-                        Toast.makeText(this, "이름 : " + userName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, userName.toString()+"님 환영합니다", Toast.LENGTH_LONG).show();
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else if (userName == null) {
-                        Toast.makeText(this, "이름 에러 : " + userName, Toast.LENGTH_LONG).show();
+                        Log.d("name error=====>", userName.toString())
                         finish()
                     }
                 } else {
@@ -130,7 +128,6 @@ class LoginActivity : AppCompatActivity() {
         login_btn.setOnClickListener(View.OnClickListener {
             current_User= mAuth.currentUser
             user_email=current_User?.email
-            Log.d("#)(*(#$)*#(*$)(============>>>>>>", user_email.toString())
             val loginEmail: String = login_email.getText().toString()
             val loginPass: String = login_password.getText().toString()
             if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
