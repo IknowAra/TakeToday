@@ -196,8 +196,7 @@ class galleryActivity : AppCompatActivity() {
             for(document in documents){
                 var now = document.data?.get(key = "now").toString().toInt()
                 var a:List<Int> = document.data?.get(key = "remain") as List<Int>
-
-
+                
                 val mu:MutableList<Int> = mutableListOf()
                 for(item in a){
                     if(item != now){

@@ -71,14 +71,12 @@ class CategoryActivity : AppCompatActivity() {
     private fun addCode(code:String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val random = Random()
-        
+
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             nowStr = ""+document.data?.get(key = "current")
-
             if(code in nowStr == true){
                 showDialog(code)
             }else{
-
                 db.collection("Todays").whereEqualTo("user",user_id).whereEqualTo("cate",code).get().addOnSuccessListener { coco ->
                     if (!coco.isEmpty) {
                         Toast.makeText(this, "이미 완료한 주제는 선택할 수 없습니다.", Toast.LENGTH_SHORT).show()
@@ -89,7 +87,6 @@ class CategoryActivity : AppCompatActivity() {
                             Toast.makeText(this, "4가지 이상 선택하실 수 없습니다", Toast.LENGTH_SHORT).show()
                         }else{
                             start=System.currentTimeMillis()
-
                             val num = random.nextInt(20)
                             val todays = hashMapOf(
                                     "cate" to code,
