@@ -71,8 +71,7 @@ class CategoryActivity : AppCompatActivity() {
     private fun addCode(code:String){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val random = Random()
-
-
+        
         db.collection("Users").document(user_id.toString()).get().addOnSuccessListener { document ->
             nowStr = ""+document.data?.get(key = "current")
 
