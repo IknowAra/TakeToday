@@ -1,9 +1,11 @@
 # :camera: TakeToday
-#### 2020 미소챌 바이러스 감성앱
+#### 2020 Mirim Software Challenge Virus Emotional App
 ---
 
-### :octocat: 주요기능
-1. 갤러리 사진 업로드
-2. 현재 위치 추적
-3. 주제 변경하기
+### :octocat: Key Features
+1. Upload Gallery Photos
+2. Track Your Current Location
+3. To change a topic
 
+
+Download Link : https://m.onestore.co.kr/mobilepoc/apps/appsDetail.omp?prodId=0000752241
